@@ -59,7 +59,7 @@ const StoreInformation = ({
     }, [isLoading, isValid]);
 
     return (
-        <Box className="App">
+        <Box>
             <Box>
                 <Grid container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -80,8 +80,6 @@ const StoreInformation = ({
                             disabled
                             InputLabelProps={{ shrink: true }}
                             value={data.code}
-                            error={!data.code}
-                            helperText={string?.code_must_be_unique}
                             onChange={e => handleChangeStoreData({ code: e.target.value })}
                             size="small"
                             required

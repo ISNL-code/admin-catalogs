@@ -5,16 +5,16 @@ import { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import ActionPanel from '../../../../components/organisms/Panels/ActionPanel';
 
-interface InventoryBrandsInterface {
+interface InventoryCategoriesInterface {
     handleSetTitle;
     handleSetActionButtons;
 }
 
-const Brands = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsInterface) => {
+const CategoriesList = ({ handleSetTitle, handleSetActionButtons }: InventoryCategoriesInterface) => {
     const { string }: any = useOutletContext();
 
     useEffect(() => {
-        handleSetTitle(string?.brands);
+        handleSetTitle(string?.categories);
     }, []);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Brands = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsInter
     }, []);
 
     return (
-        <Box className="App">
+        <Box>
             {/* {<Loader />} */}
             {<EmptyPage />}
 
@@ -39,4 +39,4 @@ const Brands = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsInter
     );
 };
 
-export default Brands;
+export default CategoriesList;

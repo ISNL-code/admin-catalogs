@@ -8,10 +8,10 @@ const ProductsListSkeleton = ({ width = '100%' }: { width?: string | number }) =
     return (
         <Box sx={{ width: width }}>
             <Grid container xs={12}>
-                {[...Array(25)].map(_ => (
-                    <Grid xs={12}>
+                {[...Array(25)].map((_, idx) => (
+                    <Grid key={idx} xs={12}>
                         <SkeletonBase
-                            sx={{ borderRadius: 2, opacity: 0.5, mb: sx ? 2 : 0.25 }}
+                            sx={{ opacity: 0.5, mb: sx ? 2 : 0.25 }}
                             variant="rounded"
                             width={'100%'}
                             height={sx ? 100 : 50}

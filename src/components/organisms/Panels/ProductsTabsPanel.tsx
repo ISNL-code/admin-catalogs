@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import Tab from 'components/atoms/Buttons/Tab';
-import SettingsIcon from '@mui/icons-material/Settings';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
-import CategoryIcon from '@mui/icons-material/Category';
+import SettingsIcon from '@mui/icons-material/Settings';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { useOutletContext } from 'react-router-dom';
 
 interface ProductsTabInterface {
@@ -20,7 +20,7 @@ const ProductsTabsPanel = ({ nav }: ProductsTabInterface) => {
     return (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
             {tab('products') === 'products' && (
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'products' }}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                     <Tab
                         title={string?.products}
                         icon={props => <ProductionQuantityLimitsIcon {...props} />}
@@ -29,8 +29,9 @@ const ProductsTabsPanel = ({ nav }: ProductsTabInterface) => {
                     />
                 </Box>
             )}
+
             {tab('brands') === 'brands' && (
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'brands' }}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                     <Tab
                         title={string?.brands}
                         icon={props => <CheckroomIcon {...props} />}
@@ -40,22 +41,22 @@ const ProductsTabsPanel = ({ nav }: ProductsTabInterface) => {
                 </Box>
             )}
             {tab('categories') === 'categories' && (
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'categories' }}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                     <Tab
                         title={string?.categories}
-                        icon={props => <CategoryIcon {...props} />}
+                        icon={props => <AccountTreeIcon {...props} />}
                         nav={path('categories')}
                         disabled={disabled('categories')}
                     />
                 </Box>
             )}
-            {tab('product-options') === 'product-options' && (
+            {tab('options') === 'options' && (
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                     <Tab
                         title={string?.options}
                         icon={props => <SettingsIcon {...props} />}
-                        nav={path('product-options')}
-                        disabled={disabled('product-options')}
+                        nav={path('options')}
+                        disabled={disabled('options')}
                     />
                 </Box>
             )}

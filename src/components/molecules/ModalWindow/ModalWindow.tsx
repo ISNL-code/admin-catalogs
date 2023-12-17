@@ -1,6 +1,5 @@
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { ReactNode } from 'react';
 
 interface ModalWindowInterface {
     children;

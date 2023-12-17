@@ -1,26 +1,29 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useProductsApi } from 'api/useProductsApi';
 import LoadMoreButton from 'components/atoms/Buttons/LoadMoreButton';
 import EmptyPage from 'components/atoms/EmptyPage/EmptyPage';
 import Loader from 'components/atoms/Loader/Loader';
+import SearchInput from 'components/molecules/Inputs/SearchInput';
 import ProductsCards from 'components/organisms/Lists/ProductsCards';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { ProductListInterface } from 'types';
-import ProductsActionPanel from '../../../../components/organisms/Panels/ProductsActionPanel';
+import { ProductInterface } from 'types';
+import { useIsMount } from 'hooks/useIsMount';
 
 interface InventoryProductsInterface {
     handleSetTitle;
     handleSetActionButtons;
 }
 
-const Products = ({ handleSetTitle, handleSetActionButtons }: InventoryProductsInterface) => {
+const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProductsInterface) => {
+    const mount = useIsMount();
     const navigate = useNavigate();
     const { storeCode } = useParams();
     const [page, setPage] = useState<number>(0);
-    const [productsList, setProductsList] = useState<ProductListInterface[] | null>(null);
+    const [productsList, setProductsList] = useState<ProductInterface[] | null>(null);
     const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [sku, setSku] = useState('');
     const { string }: any = useOutletContext();
     const countPerPage = 25;
 
@@ -34,21 +37,42 @@ const Products = ({ handleSetTitle, handleSetActionButtons }: InventoryProductsI
         isFetched,
     } = useProductsApi().useGetProductsList({ storeCode, page, countPerPage });
 
+    const {
+        data: productsBySkuRes,
+        refetch: updateFindBySku,
+        isFetching: loadMatched,
+    } = useProductsApi().useGetProductBySku({ sku, storeCode, page, countPerPage });
+
     useEffect(() => {
+        if (productsBySkuRes && sku) {
+            setTotalCount(productsBySkuRes?.data.recordsTotal);
+            setTotalPages(productsBySkuRes?.data.totalPages);
+            if (page)
+                return setProductsList([
+                    ...(productsList as ProductInterface[]),
+                    ...(productsBySkuRes?.data.products as ProductInterface[]),
+                ]);
+            setProductsList(productsBySkuRes?.data.products as ProductInterface[]);
+            return;
+        }
+
         if (!productsRes || isFetching) return;
         setTotalCount(productsRes?.data.recordsTotal);
         setTotalPages(productsRes?.data.totalPages);
         if (page)
             return setProductsList([
-                ...(productsList as ProductListInterface[]),
-                ...(productsRes?.data.products as ProductListInterface[]),
+                ...(productsList as ProductInterface[]),
+                ...(productsRes?.data.products as ProductInterface[]),
             ]);
-        setProductsList(productsRes?.data.products as ProductListInterface[]);
-    }, [productsRes]);
+        setProductsList(productsRes?.data.products as ProductInterface[]);
+    }, [productsRes, productsBySkuRes]);
 
     useEffect(() => {
-        updateProductsRes();
-    }, [page]);
+        if (mount) return;
+        if (sku) {
+            updateFindBySku();
+        } else updateProductsRes();
+    }, [page, sku]);
 
     const handleSetPage = val => {
         setPage(prev => prev + val);
@@ -71,16 +95,19 @@ const Products = ({ handleSetTitle, handleSetActionButtons }: InventoryProductsI
     }, [storeCode]);
 
     return (
-        <Box className="App">
-            {isFetching && <Loader />}
+        <Box>
+            {(isFetching || loadMatched) && <Loader />}
             {!productsList?.length && !isFetching && isFetched && <EmptyPage />}
-
+            <Box mt={-1} mb={0.5}>
+                <SearchInput setValue={setSku} setPage={setPage} />
+            </Box>
             <Box>
                 <ProductsCards
                     data={productsList}
-                    updateProductsListData={() => updateProductsRes()}
                     deleteProduct={deleteProduct}
                     switchProduct={switchProduct}
+                    setProductsList={setProductsList}
+                    setTotalCount={setTotalCount}
                 />
             </Box>
             <LoadMoreButton
@@ -90,9 +117,10 @@ const Products = ({ handleSetTitle, handleSetActionButtons }: InventoryProductsI
                 productsList={productsList}
                 page={page}
                 totalPages={totalPages}
+                countPerPage={countPerPage}
             />
         </Box>
     );
 };
 
-export default Products;
+export default ProductsList;

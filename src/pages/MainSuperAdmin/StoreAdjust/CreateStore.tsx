@@ -98,7 +98,7 @@ const CreateStore = () => {
     };
 
     return (
-        <Box className="App">
+        <Box>
             <StoresTabsPanel
                 nav={[
                     {

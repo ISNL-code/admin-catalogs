@@ -8,9 +8,10 @@ interface ModeTabInterface {
     title?: string;
     nav?: string;
     disabled?: boolean;
+    error?: boolean;
 }
 
-const ModeTab = ({ icon, title = '', nav = '', disabled = false }: ModeTabInterface) => {
+const ModeTab = ({ icon, title = '', nav = '', disabled = false, error = false }: ModeTabInterface) => {
     const location = useLocation();
     const navigate = useNavigate();
     const { sx } = useDevice();
@@ -29,7 +30,9 @@ const ModeTab = ({ icon, title = '', nav = '', disabled = false }: ModeTabInterf
                         flexDirection: 'row',
                         gap: 1,
                         border: `1px solid`,
-                        borderColor: active
+                        borderColor: error
+                            ? 'red'
+                            : active
                             ? `#1976d2`
                             : disabled
                             ? 'rgba(145, 145, 145, 0.54)'
@@ -41,7 +44,7 @@ const ModeTab = ({ icon, title = '', nav = '', disabled = false }: ModeTabInterf
                         alignItems: 'center',
                         '&:hover': { backgroundColor: '#fff' },
                     }}
-                    color={active ? 'primary' : 'default'}
+                    color={error ? 'error' : active ? 'primary' : 'default'}
                     onClick={() => {
                         navigate(nav);
                     }}
@@ -51,7 +54,13 @@ const ModeTab = ({ icon, title = '', nav = '', disabled = false }: ModeTabInterf
                     <Typography
                         sx={{
                             fontSize: sx ? 12 : 14,
-                            color: active ? `#1976d2` : disabled ? 'rgba(145, 145, 145, 0.54)' : 'rgba(0, 0, 0, 0.54)',
+                            color: error
+                                ? 'red'
+                                : active
+                                ? `#1976d2`
+                                : disabled
+                                ? 'rgba(145, 145, 145, 0.54)'
+                                : 'rgba(0, 0, 0, 0.54)',
                         }}
                     >
                         {title}

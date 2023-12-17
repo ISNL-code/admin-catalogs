@@ -1,9 +1,8 @@
-import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from './useApi';
 
 export const useProductsApi = () => {
-    const { get, remove, patch } = useApi();
+    const { get, remove, patch, post, put } = useApi();
 
     const useGetProductsList = ({ storeCode, page, countPerPage }): any => {
         return useQuery(
@@ -27,6 +26,26 @@ export const useProductsApi = () => {
             })
         );
 
+    const useCreateProduct = () =>
+        useMutation(({ storeCode, data }: any) => {
+            return post({
+                url: `v2/private/product?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            });
+        });
+
+    const useUpdateProduct = () =>
+        useMutation(({ storeCode, data }: any) =>
+            put({
+                url: `v2/private/product/${data.id}?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            })
+        );
+
     const useDeleteProduct = () =>
         useMutation(({ storeCode, id }: any) =>
             remove({
@@ -46,5 +65,51 @@ export const useProductsApi = () => {
         );
     };
 
-    return { useGetProductsList, useDeleteProduct, useSwitchProduct, useGetProductById };
+    const useGetProductBySku = ({ sku, storeCode, page, countPerPage }) => {
+        return useQuery(
+            ['get-product-by-sku'],
+
+            () =>
+                get({
+                    url: `v2/products?variantSku=${sku}&count=${countPerPage}&store=${storeCode}&page=${page}&lang=ua`,
+                }),
+            { enabled: false }
+        );
+    };
+    const useGetVariantsByProductID = ({ id, storeCode }) => {
+        return useQuery(
+            ['get-all-variants-by-product-id'],
+
+            () =>
+                get({
+                    url: `/v2/private/product/${id}/variants?store=${storeCode}&count=50`,
+                }),
+            {
+                enabled: !!id,
+            }
+        );
+    };
+
+    const useCheckUniqueModelSku = ({ code, productId, storeCode }) =>
+        useQuery(
+            ['get-model-sku-unique'],
+
+            () =>
+                get({
+                    url: `v2/private/product/${productId}/variant/${code}/unique?store=${storeCode}`,
+                }),
+            { enabled: false }
+        );
+
+    return {
+        useGetProductsList,
+        useDeleteProduct,
+        useSwitchProduct,
+        useGetProductById,
+        useGetProductBySku,
+        useGetVariantsByProductID,
+        useCreateProduct,
+        useUpdateProduct,
+        useCheckUniqueModelSku,
+    };
 };

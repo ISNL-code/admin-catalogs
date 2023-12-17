@@ -53,7 +53,7 @@ const StoreForm = ({
     }, [isLoading, isValid]);
 
     return (
-        <Box className="App">
+        <Box>
             <Box>
                 <Grid container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>

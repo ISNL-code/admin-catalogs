@@ -53,7 +53,7 @@ const NavigationHeader = ({ instrumentalBarHeight, headerHeight, appXPadding, st
             />
             <NavigationButton
                 icon={props => <MonetizationOnIcon {...props} />}
-                path={`/store-market/${storeCode}/customers`}
+                path={`/store-market/${storeCode}/orders`}
                 title={string?.market}
                 isShown={!location.pathname.includes('admin')}
                 parent={`/store-market/${storeCode}`}

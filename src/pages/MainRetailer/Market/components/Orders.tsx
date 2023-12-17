@@ -22,7 +22,7 @@ const Orders = ({ handleSetTitle, handleSetActionButtons }: InventoryOrdersInter
     }, []);
 
     return (
-        <Box className="App">
+        <Box>
             {/* {<Loader />} */}
             {<EmptyPage />}
 

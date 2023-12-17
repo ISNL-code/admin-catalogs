@@ -34,6 +34,13 @@ const mainTheme = createTheme({
                 },
             },
         },
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#fff',
+                },
+            },
+        },
         MuiTextField: {
             styleOverrides: {
                 root: {
@@ -52,8 +59,9 @@ const mainTheme = createTheme({
                     marginBottom: -8,
                     marginLeft: 6,
                     marginTop: 0.5,
-                    color: 'green',
+                    color: 'rgba(0, 0, 0, 0.4)',
                     fontSize: '12px',
+                    fontWeight: 500,
                 },
             },
         },

@@ -1,14 +1,14 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import PageHeader from 'components/organisms/Panels/PageHeader';
-import ProductsTabsPanel from 'components/organisms/Panels/ProductsTabsPanel';
 import { useState } from 'react';
 import { Navigate, Route, Routes, useOutletContext, useParams } from 'react-router-dom';
 import { RetailerContextInterface } from 'types';
-import Brands from './components/Brands';
-import Categories from './components/Categories';
-import ProductOptions from './components/ProductOptions';
-import Products from './components/Products';
+import BrandsList from './Brands/BrandsList';
+import CategoriesList from './Categories/CategoriesList';
+import ProductsList from './Product/ProductsList';
+import InventoryNavigation from './InventoryNavigation';
+import ColorsList from './Options/Colors/ColorsList';
 
 const StoreInventory = () => {
     const { userProfile, string }: RetailerContextInterface = useOutletContext();
@@ -27,31 +27,8 @@ const StoreInventory = () => {
     };
 
     return (
-        <>
-            <ProductsTabsPanel
-                nav={[
-                    {
-                        name: 'products',
-                        path: `/store-inventory/${storeCodeValue}/products`,
-                        disabled: false,
-                    },
-                    {
-                        name: 'brands',
-                        path: `/store-inventory/${storeCodeValue}/brands`,
-                        disabled: false,
-                    },
-                    {
-                        name: 'categories',
-                        path: `/store-inventory/${storeCodeValue}/categories`,
-                        disabled: false,
-                    },
-                    {
-                        name: 'product-options',
-                        path: `/store-inventory/${storeCodeValue}/product-options`,
-                        disabled: false,
-                    },
-                ]}
-            />
+        <Box>
+            <InventoryNavigation />
             <PageHeader title={title}>
                 <ActionPanel button={buttons} />
             </PageHeader>
@@ -59,31 +36,34 @@ const StoreInventory = () => {
                 <Route
                     path={'/products'}
                     element={
-                        <Products handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />
+                        <ProductsList handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />
                     }
                 />
                 <Route
                     path={'/brands'}
-                    element={<Brands handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />}
+                    element={
+                        <BrandsList handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />
+                    }
+                />
+                <Route
+                    path={'/colors'}
+                    element={
+                        <ColorsList handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />
+                    }
                 />
                 <Route
                     path={'/categories'}
                     element={
-                        <Categories handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />
-                    }
-                />
-                <Route
-                    path={'/product-options'}
-                    element={
-                        <ProductOptions
+                        <CategoriesList
                             handleSetTitle={handleSetTitle}
                             handleSetActionButtons={handleSetActionButtons}
                         />
                     }
                 />
+
                 <Route path="/*" element={<Navigate to="/" replace />} />
             </Routes>
-        </>
+        </Box>
     );
 };
 

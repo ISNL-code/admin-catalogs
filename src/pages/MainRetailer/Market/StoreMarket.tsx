@@ -1,9 +1,9 @@
+import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import MarketTabsPanel from 'components/organisms/Panels/MarketTabsPanel';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import { useState } from 'react';
 import { Navigate, Route, Routes, useOutletContext, useParams } from 'react-router-dom';
 import { RetailerContextInterface } from 'types';
-import Customers from './components/Customers';
 import Orders from './components/Orders';
 
 const StoreInventory = () => {
@@ -26,25 +26,16 @@ const StoreInventory = () => {
             <MarketTabsPanel
                 nav={[
                     {
-                        name: 'customers',
-                        path: `/store-market/${storeCodeValue}/customers`,
-                        disabled: false,
-                    },
-                    {
                         name: 'orders',
                         path: `/store-market/${storeCodeValue}/orders`,
                         disabled: false,
                     },
                 ]}
             />
-            <PageHeader title={title}>{/* <ActionPanel button={buttons} /> */}</PageHeader>
+            <PageHeader title={title}>
+                <ActionPanel button={buttons} />
+            </PageHeader>
             <Routes>
-                <Route
-                    path={'/customers'}
-                    element={
-                        <Customers handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />
-                    }
-                />
                 <Route
                     path={'/orders'}
                     element={<Orders handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />}

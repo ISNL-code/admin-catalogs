@@ -267,38 +267,42 @@ const OptionsInformation = ({
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel disabled control={<Checkbox defaultChecked />} label={string?.cart} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.cart} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel disabled control={<Checkbox defaultChecked />} label={string?.favorites} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.favorites} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel disabled control={<Checkbox defaultChecked />} label={string?.contacts} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.contacts} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel disabled control={<Checkbox defaultChecked />} label={string?.filter} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.filter} />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox defaultChecked disabled />}
+                            label={string?.share_product_link}
+                        />
                     </Grid>
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
-                            disabled
-                            control={<Checkbox disabled defaultChecked />}
+                            control={<Checkbox defaultChecked disabled />}
                             label={string?.search_by_sku}
                         />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel disabled control={<Checkbox defaultChecked />} label={string?.prices} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.prices} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel disabled control={<Checkbox defaultChecked />} label={string?.sizes} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.sizes} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel
-                            disabled
-                            control={<Checkbox defaultChecked />}
-                            label={string?.share_product_link}
-                        />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.colors} />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.promo} />
                     </Grid>
                 </Grid>
 

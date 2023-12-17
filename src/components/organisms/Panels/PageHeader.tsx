@@ -15,7 +15,7 @@ const PageHeader = ({ children, title }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    minHeight: '26px',
+                    minHeight: sx ? '28px' : '42px',
                     mx: l ? -2 : -4,
                     backgroundColor: '#f1f1f1',
                 }}

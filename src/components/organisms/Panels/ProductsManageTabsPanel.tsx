@@ -7,7 +7,7 @@ import { useOutletContext } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
 
 interface ProductsManageTabInterface {
-    nav: { name: string; path: string; disabled: boolean }[];
+    nav: { name: string; path: string; disabled?: boolean; error?: boolean }[];
 }
 
 const ProductsManageTabsPanel = ({ nav }: ProductsManageTabInterface) => {
@@ -17,6 +17,7 @@ const ProductsManageTabsPanel = ({ nav }: ProductsManageTabInterface) => {
     const path = tab => nav.find(({ name }) => name === tab)?.path;
     const tab = tab => nav.find(({ name }) => name === tab)?.name;
     const disabled = tab => nav.find(({ name }) => name === tab)?.disabled;
+    const error = tab => nav.find(({ name }) => name === tab)?.error;
 
     return (
         <Box mt={sx ? -1 : -1.25} sx={{ display: 'flex', gap: 0.5 }}>
@@ -27,6 +28,7 @@ const ProductsManageTabsPanel = ({ nav }: ProductsManageTabInterface) => {
                         icon={props => <InfoIcon {...props} />}
                         nav={path('main')}
                         disabled={disabled('main')}
+                        error={error('main')}
                     />
                 </Box>
             )}
@@ -37,6 +39,7 @@ const ProductsManageTabsPanel = ({ nav }: ProductsManageTabInterface) => {
                         icon={props => <AttributionIcon {...props} />}
                         nav={path('models')}
                         disabled={disabled('models')}
+                        error={error('models')}
                     />
                 </Box>
             )}
@@ -47,6 +50,7 @@ const ProductsManageTabsPanel = ({ nav }: ProductsManageTabInterface) => {
                         icon={props => <SettingsIcon {...props} />}
                         nav={path('options')}
                         disabled={disabled('options')}
+                        error={error('options')}
                     />
                 </Box>
             )}

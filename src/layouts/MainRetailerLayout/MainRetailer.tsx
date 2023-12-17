@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import ModalsSelector from 'layouts/ModalsSelector';
 import Header from './HeaderRetailer';
 import NavigationHeader from './NavigationRetailer';
-import { UserProfileInterface } from 'types';
+import { StoreInterface, UserProfileInterface } from 'types';
+import { useStoresApi } from 'api/useStoresApi';
 
 interface MainLayoutInterface {
     lang: { code: string; label: string };
@@ -22,6 +23,7 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
     const location = useLocation();
 
     const [openModalType, setOpenModalType] = useState<string | null>(null);
+    const [storeData, setStoreData] = useState<StoreInterface | null>(null);
     const { sx, l } = useDevice();
     const [scrollPosition, setScrollPosition] = useState(0);
     const headerHeight = 35;
@@ -29,9 +31,15 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
     const instrumentalBarHeight = 31;
     const appXPadding = l ? 2 : 4;
 
+    const { data: storeDataRes, isFetching } = useStoresApi().useGetStoreByCode({ storeCode: userProfile.merchant });
+
     useEffect(() => {
-        console.log('first', storeCode, userProfile.merchant);
-        if (!storeCode) navigate(`store-manager/${userProfile.merchant}/main`);
+        if (!storeDataRes || isFetching) return;
+        setStoreData(storeDataRes.data);
+    }, [storeDataRes]);
+
+    useEffect(() => {
+        if (!storeCode || storeCode !== userProfile.merchant) navigate(`store-manager/${userProfile.merchant}/main`);
     }, [userProfile, storeCode, location]);
 
     return (
@@ -70,6 +78,7 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
                         setOpenModalType: setOpenModalType,
                         openModalType: openModalType,
                         userProfile: userProfile,
+                        storeData,
                     }}
                 />
             </Box>

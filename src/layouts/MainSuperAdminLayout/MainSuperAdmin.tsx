@@ -1,12 +1,13 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Header from './HeaderSuperAdmin';
 import { useDevice } from 'hooks/useDevice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalsSelector from 'layouts/ModalsSelector';
 import NavigationHeader from './NavigationSuperAdmin';
-import { UserProfileInterface } from 'types';
+import { StoreInterface, UserProfileInterface } from 'types';
+import { useStoresApi } from 'api/useStoresApi';
 
 interface MainLayoutInterface {
     lang: { code: string; label: string };
@@ -18,12 +19,21 @@ interface MainLayoutInterface {
 
 export default function MainSuperAdmin({ lang, auth, setAuth, currentLanguage, userProfile }: MainLayoutInterface) {
     const [openModalType, setOpenModalType] = useState<string | null>(null);
+    const { storeCode } = useParams();
     const { sx, l } = useDevice();
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [storeData, setStoreData] = useState<StoreInterface | null>(null);
     const headerHeight = 35;
     const footerHeight = sx ? 70 : 0;
     const instrumentalBarHeight = 31;
     const appXPadding = l ? 2 : 4;
+
+    const { data: storeDataRes, isFetching } = useStoresApi().useGetStoreByCode({ storeCode });
+
+    useEffect(() => {
+        if (!storeDataRes || isFetching) return;
+        setStoreData(storeDataRes.data);
+    }, [storeDataRes]);
 
     return (
         <Box
@@ -62,6 +72,7 @@ export default function MainSuperAdmin({ lang, auth, setAuth, currentLanguage, u
                         setOpenModalType: setOpenModalType,
                         openModalType: openModalType,
                         userProfile: userProfile,
+                        storeData,
                     }}
                 />
             </Box>

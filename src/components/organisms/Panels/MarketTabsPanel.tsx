@@ -18,7 +18,7 @@ const MarketTabsPanel = ({ nav }: MarketTabInterface) => {
     return (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
             {tab('customers') === 'customers' && (
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'customers' }}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                     <Tab
                         title={string?.customers}
                         icon={props => <PeopleAltIcon {...props} />}
@@ -28,7 +28,7 @@ const MarketTabsPanel = ({ nav }: MarketTabInterface) => {
                 </Box>
             )}
             {tab('orders') === 'orders' && (
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'orders' }}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                     <Tab
                         title={string?.orders}
                         icon={props => <ShoppingCartIcon {...props} />}

@@ -53,7 +53,7 @@ const NavigationHeader = ({
 
             <NavigationButton
                 icon={props => <MonetizationOnIcon {...props} />}
-                path={`/store-market/${userProfile.merchant}/customers`}
+                path={`/store-market/${userProfile.merchant}/orders`}
                 title={string?.market}
                 parent={`/store-market/${userProfile.merchant}`}
             />

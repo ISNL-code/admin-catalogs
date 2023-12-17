@@ -1,0 +1,123 @@
+import Loader from 'components/atoms/Loader/Loader';
+import ActionPanel from 'components/organisms/Panels/ActionPanel';
+import { useEffect, useState } from 'react';
+import { useOutletContext, useParams } from 'react-router-dom';
+import { useProductsApi } from 'api/useProductsApi';
+import PageHeader from 'components/organisms/Panels/PageHeader';
+import ProductsManageTabsPanel from 'components/organisms/Panels/ProductsManageTabsPanel';
+import { MainContextInterface, ManageProductInterface, RetailerContextInterface } from 'types';
+import InventoryNavigation from '../InventoryNavigation';
+import { useFormik } from 'formik';
+import productFormValidations from 'helpers/Validations/productFormValidations';
+import toast from 'react-hot-toast';
+
+const INIT_PRODUCT_DATA = {
+    sku: '',
+    available: false,
+    visible: false,
+    dateAvailable: '',
+    manufacturer: '',
+    type: null,
+    display: false,
+    canBePurchased: false,
+    timeBound: false,
+    price: '',
+    quantity: 100000,
+    sortOrder: '',
+    productSpecifications: {
+        weight: '',
+        height: '',
+        width: '',
+        length: '',
+    },
+    descriptions: [],
+};
+
+const ProductOptionsManage = () => {
+    const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { storeCode, productId } = useParams();
+    const [product, setProduct] = useState<ManageProductInterface>(INIT_PRODUCT_DATA);
+
+    const { data: productDataRes, isFetching: loadProducts } = useProductsApi().useGetProductById({
+        storeCode,
+        productId,
+    });
+
+    const { mutateAsync: updateProduct, isLoading } = useProductsApi().useUpdateProduct();
+
+    const formik = useFormik({
+        initialValues: product,
+        validationSchema: productFormValidations,
+        onSubmit: values => {
+            updateProduct({ data: values, storeCode })
+                .then(() => {
+                    toast.success(string?.updated);
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error(err.message);
+                });
+        },
+    });
+
+    useEffect(() => {
+        formik.setValues(product);
+    }, [product]);
+
+    useEffect(() => {
+        if (!productDataRes || loadProducts) return;
+        console.log(productDataRes);
+        const product = productDataRes.data;
+        setProduct({
+            id: product.id,
+            sku: product.sku,
+            visible: product.visible,
+            dateAvailable: product.dateAvailable,
+            manufacturer: product.manufacturer.code,
+            type: product.type,
+            display: true,
+            canBePurchased: product.canBePurchased,
+            timeBound: false,
+            price: product.inventory.price,
+            quantity: product.inventory.quantity,
+            sortOrder: product.sortOrder,
+            productSpecifications: product.productSpecifications,
+            descriptions: product.descriptions,
+        });
+    }, [productDataRes]);
+
+    return (
+        <form
+            action="a"
+            onSubmit={e => {
+                e.preventDefault();
+                formik.handleSubmit();
+            }}
+        >
+            {(loadProducts || isLoading) && <Loader />}
+            <InventoryNavigation />
+            <PageHeader title={string?.options}>
+                <ActionPanel button={[]} />
+            </PageHeader>
+            <ProductsManageTabsPanel
+                nav={[
+                    {
+                        name: 'main',
+                        path: `/store-inventory/${storeCode}/products/${productId}/main`,
+                    },
+                    {
+                        name: 'models',
+                        path: `/store-inventory/${storeCode}/products/${productId}/models`,
+                    },
+                    {
+                        name: 'options',
+                        path: `/store-inventory/${storeCode}/products/${productId}/options`,
+                    },
+                ]}
+            />
+            <>options</>
+        </form>
+    );
+};
+
+export default ProductOptionsManage;

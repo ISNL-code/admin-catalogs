@@ -33,27 +33,17 @@ export interface ProductManageInterface {
 export interface MainContextInterface {
     lang: string;
     string: any;
-    sortedStores: string;
     scrollPosition: number;
     setScrollPosition;
     instrumentalBarHeight: number;
     headerHeight: number;
     footerHeight: number;
     appXPadding: number;
-    setSortedStores;
     auth: boolean;
-    setFilteredStores;
-    filteredStores: {}[];
     setOpenModalType;
     openModalType: string | null;
-    setStoreToApprove;
-    favoritesStores: StoreInterface[] | null;
-    setFavoriteStores;
-    storesList: StoreInterface[];
-    updateFavoritesRes;
-    storesData;
-    loadStores: boolean;
-    loadFavoritesStores: boolean;
+    userProfile: UserProfileInterface;
+    storeData: StoreInterface;
 }
 
 export interface RetailerContextInterface {
@@ -69,6 +59,7 @@ export interface RetailerContextInterface {
     setOpenModalType;
     openModalType: string | null;
     userProfile: UserProfileInterface;
+    storeData: StoreInterface;
 }
 
 export interface CreateDataStore {
@@ -440,8 +431,62 @@ export interface CategoryInterface {
     children: ChildCategoryInterface[];
 }
 
-export interface ProductListInterface {
-    id: number;
+export interface ManageProductInterface {
+    id?: string | number;
+    sku: string;
+    visible: boolean;
+    dateAvailable?: string;
+    manufacturer: string;
+    type: null | {
+        id: null;
+        code: string;
+        visible: boolean;
+        allowAddToCart: boolean;
+        description: null;
+        descriptions: {
+            id: null;
+            language: string;
+            name: string;
+            description: null;
+            friendlyUrl: null;
+            keyWords: null;
+            highlights: null;
+            metaDescription: null;
+            title: null;
+        }[];
+    };
+    display: boolean;
+    canBePurchased: boolean;
+    timeBound: boolean;
+    price: string;
+    quantity: number;
+    sortOrder: string;
+    productSpecifications: {
+        height: null | string;
+        weight: null | string;
+        length: null | string;
+        width: null | string;
+        model?: null | string;
+        manufacturer?: null | string;
+        dimensionUnitOfMeasure?: string;
+        weightUnitOfMeasure?: string;
+    };
+    descriptions:
+        | {
+              id: null;
+              language: string;
+              name: string;
+              description: string;
+              friendlyUrl: string;
+              keyWords: string;
+              highlights: string;
+              metaDescription: string;
+              title: string;
+          }[]
+        | [];
+}
+export interface ProductInterface {
+    id: number | null;
     productShipeable: boolean;
     available: boolean;
     visible: boolean;
@@ -483,4 +528,119 @@ export interface ProductListInterface {
     type: string | number | null;
     canBePurchased: boolean;
     owner: string | number | null;
+}
+
+export interface BrandsInterface {
+    id: number | null;
+    code: string | null;
+    order: string;
+    description: {
+        id: number | null;
+        language: string;
+        name: string;
+        description: string | null;
+        friendlyUrl: string | null;
+        keyWords: string | null;
+        highlights: string | null;
+        metaDescription: string | null;
+        title: string | null;
+    };
+}
+
+export interface EditBrandInterface {
+    id?: number | null;
+    code: string | null;
+    order: string;
+    descriptions?: {
+        id: number | null;
+        language: string;
+        name: string;
+        description: string | null;
+        friendlyUrl: string | null;
+        keyWords: string | null;
+        highlights: string | null;
+        metaDescription: string | null;
+        title: string | null;
+    }[];
+}
+
+export interface VariationsInterface {
+    id: number;
+    code: string;
+    date: null | string;
+    sortOrder: number;
+    defaultValue: boolean;
+    option: {
+        id: number;
+        code: 'COLOR' | '';
+        type: string;
+        readOnly: boolean;
+        name: null;
+        lang: string;
+        variant: boolean;
+        optionValues: any[];
+    };
+    optionValue: {
+        id: number | number;
+        code: string;
+        name: string;
+        defaultValue: boolean;
+        sortOrder: number;
+        image: null;
+        price: null;
+        description: null;
+    };
+}
+
+export interface OptionsValueInterface {
+    id: number;
+    code: string;
+    name: null;
+    defaultValue: boolean;
+    sortOrder: number;
+    image: null;
+    order: number;
+    price: null;
+    description: null;
+    descriptions: {
+        id: number;
+        language: string;
+        name: string;
+        description: string;
+        friendlyUrl: null;
+        keyWords: null;
+        highlights: null;
+        metaDescription: null;
+        title: null;
+    }[];
+}
+
+export interface OptionsVariationInterface {
+    variationId: number;
+    colorId: number;
+    code: string;
+    name: null;
+    defaultValue: boolean;
+    sortOrder: number;
+    image: null;
+    price: null;
+    description: null;
+}
+
+export interface ModelInterface {
+    available: true;
+    sku: string;
+    code: string;
+    defaultSelection: boolean;
+    dateAvailable: string;
+    sortOrder: string;
+    variation: null;
+    productVariantGroup: string;
+    inventory: {
+        price: {
+            price: string;
+        };
+        quantity: number;
+    };
+    variationCode: string;
 }

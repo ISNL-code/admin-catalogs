@@ -1,89 +1,120 @@
-import { Box, Typography } from '@mui/material';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { Route, Routes, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
-import Grid from '@mui/material/Unstable_Grid2';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import Loader from 'components/atoms/Loader/Loader';
 import ProductsManageTabsPanel from 'components/organisms/Panels/ProductsManageTabsPanel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageHeader from 'components/organisms/Panels/PageHeader';
-import ProductsTabsPanel from 'components/organisms/Panels/ProductsTabsPanel';
+import ProductGeneralForm from './components/ProductGeneralForm';
+import InventoryNavigation from '../InventoryNavigation';
+import { useFormik } from 'formik';
+import toast from 'react-hot-toast';
+import { useProductsApi } from 'api/useProductsApi';
+import productFormValidations from 'helpers/Validations/productFormValidations';
+import { useBrandsApi } from 'api/useBrandsApi';
+import { BrandsInterface } from 'types';
 
-const INITIAL_PRODUCT_DATA = {
+const INIT_PRODUCT_DATA = {
     sku: '',
     visible: false,
-    dateAvailable: '',
     manufacturer: '',
-    type: '',
+    type: null,
     display: false,
     canBePurchased: false,
     timeBound: false,
-    price: '00.00',
-    quantity: 0,
-    sortOrder: 0,
+    price: '',
+    quantity: 100000,
+    sortOrder: '',
     productSpecifications: {
-        weight: null,
-        height: null,
-        width: null,
-        length: null,
+        weight: '',
+        height: '',
+        width: '',
+        length: '',
     },
-    descriptions: [
-        {
-            language: 'ua',
-            name: '',
-            highlights: '',
-            friendlyUrl: '',
-            description: '',
-            title: '',
-            keyWords: '',
-            metaDescription: '',
-        },
-    ],
+    descriptions: [],
 };
 
 const ProductCreate = () => {
     const navigate = useNavigate();
     const { storeCode } = useParams();
     const { sx } = useDevice();
-    const { string }: any = useOutletContext();
-    const [product, setProduct] = useState(INITIAL_PRODUCT_DATA);
+    const { string, storeData }: any = useOutletContext();
+    const [product, setProduct] = useState(INIT_PRODUCT_DATA);
+    const [title, setTitle] = useState('');
+    const [buttons, setButtons] = useState([]);
+    const [brandsList, setBrandsList] = useState<BrandsInterface[] | any>(null);
+
+    const { mutateAsync: createProduct, isLoading } = useProductsApi().useCreateProduct();
+
+    const { data: brandsRes, isFetching } = useBrandsApi().useGetBrandsList({ storeCode, page: 0, countPerPage: 100 });
+
+    const formik = useFormik({
+        initialValues: product,
+        validationSchema: productFormValidations,
+        onSubmit: values => {
+            createProduct({ data: { ...values, sku: Date.now().toString() }, storeCode })
+                .then(res => {
+                    toast.success(string?.created);
+                    navigate(`/store-inventory/${storeCode}/products/${res.data.id}/main`);
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error(err.message);
+                });
+        },
+    });
+
+    useEffect(() => {
+        setProduct({
+            ...product,
+            descriptions: storeData?.supportedLanguages.map(({ code }) => {
+                return {
+                    language: code,
+                    name: '',
+                    description: '',
+                    friendlyUrl: '',
+                    keyWords: '',
+                    highlights: '',
+                    metaDescription: '',
+                    title: '',
+                };
+            }),
+        });
+    }, [storeData]);
+
+    useEffect(() => {
+        formik.setValues(product);
+    }, [product]);
+
+    useEffect(() => {
+        if (!brandsRes || isFetching) return;
+
+        setBrandsList(brandsRes?.data.manufacturers as BrandsInterface[]);
+    }, [brandsRes]);
+
+    const handleSetTitle = title => {
+        setTitle(title);
+    };
+
+    const handleSetActionButtons = buttons => {
+        setButtons(buttons);
+    };
 
     return (
-        <>
-            {false && <Loader />}
-            <ProductsTabsPanel
-                nav={[
-                    {
-                        name: 'products',
-                        path: `/store-inventory/${storeCode}/products`,
-                        disabled: false,
-                    },
-                    {
-                        name: 'brands',
-                        path: `/store-inventory/${storeCode}/brands`,
-                        disabled: false,
-                    },
-                    {
-                        name: 'categories',
-                        path: `/store-inventory/${storeCode}/categories`,
-                        disabled: false,
-                    },
-                    {
-                        name: 'product-options',
-                        path: `/store-inventory/${storeCode}/product-options`,
-                        disabled: false,
-                    },
-                ]}
-            />
+        <form
+            onSubmit={e => {
+                e.preventDefault();
+                formik.handleSubmit();
+            }}
+        >
+            {isLoading && <Loader />}
+            <InventoryNavigation />
             <PageHeader title={string?.create}>
                 <ActionPanel
                     button={[
                         {
-                            name: 'cancel',
-                            disabled: false,
-                            action: () => {
-                                navigate(`/store-inventory/${storeCode}/products`);
-                            },
+                            name: 'save',
+                            action: () => {},
                         },
                     ]}
                 />
@@ -107,8 +138,20 @@ const ProductCreate = () => {
                     },
                 ]}
             />
-            <Grid mt={1} container xs={12} sx={{ gap: 2, border: '1px solid #ccc', p: 2 }}></Grid>
-        </>
+            <Routes>
+                <Route
+                    path={'/'}
+                    element={
+                        <ProductGeneralForm
+                            data={product}
+                            formik={formik}
+                            brandsList={brandsList}
+                            setProduct={setProduct}
+                        />
+                    }
+                />
+            </Routes>
+        </form>
     );
 };
 

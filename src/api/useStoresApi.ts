@@ -1,4 +1,3 @@
-import { Store } from '@mui/icons-material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from './useApi';
 
@@ -23,7 +22,8 @@ export const useStoresApi = () => {
             () =>
                 get({
                     url: `v1/store/${storeCode}`,
-                })
+                }),
+            { enabled: !!storeCode }
         );
     };
 

@@ -266,6 +266,9 @@ const Options = ({
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel control={<Checkbox defaultChecked />} label={string?.filter} />
                     </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel control={<Checkbox defaultChecked />} label={string?.share_product_link} />
+                    </Grid>
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
@@ -278,7 +281,10 @@ const Options = ({
                         <FormControlLabel control={<Checkbox defaultChecked />} label={string?.sizes} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked />} label={string?.share_product_link} />
+                        <FormControlLabel control={<Checkbox defaultChecked />} label={string?.colors} />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel control={<Checkbox defaultChecked />} label={string?.promo} />
                     </Grid>
                 </Grid>
 
