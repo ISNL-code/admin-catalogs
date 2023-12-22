@@ -17,7 +17,7 @@ const PromoTags = ({ value, size, selected = false, action = () => {}, disabled 
                     color: 'white',
                     fontSize: 13,
                 };
-            if (label.toLowerCase() === '-30%')
+            if (label.includes('%'))
                 return {
                     border: '1px solid #d1000a',
                     background: `linear-gradient(135deg, #f73939 60%, #e9cfcf) padding-box, linear-gradient(90deg, #990808dc 70%, #f5b8b8) border-box`,
@@ -66,7 +66,8 @@ const PromoTags = ({ value, size, selected = false, action = () => {}, disabled 
             py={1.4}
             sx={{
                 height: size,
-                width: value ? 'auto' : 40,
+                width: value ? 'auto' : 60,
+                minWidth: 60,
                 borderRadius: '24px',
                 display: 'flex',
                 alignItems: 'center',
@@ -79,7 +80,7 @@ const PromoTags = ({ value, size, selected = false, action = () => {}, disabled 
                 action();
             }}
         >
-            <Typography sx={{ color: 'inherit', fontSize: 'inherit', fontWeight: 700 }}>
+            <Typography sx={{ color: selected ? 'inherit' : '#000', fontSize: 12 }}>
                 {value ? value : '----'}
             </Typography>
         </Box>

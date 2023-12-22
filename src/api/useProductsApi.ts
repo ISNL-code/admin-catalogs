@@ -101,6 +101,16 @@ export const useProductsApi = () => {
             { enabled: false }
         );
 
+    const useCreateModelByProductID = () =>
+        useMutation(({ productId, data, storeCode }: any) =>
+            post({
+                url: `v2/private/product/${productId}/variant?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            })
+        );
+
     return {
         useGetProductsList,
         useDeleteProduct,
@@ -111,5 +121,6 @@ export const useProductsApi = () => {
         useCreateProduct,
         useUpdateProduct,
         useCheckUniqueModelSku,
+        useCreateModelByProductID,
     };
 };

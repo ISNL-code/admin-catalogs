@@ -37,6 +37,9 @@ const CreateModelForm = ({
 
     return (
         <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
+            <Grid xs={12} p={1}>
+                <Typography variant="h3">{string?.create_new_model}</Typography>
+            </Grid>
             <Grid p={1} xs={sx ? 12 : 3}>
                 <TextField
                     InputLabelProps={{ shrink: true }}
@@ -94,6 +97,7 @@ const CreateModelForm = ({
             </Grid>
             <Grid p={1} xs={sx ? 6 : 3}>
                 <TextField
+                    type="number"
                     InputLabelProps={{ shrink: true }}
                     value={data?.inventory?.price?.price || ''}
                     onChange={e => {
@@ -119,6 +123,7 @@ const CreateModelForm = ({
             </Grid>
             <Grid p={1} xs={sx ? 6 : 3}>
                 <TextField
+                    type="number"
                     InputLabelProps={{ shrink: true }}
                     value={data?.sortOrder || ''}
                     onChange={e => {

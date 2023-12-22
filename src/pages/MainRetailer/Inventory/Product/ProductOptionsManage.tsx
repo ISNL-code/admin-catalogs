@@ -2,99 +2,57 @@ import Loader from 'components/atoms/Loader/Loader';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import { useEffect, useState } from 'react';
 import { useOutletContext, useParams } from 'react-router-dom';
-import { useProductsApi } from 'api/useProductsApi';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import ProductsManageTabsPanel from 'components/organisms/Panels/ProductsManageTabsPanel';
-import { MainContextInterface, ManageProductInterface, RetailerContextInterface } from 'types';
+import {
+    MainContextInterface,
+    OptionsValueInterface,
+    ProductAttrOptionsInterface,
+    RetailerContextInterface,
+} from 'types';
 import InventoryNavigation from '../InventoryNavigation';
-import { useFormik } from 'formik';
-import productFormValidations from 'helpers/Validations/productFormValidations';
-import toast from 'react-hot-toast';
-
-const INIT_PRODUCT_DATA = {
-    sku: '',
-    available: false,
-    visible: false,
-    dateAvailable: '',
-    manufacturer: '',
-    type: null,
-    display: false,
-    canBePurchased: false,
-    timeBound: false,
-    price: '',
-    quantity: 100000,
-    sortOrder: '',
-    productSpecifications: {
-        weight: '',
-        height: '',
-        width: '',
-        length: '',
-    },
-    descriptions: [],
-};
+import CategoriesForm from './components/CategoriesForm';
+import SizesForm from './components/SizesForm';
+import PromoForm from './components/PromoForm';
+import { useOptionsApi } from 'api/useOptionsApi';
 
 const ProductOptionsManage = () => {
     const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
-    const [product, setProduct] = useState<ManageProductInterface>(INIT_PRODUCT_DATA);
+    const [optionsAttributes, setOptionsAttributes] = useState<OptionsValueInterface[] | any>([]);
+    const [productOptionsAttributes, setProductOptionsAttributes] = useState<ProductAttrOptionsInterface[] | any>([]);
 
-    const { data: productDataRes, isFetching: loadProducts } = useProductsApi().useGetProductById({
+    const { mutateAsync: addProductAttribute } = useOptionsApi().useAddProductOption();
+    const { mutateAsync: deleteProductAttribute } = useOptionsApi().useDeleteProductOption();
+
+    const { data: optionsValuesRes, isFetching: loadListOfOptions } = useOptionsApi().useGetValuesList({
         storeCode,
+        page: 0,
+        countPerPage: 500,
+    });
+    const {
+        data: productOptionsRes,
+        isFetching: loadProductOptions,
+        refetch: refreshProductOptions,
+    } = useOptionsApi().useGetProductOptionsById({
         productId,
-    });
-
-    const { mutateAsync: updateProduct, isLoading } = useProductsApi().useUpdateProduct();
-
-    const formik = useFormik({
-        initialValues: product,
-        validationSchema: productFormValidations,
-        onSubmit: values => {
-            updateProduct({ data: values, storeCode })
-                .then(() => {
-                    toast.success(string?.updated);
-                })
-                .catch(err => {
-                    console.log(err);
-                    toast.error(err.message);
-                });
-        },
+        storeCode,
     });
 
     useEffect(() => {
-        formik.setValues(product);
-    }, [product]);
+        if (!optionsValuesRes || loadListOfOptions) return;
+        setOptionsAttributes(optionsValuesRes.data.optionValues);
+    }, [optionsValuesRes]);
 
     useEffect(() => {
-        if (!productDataRes || loadProducts) return;
-        console.log(productDataRes);
-        const product = productDataRes.data;
-        setProduct({
-            id: product.id,
-            sku: product.sku,
-            visible: product.visible,
-            dateAvailable: product.dateAvailable,
-            manufacturer: product.manufacturer.code,
-            type: product.type,
-            display: true,
-            canBePurchased: product.canBePurchased,
-            timeBound: false,
-            price: product.inventory.price,
-            quantity: product.inventory.quantity,
-            sortOrder: product.sortOrder,
-            productSpecifications: product.productSpecifications,
-            descriptions: product.descriptions,
-        });
-    }, [productDataRes]);
+        if (!productOptionsRes || loadProductOptions) return;
+        console.log(productOptionsRes);
+        setProductOptionsAttributes(productOptionsRes.data.attributes);
+    }, [productOptionsRes]);
 
     return (
-        <form
-            action="a"
-            onSubmit={e => {
-                e.preventDefault();
-                formik.handleSubmit();
-            }}
-        >
-            {(loadProducts || isLoading) && <Loader />}
+        <>
+            {loadListOfOptions && <Loader />}
             <InventoryNavigation />
             <PageHeader title={string?.options}>
                 <ActionPanel button={[]} />
@@ -115,8 +73,32 @@ const ProductOptionsManage = () => {
                     },
                 ]}
             />
-            <>options</>
-        </form>
+            <CategoriesForm />
+            <SizesForm
+                addProductAttribute={addProductAttribute}
+                deleteProductAttribute={deleteProductAttribute}
+                productOptions={productOptionsAttributes}
+                optionsData={optionsAttributes
+                    .filter(el => el.descriptions.some(el => el.description === 'SIZE'))
+                    .sort((a, b) => {
+                        var regex = /[\d|,|.|e|E|\+]+/g;
+                        return a.code.match(regex) - b.code.match(regex);
+                    })}
+                refreshProductOptions={refreshProductOptions}
+            />
+            <PromoForm
+                addProductAttribute={addProductAttribute}
+                deleteProductAttribute={deleteProductAttribute}
+                productOptions={productOptionsAttributes}
+                optionsData={optionsAttributes
+                    .filter(el => el.descriptions.some(el => el.description === 'PROMO'))
+                    .sort((a, b) => {
+                        var regex = /[\d|,|.|e|E|\+]+/g;
+                        return a.code.match(regex) - b.code.match(regex);
+                    })}
+                refreshProductOptions={refreshProductOptions}
+            />
+        </>
     );
 };
 

@@ -4,7 +4,7 @@ import PageHeader from 'components/organisms/Panels/PageHeader';
 import { useState } from 'react';
 import { Navigate, Route, Routes, useOutletContext, useParams } from 'react-router-dom';
 import { RetailerContextInterface } from 'types';
-import Orders from './components/Orders';
+import OrdersList from './Orders/OrdersList';
 
 const StoreInventory = () => {
     const { userProfile, string }: RetailerContextInterface = useOutletContext();
@@ -38,7 +38,9 @@ const StoreInventory = () => {
             <Routes>
                 <Route
                     path={'/orders'}
-                    element={<Orders handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />}
+                    element={
+                        <OrdersList handleSetTitle={handleSetTitle} handleSetActionButtons={handleSetActionButtons} />
+                    }
                 />
                 <Route path="/*" element={<Navigate to="/" replace />} />
             </Routes>

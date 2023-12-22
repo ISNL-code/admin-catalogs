@@ -615,6 +615,71 @@ export interface OptionsValueInterface {
     }[];
 }
 
+export interface ProductAttrOptionsInterface {
+    id: number;
+    name: null;
+    variant: boolean;
+    sortOrder: number;
+    attributeDefault: boolean;
+    attributeDisplayOnly: boolean;
+    productAttributeWeight: string;
+    productAttributePrice: string;
+    productAttributeUnformattedPrice: string;
+    option: {
+        id: number;
+        code: string;
+        type: string;
+        readOnly: boolean;
+        order: number;
+        description: null;
+        descriptions: [
+            {
+                id: number;
+                language: string;
+                name: string;
+                description: null;
+                friendlyUrl: null;
+                keyWords: null;
+                highlights: null;
+                metaDescription: null;
+                title: null;
+            }
+        ];
+    };
+    optionValue: {
+        id: number;
+        code: string;
+        name: null;
+        defaultValue: boolean;
+        sortOrder: number;
+        image: null;
+        order: number;
+        price: null;
+        description?: null | {
+            id: number;
+            language: string;
+            name: string;
+            description: string;
+            friendlyUrl: null | string;
+            keyWords: null | string;
+            highlights: null | string;
+            metaDescription: null | string;
+            title: null | string;
+        };
+        descriptions?: {
+            id: number;
+            language: string;
+            name: string;
+            description: string;
+            friendlyUrl: null | string;
+            keyWords: null | string;
+            highlights: null | string;
+            metaDescription: null | string;
+            title: null | string;
+        }[];
+    };
+}
+
 export interface OptionsVariationInterface {
     variationId: number;
     colorId: number;
@@ -628,7 +693,7 @@ export interface OptionsVariationInterface {
 }
 
 export interface ModelInterface {
-    available: true;
+    available: boolean;
     sku: string;
     code: string;
     defaultSelection: boolean;
@@ -643,4 +708,109 @@ export interface ModelInterface {
         quantity: number;
     };
     variationCode: string;
+}
+
+export interface OrderInterface {
+    id: number;
+    totals: any[];
+    attributes: any[];
+    paymentType: string;
+    paymentModule: string;
+    shippingModule: null;
+    previousOrderStatus: null;
+    orderStatus: string;
+    creditCard: null;
+    datePurchased: string;
+    currency: string;
+    customerAgreed: boolean;
+    confirmedAddress: boolean;
+    comments: null;
+    customer: null;
+    products: null;
+    billing: {
+        postalCode: null;
+        countryCode: null;
+        firstName: string;
+        lastName: string;
+        bilstateOther: null;
+        company: string;
+        phone: string;
+        address: null;
+        city: null;
+        stateProvince: null;
+        billingAddress: boolean;
+        latitude: null;
+        longitude: null;
+        zone: null;
+        country: string;
+        email: string;
+        countryName: null;
+        provinceName: null;
+    };
+    delivery: {
+        postalCode: string;
+        countryCode: null;
+        firstName: string;
+        lastName: string;
+        bilstateOther: null;
+        company: null;
+        phone: string;
+        address: string;
+        city: string;
+        stateProvince: null;
+        billingAddress: boolean;
+        latitude: null;
+        longitude: null;
+        zone: null;
+        country: string;
+        countryName: null;
+        provinceName: null;
+    };
+    store: {
+        id: number;
+        code: string;
+        name: string;
+        defaultLanguage: string;
+        currency: string;
+        inBusinessSince: string;
+        email: string;
+        phone: string;
+        template: null;
+        useCache: boolean;
+        currencyFormatNational: boolean;
+        retailer: boolean;
+        dimension: string;
+        weight: string;
+        currentUserLanguage: null;
+        address: {
+            stateProvince: string;
+            country: string;
+            address: string;
+            postalCode: string;
+            city: string;
+            active: boolean;
+        };
+        logo: {
+            name: string;
+            path: string;
+        };
+        parent: null;
+        supportedLanguages: any[];
+        readableAudit: {
+            created: null;
+            modified: string;
+            user: string;
+        };
+    };
+    total: {
+        id: number;
+        title: null;
+        text: null;
+        code: string;
+        order: number;
+        module: string;
+        value: number;
+    };
+    tax: null;
+    shipping: null;
 }

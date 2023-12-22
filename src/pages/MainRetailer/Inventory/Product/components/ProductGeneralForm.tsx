@@ -91,7 +91,7 @@ const ProductGeneral = ({
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             type="number"
-                            value={data?.price}
+                            value={data?.price.replaceAll(',', '')}
                             error={formik.errors.price && formik.touched.price}
                             helperText={formik.errors.price}
                             onChange={e => {

@@ -1,7 +1,7 @@
 import Loader from 'components/atoms/Loader/Loader';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import { useEffect, useState } from 'react';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useProductsApi } from 'api/useProductsApi';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import ProductsManageTabsPanel from 'components/organisms/Panels/ProductsManageTabsPanel';
@@ -25,8 +25,8 @@ const INIT_MODEL_VALUE = {
     sku: '',
     code: '',
     defaultSelection: false,
-    dateAvailable: Date.now(),
-    sortOrder: '1',
+    dateAvailable: '',
+    sortOrder: '',
     variation: null,
     productVariantGroup: '',
     inventory: {
@@ -39,10 +39,9 @@ const INIT_MODEL_VALUE = {
 };
 
 const ProductModelsManage = () => {
+    const navigate = useNavigate();
     const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
-    const [title, setTitle] = useState('');
-    const [buttons, setButtons] = useState([]);
     const [product, setProduct] = useState<ManageProductInterface | any>(null);
     const [colorsList, setColorsList] = useState([]);
     const [productVariants, setProductVariants] = useState<ProductVariantInterface[] | any>(null);
@@ -60,28 +59,6 @@ const ProductModelsManage = () => {
         productId,
     });
 
-    const { data: colorsListRes, isFetching: loadColorsList } = useVariationsApi().useGetListOfVariations({
-        storeCode,
-    });
-
-    const formik = useFormik({
-        initialValues: newModelData,
-        validationSchema: modelFormValidations,
-        onSubmit: values => {
-            checkUnique().then(res => {
-                if ((res as any).data.data.exists) {
-                    toast.error(string?.model_with_this_vendor_code_is_registered);
-                    return;
-                }
-                return res;
-            });
-        },
-    });
-
-    useEffect(() => {
-        formik.setValues(newModelData);
-    }, [newModelData]);
-
     const {
         data: variantsRes,
         refetch: updateVariants,
@@ -90,32 +67,81 @@ const ProductModelsManage = () => {
         id: productId,
         storeCode,
     });
+    const { data: colorsListRes, isFetching: loadColorsList } = useVariationsApi().useGetListOfVariations({
+        storeCode,
+    });
+    const { mutateAsync: createModel, isLoading: loadModelCreate } = useProductsApi().useCreateModelByProductID();
+    const { mutateAsync: createVariationGroup, isLoading: loadVariationGroup } =
+        useVariationsApi().useCreateVariationGroup();
+
+    const formik = useFormik({
+        initialValues: newModelData,
+        validationSchema: modelFormValidations,
+        onSubmit: (values, { resetForm }) => {
+            checkUnique()
+                .then(res => {
+                    if ((res as any).data.data.exists) {
+                        toast.error(string?.model_with_this_vendor_code_is_registered);
+                        return;
+                    }
+                    return res;
+                })
+                .then(res => {
+                    if (res) {
+                        createModel({
+                            productId,
+                            data: { ...values, price: values.inventory.price.replaceAll(',', '') },
+                            storeCode,
+                        })
+                            .then(res => {
+                                createVariationGroup({ variantId: res.data.id })
+                                    .then(() => {
+                                        toast.success(string?.created);
+                                        updateVariants();
+                                        setNewModelData(INIT_MODEL_VALUE);
+                                        resetForm();
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        toast.error(err.message);
+                                    });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                toast.error(err.message);
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error(err.message);
+                })
+                .finally();
+        },
+    });
+
+    useEffect(() => {
+        formik.setValues(newModelData);
+    }, [newModelData]);
 
     useEffect(() => {
         if (!productDataRes || loadProducts) return;
 
         const product = productDataRes.data;
         setProduct({
-            id: product.id,
-            sku: product.sku,
             visible: product.visible,
-            dateAvailable: product.dateAvailable,
-            manufacturer: product.manufacturer.code,
-            type: product.type,
-            display: true,
-            canBePurchased: product.canBePurchased,
-            timeBound: false,
-            price: product.inventory.price,
-            quantity: product.inventory.quantity,
-            sortOrder: product.sortOrder,
-            productSpecifications: product.productSpecifications,
-            descriptions: product.descriptions,
+            ...product,
         });
     }, [productDataRes]);
 
     useEffect(() => {
         if (!variantsRes || loadVariants) return;
-        setProductVariants(variantsRes.data.items);
+
+        setProductVariants(
+            variantsRes.data.items.map(el => {
+                return { ...el, price: el.inventory[0]?.price };
+            })
+        );
     }, [variantsRes]);
 
     useEffect(() => {
@@ -175,8 +201,15 @@ const ProductModelsManage = () => {
                     formik={formik}
                 />
             </form>
-            {productVariants?.map(variant => (
-                <ModelsList variant={variant} colorsOptions={colorsList} />
+            {productVariants?.map((variant, idx) => (
+                <ModelsList
+                    key={idx}
+                    variant={variant}
+                    setVariant={setProductVariants}
+                    colorsOptions={colorsList}
+                    updateVariants={updateVariants}
+                    formik={formik}
+                />
             ))}
         </>
     );

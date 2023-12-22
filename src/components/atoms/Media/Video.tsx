@@ -1,6 +1,6 @@
 import { Box, IconButton } from '@mui/material';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import { useDevice } from 'hooks/useDevice';
+import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -9,17 +9,15 @@ interface ImageInterface {
     height: number;
     imgUrl: string;
     maxWidth?: string;
-    isDrag?: boolean;
     isRemovable?: boolean;
     deleteAction?;
 }
 
-const Image = ({
+const Video = ({
     width = 1,
     height = 1,
     imgUrl,
     maxWidth = '100%',
-    isDrag = false,
     isRemovable = false,
     deleteAction = () => {},
 }: ImageInterface) => {
@@ -77,19 +75,21 @@ const Image = ({
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'hidden',
-                cursor: isDrag ? 'grab' : 'default',
                 maxWidth: maxWidth,
                 position: 'relative',
             }}
         >
             {isRemovable && (
-                <IconButton sx={{ position: 'absolute', top: 1, right: 1, cursor: 'default' }} onClick={deleteAction}>
+                <IconButton
+                    sx={{ position: 'absolute', top: 1, right: 1, cursor: 'default', zIndex: 1000 }}
+                    onClick={deleteAction}
+                >
                     <CancelPresentationIcon />
                 </IconButton>
             )}
-            <img src={imgUrl} style={{ width: '100%' }} alt="img" />
+            <video src={imgUrl} style={{ width: '100%' }} controls />
         </Box>
     );
 };
 
-export default Image;
+export default Video;

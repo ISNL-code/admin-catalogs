@@ -40,7 +40,7 @@
         "src/components/Login/LoginForm.jsx",
         "src/api/useProductsApi.ts",
         "src/pages/Admin/orders_list/components/components/AddProduct.jsx",
-        "src/api/useProductCategoriesApi.js",
+        "src/api/useProductCategoriesApi.ts",
         "src/components/GalleryFilterBox/Search.js",
         "src/layouts/Main.js",
         "src/hooks/useGetLanguage.js",
@@ -60,7 +60,8 @@
         "src/api/AuthInterceptor.js",
         "src/pages/ProductDetails/ModelSwiper.tsx",
         "src/pages/ProductDetails/ModelSwiper.tsx",
-        "src/assets/svg/phone_call.js"
+        "src/assets/svg/phone_call.js",
+, "src/components/organisms/Lists/DND/ImageCards.js"        "src/components/organisms/Lists/ImageCards.js"
     ],
     "compileOnSave": false
 }

@@ -45,7 +45,7 @@ const ColorsList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsI
             },
         ]);
     }, []);
-    console.log(dataList);
+
     return (
         <Box mt={1}>
             {(isFetching || loadDeleteValue || loadDeleteVariation) && <Loader />}

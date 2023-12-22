@@ -43,7 +43,7 @@ const SearchInput = ({ setValue, setPage }: SearchInputInterface) => {
                         borderRadius: 'none',
                     },
                     width: '100%',
-                    maxWidth: 767,
+                    maxWidth: 500,
                     ml: 'auto',
                 }}
                 InputProps={{

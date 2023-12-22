@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from './useApi';
 
 export const useOptionsApi = () => {
-    const { get, remove, post, put } = useApi();
+    const { get, remove, post, put, patch } = useApi();
 
     const useGetValuesList = ({ storeCode, page, countPerPage }): any => {
         return useQuery(
@@ -61,6 +61,34 @@ export const useOptionsApi = () => {
             })
         );
 
+    const useGetProductOptionsById = ({ storeCode, productId }) =>
+        useQuery(
+            ['get-all-productID-options'],
+
+            () =>
+                get({
+                    url: `v1/private/product/${productId}/attributes?store=${storeCode}&lang=ua&count=200&page=0`,
+                })
+        );
+
+    const useAddProductOption = () =>
+        useMutation(({ productId, data, storeCode }: any) =>
+            post({
+                url: `v1/private/product/${productId}/attribute?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            })
+        );
+
+    const useDeleteProductOption = () => {
+        return useMutation(({ productId, attrId }: any) => {
+            return remove({
+                url: `/v1/private/product/${productId}/attribute/${attrId}`,
+            });
+        });
+    };
+
     const useCheckValuesUnique = ({ code }) => {
         return useQuery(
             ['get-values-unique'],
@@ -71,6 +99,7 @@ export const useOptionsApi = () => {
             { enabled: false }
         );
     };
+
     return {
         useGetValuesList,
         useDeleteValue,
@@ -78,6 +107,9 @@ export const useOptionsApi = () => {
         useGetOptionsList,
         useCheckValuesUnique,
         useGetValueById,
+        useGetProductOptionsById,
         useUpdateValue,
+        useAddProductOption,
+        useDeleteProductOption,
     };
 };
