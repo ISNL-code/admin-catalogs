@@ -33,7 +33,6 @@ const OrdersList = ({ handleSetTitle, handleSetActionButtons }: InventoryOrdersI
 
     useEffect(() => {
         if (!ordersDataRes || loadingOrders) return;
-        console.log(ordersDataRes);
         setTotalCount(ordersDataRes?.data.recordsTotal);
         setTotalPages(ordersDataRes?.data.totalPages);
         if (page) return setOrdersList([...ordersList, ...ordersDataRes?.data.orders]);

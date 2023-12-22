@@ -46,7 +46,7 @@ const ProductOptionsManage = () => {
 
     useEffect(() => {
         if (!productOptionsRes || loadProductOptions) return;
-        console.log(productOptionsRes);
+
         setProductOptionsAttributes(productOptionsRes.data.attributes);
     }, [productOptionsRes]);
 

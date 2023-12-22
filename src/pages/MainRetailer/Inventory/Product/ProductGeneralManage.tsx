@@ -71,7 +71,7 @@ const ProductGeneralManage = () => {
 
     useEffect(() => {
         if (!productDataRes || loadProducts) return;
-        console.log(productDataRes);
+
         const product = productDataRes.data;
         setProduct({
             id: product.id,

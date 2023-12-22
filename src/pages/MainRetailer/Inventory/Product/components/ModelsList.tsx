@@ -24,12 +24,22 @@ import ImageCards from 'components/organisms/Lists/MediaCards/ImageCards';
 import { useVariationsApi } from 'api/useVariationsApi';
 import Loader from 'components/atoms/Loader/Loader';
 import toast from 'react-hot-toast';
+import { useFormik } from 'formik';
+import modelFormValidations from 'helpers/Validations/modelFormValidations';
+import { useProductsApi } from 'api/useProductsApi';
 
-const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik }) => {
+const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
     const { productId, storeCode } = useParams();
     const { sx } = useDevice();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const [variationGroups, setVariationGroups] = useState<any>([]);
+    const [initSku, setInitSku] = useState<number | any>(null);
+
+    const { refetch: checkUnique } = useProductsApi().useCheckUniqueModelSku({
+        storeCode,
+        code: variant?.sku,
+        productId,
+    });
 
     const { data: variationGroupRes } = useVariationsApi().useGetVariationGroupByProductID({
         productId,
@@ -46,40 +56,68 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
         setVariationGroups(variationGroupRes.data.items);
     }, [variationGroupRes]);
 
+    const formik = useFormik({
+        initialValues: variant,
+        validationSchema: modelFormValidations,
+        onSubmit: values => {
+            checkUnique()
+                .then(res => {
+                    if ((res as any).data.data.exists) {
+                        if (initSku === values.sku) return res;
+                        toast.error(string?.model_with_this_vendor_code_is_registered);
+                        return;
+                    }
+                    return res;
+                })
+                .then(res => {
+                    if (res) {
+                        updateVariant({
+                            productId,
+                            data: {
+                                id: values.id,
+                                available: values.available,
+                                sku: values.sku,
+                                defaultSelection: values.defaultSelection,
+                                sortOrder: values.sortOrder,
+                                variation: values.variation,
+                                inventory: { price: { price: values.inventory.price.price.replaceAll(',', '') } },
+                            },
+                        })
+                            .then(_res => toast.success(string?.updated))
+                            .then(_ => updateVariants())
+                            .catch(err => {
+                                console.log(err);
+                                toast.error(err.message);
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error(err.message);
+                })
+                .finally();
+        },
+    });
+
+    useEffect(() => {
+        setInitSku(variant.sku);
+    }, []);
+
+    useEffect(() => {
+        formik.setValues(variant);
+    }, [variant]);
+
     return (
-        <Box>
+        <form
+            onSubmit={e => {
+                e.preventDefault();
+                formik.handleSubmit();
+            }}
+        >
             {(loadDelete || loadDeleteVar || loadUpdate || loadMediaFile) && <Loader />}
             <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
                 <Grid p={1} xs={sx ? 12 : 6} sx={{ display: 'flex', gap: 1 }}>
-                    <Button
-                        onClick={() => {
-                            updateVariant({
-                                productId,
-                                data: {
-                                    id: variant.id,
-                                    available: variant.available,
-                                    sku: variant.sku,
-                                    defaultSelection: variant.defaultSelection,
-                                    sortOrder: variant.sortOrder,
-                                    variation: variant.variation.id,
-                                    inventory: {
-                                        price: {
-                                            price: variant.price.replaceAll(',', ''),
-                                        },
-                                        quantity: variant.inventory[0].quantity,
-                                        sku: variant.sku,
-                                    },
-                                },
-                            })
-                                .then(_res => toast.success(string?.updated))
-                                .then(_ => updateVariants())
-                                .catch(err => {
-                                    console.log(err);
-                                    toast.error(err.message);
-                                });
-                        }}
-                        variant="contained"
-                    >
+                    <Button type="submit" variant="contained">
                         {string?.update}
                     </Button>
                     <Button
@@ -133,8 +171,8 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
                 </Grid>
                 <Grid p={1} xs={sx ? 12 : 3}>
                     <TextField
+                        name="sku"
                         InputLabelProps={{ shrink: true }}
-                        helperText={formik.errors.sku}
                         onChange={e => {
                             setVariant(prev => {
                                 return prev.map(el => {
@@ -144,35 +182,31 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
                             });
                         }}
                         size="small"
-                        required
                         label={string?.vendor_code}
                         fullWidth
                         value={variant?.sku}
-                        error={formik.errors.sku && formik.touched.sku}
+                        helperText={formik.errors.sku as any}
+                        error={(formik.errors.sku && formik.touched.sku) as any}
                     />
                 </Grid>
                 <Grid xs={sx ? 12 : 3} p={1} sx={{ display: 'flex', flexWrap: 'nowrap', gap: 1 }}>
-                    <FormControl fullWidth size="small" error={formik.errors.variation && formik.touched.variation}>
-                        <InputLabel error={formik.errors.variation && formik.touched.variation}>
-                            {string?.color}
-                        </InputLabel>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>{string?.color}</InputLabel>
                         <Select
-                            required
-                            value={variant.variation.id}
+                            value={variant.variation}
                             onChange={e => {
                                 setVariant(prev => {
                                     return prev.map(el => {
                                         if (el.id === variant.id)
                                             return {
                                                 ...variant,
-                                                variation: { ...variant.variation, id: e.target.value },
+                                                variation: e.target.value,
                                             };
                                         return el;
                                     });
                                 });
                             }}
                             label={string?.color}
-                            error={formik.errors.variation && formik.touched.variation}
                         >
                             {colorsOptions?.map((el, idx) => (
                                 <MenuItem key={idx} value={el.id}>
@@ -182,7 +216,6 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
                                     </Box>
                                 </MenuItem>
                             ))}
-                            <FormHelperText>{formik.errors.variation}</FormHelperText>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -190,17 +223,23 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
                     <TextField
                         type="number"
                         InputLabelProps={{ shrink: true }}
-                        value={variant?.price.replaceAll(',', '') || ''}
+                        value={variant?.inventory?.price?.price.replaceAll(',', '') || ''}
                         onChange={e => {
                             setVariant(prev => {
                                 return prev.map(el => {
-                                    if (el.id === variant.id) return { ...variant, price: e.target.value };
+                                    if (el.id === variant.id)
+                                        return {
+                                            ...variant,
+                                            inventory: {
+                                                ...variant?.inventory,
+                                                price: { price: e.target.value },
+                                            },
+                                        };
                                     return el;
                                 });
                             });
                         }}
                         size="small"
-                        required
                         label={string?.price}
                         fullWidth
                         InputProps={{
@@ -210,8 +249,11 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
                                 </InputAdornment>
                             ),
                         }}
-                        error={false}
-                        helperText={''}
+                        error={
+                            ((formik.errors?.inventory as any)?.price?.price &&
+                                (formik.touched?.inventory as any)?.price?.price) as any
+                        }
+                        helperText={(formik.errors?.inventory as any)?.price?.price as any}
                     />
                 </Grid>
                 <Grid p={1} xs={sx ? 6 : 3}>
@@ -227,11 +269,10 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
                             });
                         }}
                         size="small"
-                        required
                         label={string?.order_priority}
                         fullWidth
-                        helperText={''}
-                        error={false}
+                        error={(formik.errors.sortOrder && formik.touched.sortOrder) as any}
+                        helperText={formik.errors.sortOrder as any}
                     />
                 </Grid>
 
@@ -250,7 +291,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant, formik
                 updateVariants={updateVariants}
                 addMedia={addMedia}
             />
-        </Box>
+        </form>
     );
 };
 

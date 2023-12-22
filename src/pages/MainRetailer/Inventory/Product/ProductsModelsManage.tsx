@@ -139,7 +139,7 @@ const ProductModelsManage = () => {
 
         setProductVariants(
             variantsRes.data.items.map(el => {
-                return { ...el, price: el.inventory[0]?.price };
+                return { ...el, variation: el.variation?.id, inventory: { price: { price: el.inventory[0]?.price } } };
             })
         );
     }, [variantsRes]);
@@ -201,6 +201,7 @@ const ProductModelsManage = () => {
                     formik={formik}
                 />
             </form>
+
             {productVariants?.map((variant, idx) => (
                 <ModelsList
                     key={idx}
@@ -208,7 +209,6 @@ const ProductModelsManage = () => {
                     setVariant={setProductVariants}
                     colorsOptions={colorsList}
                     updateVariants={updateVariants}
-                    formik={formik}
                 />
             ))}
         </>

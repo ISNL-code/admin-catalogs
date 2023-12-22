@@ -29,8 +29,6 @@ const ColorsCards = ({ data, deleteVariation, deleteColor, setDataList }: CardsI
 
     if (!data) return <ProductsListSkeleton />;
 
-    console.log(data);
-
     return (
         <>
             {openModal && (
