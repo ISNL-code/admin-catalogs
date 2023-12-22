@@ -681,6 +681,7 @@ export interface ProductAttrOptionsInterface {
 }
 
 export interface OptionsVariationInterface {
+    id: number | null;
     variationId: number;
     colorId: number;
     code: string;

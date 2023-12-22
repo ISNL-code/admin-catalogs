@@ -68,14 +68,19 @@ const ProductsCards = ({
                         px: sx ? 0 : 2,
                     }}
                 >
-                    <Grid xs={3} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
+                    <Grid xs={1} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.name}:
+                            ID
                         </Typography>
                     </Grid>
-                    <Grid xs={7} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                    <Grid xs={3} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.vendor_code}:
+                            {string?.name}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={6} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                        <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                            {string?.vendor_code}
                         </Typography>
                     </Grid>
                     <Grid xs={2} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}></Grid>
@@ -98,6 +103,14 @@ const ProductsCards = ({
                             }}
                             mb={sx ? 2 : 0}
                         >
+                            <Grid xs={sx ? 12 : 1} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                                {sx && (
+                                    <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                                        ID:
+                                    </Typography>
+                                )}
+                                <Typography variant="h5">{item.id}</Typography>
+                            </Grid>
                             <Grid xs={sx ? 12 : 3} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                                 {sx && (
                                     <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
@@ -106,7 +119,7 @@ const ProductsCards = ({
                                 )}
                                 <Typography variant="h5">{item.description?.name}</Typography>
                             </Grid>
-                            <Grid xs={sx ? 12 : 7} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                            <Grid xs={sx ? 12 : 6} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
                                 {sx && (
                                     <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                                         {string?.vendor_code}:

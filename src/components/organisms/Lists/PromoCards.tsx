@@ -59,19 +59,24 @@ const PromoCards = ({ data, deleteItem, setDataList }: CardsInterface) => {
                         px: sx ? 0 : 2,
                     }}
                 >
+                    <Grid xs={1} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}>
+                        <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                            ID
+                        </Typography>
+                    </Grid>
                     <Grid xs={2} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.label}:
+                            {string?.label}
                         </Typography>
                     </Grid>
-                    <Grid xs={4} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
+                    <Grid xs={3.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.code}:
+                            {string?.code}
                         </Typography>
                     </Grid>
-                    <Grid xs={4} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
+                    <Grid xs={3.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.name} UA:
+                            {string?.name} UA
                         </Typography>
                     </Grid>
 
@@ -93,10 +98,18 @@ const PromoCards = ({ data, deleteItem, setDataList }: CardsInterface) => {
                         }}
                         mb={sx ? 2 : 0}
                     >
+                        <Grid xs={sx ? 12 : 1} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                            {sx && (
+                                <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                                    ID:
+                                </Typography>
+                            )}
+                            <Typography variant="h5">{item.id}</Typography>
+                        </Grid>
                         <Grid xs={sx ? 12 : 2} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             <PromoTags value={item.code} size={20} selected />
                         </Grid>
-                        <Grid xs={sx ? 12 : 4} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                        <Grid xs={sx ? 12 : 3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (
                                 <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                                     {string?.code}:
@@ -104,7 +117,7 @@ const PromoCards = ({ data, deleteItem, setDataList }: CardsInterface) => {
                             )}
                             <Typography variant="h5">{item.code}</Typography>
                         </Grid>
-                        <Grid xs={sx ? 12 : 4} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                        <Grid xs={sx ? 12 : 3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (
                                 <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                                     {string?.name} UA:

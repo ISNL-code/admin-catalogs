@@ -59,17 +59,22 @@ const SizesCards = ({ data, deleteItem, setDataList }: CardsInterface) => {
                         px: sx ? 0 : 2,
                     }}
                 >
+                    <Grid xs={1} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}>
+                        <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                            ID
+                        </Typography>
+                    </Grid>
                     <Grid xs={2} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                             {string?.label}:
                         </Typography>
                     </Grid>
-                    <Grid xs={4} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
+                    <Grid xs={3.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                             {string?.code}:
                         </Typography>
                     </Grid>
-                    <Grid xs={4} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
+                    <Grid xs={3.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                             {string?.name} UA:
                         </Typography>
@@ -93,10 +98,18 @@ const SizesCards = ({ data, deleteItem, setDataList }: CardsInterface) => {
                         }}
                         mb={sx ? 2 : 0}
                     >
+                        <Grid xs={sx ? 12 : 1} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                            {sx && (
+                                <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                                    ID:
+                                </Typography>
+                            )}
+                            <Typography variant="h5">{item.id}</Typography>
+                        </Grid>
                         <Grid xs={sx ? 12 : 2} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             <SizesIndicatorButton label={item.code} size={sx ? 24 : 32} disabled />
                         </Grid>
-                        <Grid xs={sx ? 12 : 4} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                        <Grid xs={sx ? 12 : 3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (
                                 <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                                     {string?.code}:
@@ -104,7 +117,7 @@ const SizesCards = ({ data, deleteItem, setDataList }: CardsInterface) => {
                             )}
                             <Typography variant="h5">{item.code}</Typography>
                         </Grid>
-                        <Grid xs={sx ? 12 : 4} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                        <Grid xs={sx ? 12 : 3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (
                                 <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                                     {string?.name} UA:
