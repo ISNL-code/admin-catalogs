@@ -57,12 +57,7 @@ const UserInformation = ({
             {isFetching && <Loader />}
             {!data?.length && !isFetching && <EmptyPage />}
             <Box>
-                <UsersCards
-                    data={data}
-                    updateUsersListData={() => updateUsersListData()}
-                    deleteUser={deleteUser}
-                    canEdit
-                />
+                <UsersCards data={data} updateUsersListData={() => updateUsersListData()} deleteUser={deleteUser} />
             </Box>
         </>
     );

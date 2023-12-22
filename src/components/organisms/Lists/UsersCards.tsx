@@ -99,10 +99,11 @@ const UsersCards = ({ data, updateUsersListData, deleteUser, canEdit }: UsersCar
                                     }}
                                     size="small"
                                     onClick={() => {}}
+                                    disabled={!canEdit}
                                 >
                                     <PowerSettingsNewIcon fontSize="small" color={item.active ? 'success' : 'error'} />
                                 </IconButton>
-                                {!canEdit && (
+                                {canEdit && (
                                     <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'space-between' }}>
                                         <IconButton
                                             sx={{ border: '1px solid #ccc' }}
