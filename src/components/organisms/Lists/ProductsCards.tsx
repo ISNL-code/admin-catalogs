@@ -33,7 +33,7 @@ const ProductsCards = ({
     const [openModal, setOpenModal] = useState(false);
     const [selectedProductId, setSelectedProductId] = useState<null | number>(null);
 
-    if (!data) return <ProductsListSkeleton />;
+    if (!data) return <></>;
 
     return (
         <>

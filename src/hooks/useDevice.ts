@@ -10,7 +10,7 @@ export const useDevice = () => {
     const s = useMediaQuery({ query: '(max-width: 500px)' });
     const sm = useMediaQuery({ query: '(max-width: 600px)' });
     const slx = useMediaQuery({ query: '(max-width: 700px)' });
-    const sx = useMediaQuery({ query: '(max-width: 769px)' });
+    const sx = useMediaQuery({ query: '(max-width: 768px)' });
     const m = useMediaQuery({ query: '(max-width: 900px)' });
     const mx = useMediaQuery({ query: '(max-width: 1080px)' });
     const ls = useMediaQuery({ query: '(max-width: 1240px)' });

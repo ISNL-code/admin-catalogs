@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { ProductInterface } from 'types';
 import { useIsMount } from 'hooks/useIsMount';
+import toast from 'react-hot-toast';
 
 interface InventoryProductsInterface {
     handleSetTitle;
@@ -24,7 +25,7 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
     const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [sku, setSku] = useState('');
-    const { string }: any = useOutletContext();
+    const { string, storeData }: any = useOutletContext();
     const countPerPage = 25;
 
     const { mutateAsync: deleteProduct } = useProductsApi().useDeleteProduct();
@@ -88,11 +89,14 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
                 name: 'create',
                 disabled: false,
                 action: () => {
+                    const maxProducts = storeData.dataBaseStoreSettings.products;
+                    if ((productsList?.length as number) >= maxProducts)
+                        return toast.error(string?.your_limit + ' ' + maxProducts + ' ' + string?.items);
                     navigate(`/store-inventory/${storeCode}/products/create`);
                 },
             },
         ]);
-    }, [storeCode]);
+    }, [storeCode, storeData, productsList]);
 
     return (
         <Box>

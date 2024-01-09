@@ -28,7 +28,7 @@ const BrandCreate = () => {
     const [brand, setBrand] = useState<EditBrandInterface>(INITIAL_BRAND_DATA);
 
     const { mutateAsync: createBrand, isLoading } = useBrandsApi().useCreateBrand();
-    const { refetch: checkUnique } = useBrandsApi().useCheckBrandUnique({ code: brand.code });
+    const { refetch: checkUnique } = useBrandsApi().useCheckBrandUnique({ code: brand.code, storeCode });
 
     const formik = useFormik({
         initialValues: brand,

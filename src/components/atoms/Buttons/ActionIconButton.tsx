@@ -10,6 +10,7 @@ interface ActionIconButtonInterface {
     color: 'inherit' | 'default' | 'warning' | 'success' | 'primary' | 'secondary' | 'error' | 'info' | undefined;
     active?: boolean;
     tooltip?: string;
+    type: 'button' | 'submit';
 }
 
 const ActionIconButton = ({
@@ -20,6 +21,7 @@ const ActionIconButton = ({
     color,
     active = true,
     tooltip = '',
+    type,
 }: ActionIconButtonInterface) => {
     const { sx } = useDevice();
 
@@ -38,16 +40,16 @@ const ActionIconButton = ({
                 <Box>
                     <IconButton
                         sx={{
-                            minWidth: sx ? '35px' : '120px',
+                            minWidth: sx ? '25px' : '120px',
                             p: 0,
                             px: sx ? 0 : 1,
                             display: 'flex',
                             flexDirection: sx ? 'column' : 'row',
                             gap: sx ? 0 : 1,
-                            border: sx ? 'none' : `1px solid ${getColor()}`,
-                            borderRadius: 2,
+                            border: `1px solid ${getColor()}`,
+                            borderRadius: 1,
                             alignItems: 'center',
-                            backgroundColor: sx ? '' : '#fff',
+                            backgroundColor: '#fff',
                             '&:hover': { backgroundColor: '#ffffff0' },
                         }}
                         disabled={disabled}
@@ -55,7 +57,7 @@ const ActionIconButton = ({
                         onClick={() => {
                             action();
                         }}
-                        type="submit"
+                        type={type}
                     >
                         {icon({ fontSize: 'medium' })}
                         {!sx && <Typography sx={{ fontSize: sx ? 10 : 12, color: getColor() }}>{title}</Typography>}

@@ -1,7 +1,7 @@
 import Loader from 'components/atoms/Loader/Loader';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import { useEffect, useState } from 'react';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import ProductGeneralForm from './components/ProductGeneralForm';
 import { useProductsApi } from 'api/useProductsApi';
 import PageHeader from 'components/organisms/Panels/PageHeader';
@@ -36,6 +36,7 @@ const INIT_PRODUCT_DATA = {
 };
 
 const ProductGeneralManage = () => {
+    const navigate = useNavigate();
     const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
     const [product, setProduct] = useState<ManageProductInterface>(INIT_PRODUCT_DATA);
@@ -107,7 +108,17 @@ const ProductGeneralManage = () => {
             {(loadProducts || isLoading) && <Loader />}
             <InventoryNavigation />
             <PageHeader title={string?.main}>
-                <ActionPanel button={[{ name: 'save', action: () => {} }]} />
+                <ActionPanel
+                    button={[
+                        {
+                            name: 'cancel',
+                            action: () => {
+                                navigate(-1);
+                            },
+                        },
+                        { name: 'save', action: () => {} },
+                    ]}
+                />
             </PageHeader>
             <ProductsManageTabsPanel
                 nav={[

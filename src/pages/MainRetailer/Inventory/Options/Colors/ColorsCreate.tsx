@@ -27,10 +27,12 @@ const ColorsCreate = () => {
     const [optionId, setOptionId] = useState(null);
     const [valuesList, setValuesList] = useState<any>([]);
 
+    const { data: valuesListRes } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500 });
+
     const { data: OptionsRes } = useOptionsApi().useGetOptionsList({ storeCode });
     const { mutateAsync: createValue, isLoading: loadCreateValue } = useOptionsApi().useCreateValue();
     const { mutateAsync: createVariation, isLoading: loadCreateVariation } = useVariationsApi().useCreateVariation();
-    const { data: valuesListRes } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500 });
+    const { refetch: checkUnique } = useOptionsApi().useCheckValuesUnique({ code: valueData.code, storeCode });
 
     const formik = useFormik({
         initialValues: valueData,
@@ -38,7 +40,7 @@ const ColorsCreate = () => {
         onSubmit: values => {
             if (valuesList?.some(el => el?.code === valueData?.code)) {
                 toast.error(string?.color_with_this_code_is_registered);
-            } else
+            } else {
                 createValue({ storeCode, data: values })
                     .then(res => {
                         const value = res.data as any;
@@ -63,6 +65,7 @@ const ColorsCreate = () => {
                         console.log(err);
                         toast.error(err.message);
                     });
+            }
         },
     });
 
@@ -72,7 +75,7 @@ const ColorsCreate = () => {
 
     useEffect(() => {
         if (!OptionsRes) return;
-        setOptionId(OptionsRes.data.options.find(el => el.code === 'COLOR')?.id);
+        setOptionId(OptionsRes.data.options.find(el => el.code === `COLOR`)?.id);
     }, [OptionsRes]);
 
     useEffect(() => {

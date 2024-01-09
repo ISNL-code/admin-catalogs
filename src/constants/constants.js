@@ -44,6 +44,16 @@ export const LANGUAGES = [
         code: 'en',
         name: 'Англiйська',
     },
+    {
+        id: 6,
+        code: 'es',
+        name: 'Iспанська',
+    },
+    {
+        id: 7,
+        code: 'fr',
+        name: 'Французька',
+    },
 ];
 
 export const CURRENCY = [

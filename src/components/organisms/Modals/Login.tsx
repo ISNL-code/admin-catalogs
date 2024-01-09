@@ -29,7 +29,7 @@ export default function Login({ string, setAuth, auth, isLoading }) {
                         primaryAction={() => {
                             setValidate(true);
                             if (!/\S+@\S+\.\S+/.test(username) || !username.length || password.length < 8) return;
-                            loginAdmin({ username, password })
+                            loginAdmin({ username: username.trim(), password })
                                 .then(res => {
                                     if (res.data.token) {
                                         localStorage.setItem(ACCESS_TOKEN_KEY, JSON.stringify(res.data.token));

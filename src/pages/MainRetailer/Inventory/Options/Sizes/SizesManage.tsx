@@ -17,7 +17,6 @@ const SizesManage = () => {
     const [buttons, setButtons] = useState([]);
     const [valueData, setValueData] = useState<any>(null);
 
-    const { refetch: checkUnique } = useOptionsApi().useCheckValuesUnique({ code: valueData?.code });
     const { data: valueItemRes, isFetching } = useOptionsApi().useGetValueById({ storeCode, valueId: sizeId });
     const { mutateAsync: updateValue } = useOptionsApi().useUpdateValue();
 
@@ -46,7 +45,6 @@ const SizesManage = () => {
             ...valueItemRes.data,
 
             descriptions: storeData?.supportedLanguages.map(({ code }) => {
-                console.log(valueItemRes.data.descriptions.find(el => el.language === code));
                 if (valueItemRes.data.descriptions.find(el => el.language === code)) {
                     return { ...valueItemRes.data.descriptions.find(el => el.language === code) };
                 } else

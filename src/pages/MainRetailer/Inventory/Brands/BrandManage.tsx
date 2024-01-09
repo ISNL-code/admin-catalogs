@@ -50,7 +50,6 @@ const BrandManage = () => {
         setBrand({
             ...brandDataRes.data,
             descriptions: storeData?.supportedLanguages.map(({ code }) => {
-                console.log(brandDataRes.data.descriptions.find(el => el.language === code));
                 if (brandDataRes.data.descriptions.find(el => el.language === code)) {
                     return { ...brandDataRes.data.descriptions.find(el => el.language === code) };
                 } else

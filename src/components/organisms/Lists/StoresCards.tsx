@@ -16,10 +16,9 @@ import { StoreInterface } from 'types';
 interface StoresCardsInterface {
     data: StoreInterface[] | null;
     updateStoreDataRes;
-    updateAdminStoreAccess;
 }
 
-const StoresCards = ({ data, updateStoreDataRes, updateAdminStoreAccess }: StoresCardsInterface) => {
+const StoresCards = ({ data, updateStoreDataRes }: StoresCardsInterface) => {
     const { string }: any = useOutletContext();
     const navigate = useNavigate();
     const { xs, sx, ls } = useDevice();
@@ -32,8 +31,10 @@ const StoresCards = ({ data, updateStoreDataRes, updateAdminStoreAccess }: Store
         if (xs) return 12; //475
         if (sx) return 6; //900
         if (ls) return 4; //1240
-        return 2;
+        return 3;
     };
+
+    if (!data) <></>;
 
     return (
         <>
@@ -109,7 +110,7 @@ const StoresCards = ({ data, updateStoreDataRes, updateAdminStoreAccess }: Store
                                     cursor: 'pointer',
                                 }}
                             >
-                                <Box sx={{ width: '25%' }}>
+                                <Box sx={{ width: '25%', cursor: 'pointer' }}>
                                     <Image width={1} height={1} imgUrl={item?.logo?.path as any} />
                                 </Box>
                                 <Typography variant="h3">{item.name}</Typography>

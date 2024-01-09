@@ -40,7 +40,7 @@ const INIT_MODEL_VALUE = {
 
 const ProductModelsManage = () => {
     const navigate = useNavigate();
-    const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
     const [product, setProduct] = useState<ManageProductInterface | any>(null);
     const [colorsList, setColorsList] = useState([]);
@@ -90,11 +90,11 @@ const ProductModelsManage = () => {
                     if (res) {
                         createModel({
                             productId,
-                            data: { ...values, price: values.inventory.price.replaceAll(',', '') },
+                            data: { ...values, price: values.inventory.price.price.replaceAll(',', '') },
                             storeCode,
                         })
                             .then(res => {
-                                createVariationGroup({ variantId: res.data.id })
+                                createVariationGroup({ variantId: res.data.id, storeCode })
                                     .then(() => {
                                         toast.success(string?.created);
                                         updateVariants();
@@ -158,6 +158,12 @@ const ProductModelsManage = () => {
                 <ActionPanel
                     button={[
                         {
+                            name: 'cancel',
+                            action: () => {
+                                navigate(`/store-inventory/${storeCode}/products`);
+                            },
+                        },
+                        {
                             name: product?.visible && productVariants?.length ? 'deactivate' : 'activate',
                             disabled: !productVariants?.length,
                             tooltip: !productVariants?.length ? string?.add_models_before : '',
@@ -165,6 +171,7 @@ const ProductModelsManage = () => {
                                 switchProduct({
                                     id: product.id,
                                     complete: !product.visible,
+                                    storeCode,
                                 });
                                 setProduct({ ...product, visible: !product.visible });
                             },
@@ -191,6 +198,9 @@ const ProductModelsManage = () => {
             <form
                 onSubmit={e => {
                     e.preventDefault();
+                    const maxModels = storeData?.dataBaseStoreSettings.productModels;
+                    if ((productVariants?.length as number) >= maxModels)
+                        return toast.error(string?.your_limit + ' ' + maxModels + ' ' + string?.items);
                     formik.handleSubmit();
                 }}
             >

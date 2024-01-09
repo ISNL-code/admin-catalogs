@@ -77,13 +77,13 @@ const Image = ({
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'hidden',
-                cursor: isDrag ? 'grab' : 'default',
+                cursor: isDrag ? 'grab' : '',
                 maxWidth: maxWidth,
                 position: 'relative',
             }}
         >
             {isRemovable && (
-                <IconButton sx={{ position: 'absolute', top: 1, right: 1, cursor: 'default' }} onClick={deleteAction}>
+                <IconButton sx={{ position: 'absolute', top: 1, right: 1 }} onClick={deleteAction}>
                     <CancelPresentationIcon />
                 </IconButton>
             )}

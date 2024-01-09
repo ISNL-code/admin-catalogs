@@ -25,7 +25,7 @@ const BrandsCards = ({ data, setTotalCount, deleteBrand, setBrandsList }: Brands
     const [openModal, setOpenModal] = useState(false);
     const [selectedBrandId, setSelectedBrandId] = useState<null | number>(null);
 
-    if (!data) return <ProductsListSkeleton />;
+    if (!data) return <></>;
 
     return (
         <>
@@ -35,7 +35,7 @@ const BrandsCards = ({ data, setTotalCount, deleteBrand, setBrandsList }: Brands
                     string={string}
                     text={string?.do_you_want_to_delete_brand}
                     action={() =>
-                        deleteBrand({ id: selectedBrandId })
+                        deleteBrand({ id: selectedBrandId, storeCode })
                             .then(res => {
                                 if (res.status === 200) toast.success(string?.deleted);
                                 setBrandsList(prev => prev.filter(el => el.id !== selectedBrandId));
@@ -43,7 +43,7 @@ const BrandsCards = ({ data, setTotalCount, deleteBrand, setBrandsList }: Brands
                             })
                             .catch(err => {
                                 console.log(err);
-                                toast.error(err.message);
+                                toast.error(string?.attached_to_the_product_deletion_is_not_possible);
                             })
                     }
                 />
@@ -105,7 +105,7 @@ const BrandsCards = ({ data, setTotalCount, deleteBrand, setBrandsList }: Brands
                         <Grid xs={sx ? 12 : 4} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (
                                 <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                    {string?.id}:
+                                    {string?.code}:
                                 </Typography>
                             )}
                             <Typography variant="h5">{item.code}</Typography>

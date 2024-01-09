@@ -8,6 +8,7 @@ import ModalsSelector from 'layouts/ModalsSelector';
 import NavigationHeader from './NavigationSuperAdmin';
 import { StoreInterface, UserProfileInterface } from 'types';
 import { useStoresApi } from 'api/useStoresApi';
+import { STORES_DATA } from 'dataBase/STORES';
 
 interface MainLayoutInterface {
     lang: { code: string; label: string };
@@ -32,7 +33,7 @@ export default function MainSuperAdmin({ lang, auth, setAuth, currentLanguage, u
 
     useEffect(() => {
         if (!storeDataRes || isFetching) return;
-        setStoreData(storeDataRes.data);
+        setStoreData({ ...storeDataRes.data, ...STORES_DATA.find(({ code }) => code === storeDataRes.data.code) });
     }, [storeDataRes]);
 
     return (

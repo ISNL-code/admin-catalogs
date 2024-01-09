@@ -153,7 +153,7 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
                                                     return {
                                                         language,
                                                         name: e.target.value,
-                                                        description: 'COLOR',
+                                                        description: `COLOR`,
                                                         friendlyUrl: e.target.value,
                                                         keyWords: e.target.value,
                                                         highlights: e.target.value,

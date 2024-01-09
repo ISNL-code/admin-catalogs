@@ -26,7 +26,7 @@ const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                 name: 'cancel',
                 disabled: false,
                 action: () => {
-                    navigate(`/store-inventory/${storeCode}/options/sizes`);
+                    navigate(-1);
                 },
             },
             {
@@ -111,7 +111,7 @@ const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                                                 return {
                                                     language,
                                                     name: e.target.value,
-                                                    description: 'SIZE',
+                                                    description: `SIZE`,
                                                     friendlyUrl: e.target.value,
                                                     keyWords: e.target.value,
                                                     highlights: e.target.value,

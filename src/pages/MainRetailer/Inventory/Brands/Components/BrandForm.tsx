@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from '@mui/material';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useEffect } from 'react';
@@ -18,7 +18,8 @@ const BrandForm = ({
     formik: any;
     setBrand;
 }) => {
-    const { storeCode, brandId } = useParams();
+    const navigate = useNavigate();
+    const { brandId } = useParams();
     const { sx } = useDevice();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
 
@@ -29,6 +30,13 @@ const BrandForm = ({
             handleSetTitle(string?.create);
         }
         handleSetActionButtons([
+            {
+                name: 'cancel',
+                disabled: false,
+                action: () => {
+                    navigate(-1);
+                },
+            },
             {
                 name: 'save',
                 disabled: false,

@@ -62,6 +62,6 @@
         "src/pages/ProductDetails/ModelSwiper.tsx",
         "src/assets/svg/phone_call.js",
 , "src/components/organisms/Lists/DND/ImageCards.js"        "src/components/organisms/Lists/ImageCards.js"
-    ],
+, "src/helpers/Validations/createUserFormValidations.ts"    ],
     "compileOnSave": false
 }

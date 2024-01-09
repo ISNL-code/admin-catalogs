@@ -11,8 +11,7 @@ const brandFormValidations = yup.object().shape({
     code: yup
         .string()
         .required('Обов`язкове поле')
-        .matches(langCheck, 'Код має складатися щонайменше з 8 латинських символів')
-        .min(6, 'Код має складатися щонайменше з 6 латинських символів'),
+        .matches(langCheck, 'Код має складатися щонайменше з латинських символів'),
 });
 
 export default brandFormValidations;

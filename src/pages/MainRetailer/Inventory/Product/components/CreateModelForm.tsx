@@ -74,6 +74,7 @@ const CreateModelForm = ({
                             />
                         }
                     >
+                        {!colorsOptions?.length && <MenuItem>{string?.create_a_color}</MenuItem>}
                         {colorsOptions?.map(el => (
                             <MenuItem key={el.id} value={el.id}>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>

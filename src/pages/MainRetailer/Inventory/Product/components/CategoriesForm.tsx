@@ -1,17 +1,20 @@
 import Grid from '@mui/material/Unstable_Grid2';
-import { useOutletContext, useParams } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { useOutletContext, useParams, useNavigate } from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
 import { TreeSelect } from 'antd';
 import { useEffect, useState } from 'react';
 import { useProductCategoriesApi } from 'api/useProductCategoriesApi';
+import AddIcon from '@mui/icons-material/Add';
+import { RetailerContextInterface } from 'types';
 
 const CategoriesForm = () => {
+    const navigate = useNavigate();
     const { productId, storeCode } = useParams();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const [value, setValue] = useState([]);
     const [categories, setCategories] = useState([]);
 
-    const { data: categoryRes, refetch: updateCategories } = useProductCategoriesApi().useGetAllProductsCategories({
+    const { data: categoryRes } = useProductCategoriesApi().useGetAllProductsCategories({
         storeCode,
     });
     const { data: selectedCategoriesRes } = useProductCategoriesApi().useGetSelectedCategories({
@@ -52,9 +55,19 @@ const CategoriesForm = () => {
         <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
             <Grid xs={12} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                 <Typography variant="h3">{string?.categories}:</Typography>
+                <Typography>({string?.option_not_available})</Typography>
+                <Button
+                    disabled={!storeData?.mainStoreSettings?.categories}
+                    variant="contained"
+                    sx={{ borderRadius: '50%', minWidth: 28, height: 28, p: 0 }}
+                    onClick={() => navigate(`/store-inventory/${storeCode}/categories`)}
+                >
+                    <AddIcon fontSize="small" />
+                </Button>
             </Grid>
             <Grid xs={12} my={2}>
                 <TreeSelect
+                    disabled={!storeData?.mainStoreSettings?.categories}
                     size="large"
                     treeCheckable
                     treeCheckStrictly
@@ -62,9 +75,9 @@ const CategoriesForm = () => {
                     value={value}
                     onChange={(newValue, _nameValue, action) => {
                         if (action.checked) {
-                            addCategory({ productId, categoryId: action.triggerValue });
+                            addCategory({ productId, categoryId: action.triggerValue, storeCode });
                         } else {
-                            deleteCategory({ productId, categoryId: action.triggerValue });
+                            deleteCategory({ productId, categoryId: action.triggerValue, storeCode });
                         }
                         setValue(newValue);
                     }}

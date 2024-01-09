@@ -27,9 +27,9 @@ export const useBrandsApi = () => {
     };
 
     const useDeleteBrand = () =>
-        useMutation(({ id }: any) =>
+        useMutation(({ id, storeCode }: any) =>
             remove({
-                url: `v1/private/manufacturer/${id}`,
+                url: `v1/private/manufacturer/${id}?store=${storeCode}`,
             })
         );
 
@@ -49,13 +49,13 @@ export const useBrandsApi = () => {
             })
         );
 
-    const useCheckBrandUnique = ({ code }) =>
+    const useCheckBrandUnique = ({ code, storeCode }) =>
         useQuery(
             ['get-brands-unique'],
 
             () =>
                 get({
-                    url: `v1/private/manufacturer/unique?code=${code}`,
+                    url: `v1/private/manufacturer/unique?code=${code}&store=${storeCode}`,
                 }),
             { enabled: false }
         );

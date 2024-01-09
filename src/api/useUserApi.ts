@@ -45,7 +45,9 @@ export const useUserApi = () => {
     };
 
     const useCreateUser = () =>
-        useMutation((data: any) => post({ url: `v1/private/user/?store=${data.store}`, body: { ...data } }));
+        useMutation(({ storeCode, data }: any) =>
+            post({ url: `v1/private/user/?store=${storeCode}`, body: { ...data } })
+        );
 
     const useUpdateUser = () =>
         useMutation((data: any) => put({ url: `v1/private/user/${data.id}?store=${data.store}`, body: { ...data } }));

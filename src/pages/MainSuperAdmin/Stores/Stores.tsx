@@ -5,7 +5,6 @@ import StoresCards from 'components/organisms/Lists/StoresCards';
 import { Box } from '@mui/material';
 import EmptyPage from 'components/atoms/EmptyPage/EmptyPage';
 import Loader from 'components/atoms/Loader/Loader';
-import { useUserApi } from 'api/useUserApi';
 
 const Stores = () => {
     const [stores, setStores] = useState<StoreInterface[] | null>(null);
@@ -15,8 +14,6 @@ const Stores = () => {
         isFetched,
         refetch: updateStoreDataRes,
     } = useStoresApi().useGetAllStores();
-
-    const { mutateAsync: updateAdminStoreAccess } = useUserApi().useUpdateUser();
 
     useEffect(() => {
         if (!storesDataRes) return;
@@ -29,11 +26,7 @@ const Stores = () => {
             {!stores?.length && !isFetching && isFetched && <EmptyPage />}
 
             <Box py={1}>
-                <StoresCards
-                    data={stores}
-                    updateStoreDataRes={updateStoreDataRes}
-                    updateAdminStoreAccess={updateAdminStoreAccess}
-                />
+                <StoresCards data={stores} updateStoreDataRes={updateStoreDataRes} />
             </Box>
         </>
     );

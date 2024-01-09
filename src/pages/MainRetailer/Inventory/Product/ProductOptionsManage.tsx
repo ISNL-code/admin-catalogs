@@ -1,7 +1,7 @@
 import Loader from 'components/atoms/Loader/Loader';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import { useEffect, useState } from 'react';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import ProductsManageTabsPanel from 'components/organisms/Panels/ProductsManageTabsPanel';
 import {
@@ -17,6 +17,7 @@ import PromoForm from './components/PromoForm';
 import { useOptionsApi } from 'api/useOptionsApi';
 
 const ProductOptionsManage = () => {
+    const navigate = useNavigate();
     const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
     const [optionsAttributes, setOptionsAttributes] = useState<OptionsValueInterface[] | any>([]);
@@ -55,7 +56,16 @@ const ProductOptionsManage = () => {
             {loadListOfOptions && <Loader />}
             <InventoryNavigation />
             <PageHeader title={string?.options}>
-                <ActionPanel button={[]} />
+                <ActionPanel
+                    button={[
+                        {
+                            name: 'cancel',
+                            action: () => {
+                                navigate(`/store-inventory/${storeCode}/products`);
+                            },
+                        },
+                    ]}
+                />
             </PageHeader>
             <ProductsManageTabsPanel
                 nav={[
@@ -79,7 +89,7 @@ const ProductOptionsManage = () => {
                 deleteProductAttribute={deleteProductAttribute}
                 productOptions={productOptionsAttributes}
                 optionsData={optionsAttributes
-                    .filter(el => el.descriptions.some(el => el.description === 'SIZE'))
+                    .filter(el => el.descriptions.some(el => el.description === `SIZE`))
                     .sort((a, b) => {
                         var regex = /[\d|,|.|e|E|\+]+/g;
                         return a.code.match(regex) - b.code.match(regex);
@@ -91,7 +101,7 @@ const ProductOptionsManage = () => {
                 deleteProductAttribute={deleteProductAttribute}
                 productOptions={productOptionsAttributes}
                 optionsData={optionsAttributes
-                    .filter(el => el.descriptions.some(el => el.description === 'PROMO'))
+                    .filter(el => el.descriptions.some(el => el.description === `PROMO`))
                     .sort((a, b) => {
                         var regex = /[\d|,|.|e|E|\+]+/g;
                         return a.code.match(regex) - b.code.match(regex);

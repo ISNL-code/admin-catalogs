@@ -17,7 +17,6 @@ const PromoManage = () => {
     const [buttons, setButtons] = useState([]);
     const [valueData, setValueData] = useState<any>(null);
 
-    const { refetch: checkUnique } = useOptionsApi().useCheckValuesUnique({ code: valueData?.code });
     const { data: valueItemRes, isFetching } = useOptionsApi().useGetValueById({ storeCode, valueId: promoId });
     const { mutateAsync: updateValue } = useOptionsApi().useUpdateValue();
 

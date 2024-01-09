@@ -18,29 +18,23 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CreateDataStore, EditDataStore } from 'types';
 import { COUNTRIES, CURRENCY, LANGUAGES } from 'constants/constants';
 import dayjs from 'dayjs';
-import { validateCreateStore } from 'helpers/validation';
 import { useEffect } from 'react';
 
 const StoreInformation = ({
     data,
     handleChangeStoreData,
-    submitForm,
     isLoading,
     handleSetTitle,
     handleSetActionButtons,
 }: {
-    data: CreateDataStore | EditDataStore;
+    data: EditDataStore;
     handleChangeStoreData: (newData: any) => void;
-    submitForm: (isValid: any) => void;
     isLoading: boolean;
     handleSetTitle;
     handleSetActionButtons;
 }) => {
-    const { storeCode } = useParams();
     const { sx } = useDevice();
     const { string }: any = useOutletContext();
-
-    const isValid = () => validateCreateStore(data);
 
     useEffect(() => {
         handleSetTitle(data?.name);
@@ -51,12 +45,10 @@ const StoreInformation = ({
             {
                 name: 'save',
                 disabled: true,
-                action: () => {
-                    // submitForm(isValid);
-                },
+                action: () => {},
             },
         ]);
-    }, [isLoading, isValid]);
+    }, [isLoading]);
 
     return (
         <Box>
@@ -66,11 +58,9 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            error={!data.name}
-                            value={data.name}
+                            value={data?.name}
                             onChange={e => handleChangeStoreData({ name: e.target.value })}
                             size="small"
-                            required
                             label={string?.store_name}
                             fullWidth
                         />
@@ -79,10 +69,9 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data.code}
+                            value={data?.code}
                             onChange={e => handleChangeStoreData({ code: e.target.value })}
                             size="small"
-                            required
                             label={string?.store_code}
                             fullWidth
                         />
@@ -91,7 +80,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data.phone}
+                            value={data?.phone}
                             onChange={e => handleChangeStoreData({ phone: e.target.value })}
                             type="tel"
                             size="small"
@@ -103,7 +92,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data.email}
+                            value={data?.email}
                             type="email"
                             onChange={e => handleChangeStoreData({ email: e.target.value })}
                             size="small"
@@ -113,15 +102,13 @@ const StoreInformation = ({
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <FormControl fullWidth size="small" disabled>
-                            <InputLabel error={!data.address.country}>{string?.store_country + '*'}</InputLabel>
+                            <InputLabel error={!data?.address?.country}>{string?.store_country + '*'}</InputLabel>
                             <Select
-                                required
-                                error={!data.address.country}
-                                value={data.address.country}
+                                value={data?.address?.country}
                                 onChange={e =>
                                     handleChangeStoreData({
                                         ...data,
-                                        address: { ...data.address, country: e.target.value },
+                                        address: { ...data?.address, country: e.target.value },
                                     })
                                 }
                                 label={string?.store_country + '*'}
@@ -138,7 +125,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data.address.city}
+                            value={data?.address?.city}
                             onChange={e =>
                                 handleChangeStoreData({ address: { ...data.address, city: e.target.value } })
                             }
@@ -151,7 +138,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data.address.postalCode}
+                            value={data?.address?.postalCode}
                             type="number"
                             onChange={e =>
                                 handleChangeStoreData({
@@ -167,7 +154,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data.address.stateProvince}
+                            value={data?.address?.stateProvince}
                             onChange={e =>
                                 handleChangeStoreData({
                                     address: { ...data.address, stateProvince: e.target.value },
@@ -182,7 +169,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data.address.address}
+                            value={data?.address?.address}
                             onChange={e =>
                                 handleChangeStoreData({
                                     address: { ...data.address, address: e.target.value },
@@ -198,7 +185,7 @@ const StoreInformation = ({
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 disabled
-                                value={dayjs(data.inBusinessSince)}
+                                value={dayjs(data?.inBusinessSince)}
                                 onChange={e => {
                                     handleChangeStoreData({ inBusinessSince: e });
                                 }}
@@ -208,7 +195,7 @@ const StoreInformation = ({
                                     textField: {
                                         size: 'small',
                                         fullWidth: true,
-                                        error: !dayjs(data.inBusinessSince),
+                                        error: !dayjs(data?.inBusinessSince),
                                     },
                                 }}
                             />
@@ -217,10 +204,9 @@ const StoreInformation = ({
 
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <FormControl fullWidth size="small" disabled>
-                            <InputLabel error={!data.currency}>{string?.currency + '*'}</InputLabel>
+                            <InputLabel error={!data?.currency}>{string?.currency + '*'}</InputLabel>
                             <Select
-                                value={data.currency}
-                                error={!data.currency}
+                                value={data?.currency}
                                 onChange={e => handleChangeStoreData({ currency: e.target.value })}
                                 label={string?.currency + '*'}
                             >
@@ -235,10 +221,9 @@ const StoreInformation = ({
 
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <FormControl fullWidth size="small" disabled>
-                            <InputLabel error={!data.defaultLanguage}>{string?.default_language + '*'}</InputLabel>
+                            <InputLabel>{string?.default_language + '*'}</InputLabel>
                             <Select
-                                value={data.defaultLanguage}
-                                error={!data.defaultLanguage}
+                                value={data?.defaultLanguage}
                                 onChange={e => handleChangeStoreData({ defaultLanguage: e.target.value })}
                                 label={string?.default_language + '*'}
                             >
@@ -251,7 +236,7 @@ const StoreInformation = ({
                         </FormControl>
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <Typography variant="h3" sx={{ color: !data.supportedLanguages.length ? 'red' : '#ccc' }}>
+                        <Typography variant="h3" sx={{ color: !data?.supportedLanguages?.length ? 'red' : '#ccc' }}>
                             {string?.supported_languages + '*'}
                         </Typography>
                     </Grid>
@@ -263,15 +248,15 @@ const StoreInformation = ({
                                 control={
                                     <Checkbox
                                         disabled={el.code === 'ua'}
-                                        checked={!!data.supportedLanguages.some(lang => lang === el.code)}
+                                        checked={!!data?.supportedLanguages.some(lang => lang === el.code)}
                                         onChange={e => {
                                             if (e.target.checked) {
                                                 handleChangeStoreData({
-                                                    supportedLanguages: [...data.supportedLanguages, el.code],
+                                                    supportedLanguages: [...data?.supportedLanguages, el.code],
                                                 });
                                             } else {
                                                 handleChangeStoreData({
-                                                    supportedLanguages: data.supportedLanguages.filter(
+                                                    supportedLanguages: data?.supportedLanguages.filter(
                                                         lang => el.code !== lang
                                                     ),
                                                 });
@@ -284,15 +269,14 @@ const StoreInformation = ({
                         ))}
                     </Grid>
 
-                    {data.supportedLanguages.map((el, idx) => (
+                    {data?.supportedLanguages?.map((el, idx) => (
                         <Grid key={idx} xs={12} sx={{ p: 1, py: 1.25 }}>
                             <TextField
-                                disabled
                                 InputLabelProps={{ shrink: true }}
-                                value={''}
+                                disabled
+                                value={data?.descriptions?.find(item => item.language === el)?.title}
                                 onChange={e => {}}
                                 size="small"
-                                required
                                 label={string?.store_description + ' ' + el.toUpperCase()}
                                 fullWidth
                             />

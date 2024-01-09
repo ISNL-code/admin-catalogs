@@ -110,7 +110,14 @@ export interface EditDataStore {
     retailer: Boolean;
     logo: null | { path: string };
     //to add
-    image: null | string;
+    mainImage: string;
+    descriptions: any;
+    productImagesOptions: any;
+    mainStoreSettings: any;
+    additionalStoreSettings: any;
+    dataBaseStoreSettings: any;
+    securityStoreSettings: any;
+    storeProductTypes: any;
 }
 
 export interface RetailerStoreInterface {
@@ -126,11 +133,14 @@ export interface RetailerStoreInterface {
     defaultLanguage: string;
     groups: any;
     //to add
-    phone: string | null;
-    manager: boolean;
-    telegram: string | null;
-    viber: string | null;
-    whatsApp: string | null;
+    mainImage: string;
+    descriptions: any;
+    productImagesOptions: any;
+    mainStoreSettings: any;
+    additionalStoreSettings: any;
+    dataBaseStoreSettings: any;
+    securityStoreSettings: any;
+    storeProductTypes: any;
 }
 
 export interface UserProfileInterface {
@@ -203,38 +213,14 @@ export interface StoreInterface {
         user: string;
     };
     //add
-    imgUrl: string; //require
-    description: string; //require
-    imgHeight: number; //require
-    imgWidth: number; //require
-    cropX: number | null;
-    cropY: number | null;
-    withCart: boolean;
-    withFilters: boolean;
-    withFavorites: boolean;
-    withSKUSearch: boolean;
-    withSizes: boolean;
-    withContacts: boolean;
-    withPrices: boolean;
-    addedFavorite: boolean;
-    withShare: boolean;
-    sizesTable: string | null;
-    private: boolean;
-    approvedUsers: {}[];
-    key_password: string | null;
-    productTypes: { id: number; code: string }[];
-    contacts: {
-        managers: [
-            {
-                id: number;
-                first_name: string | null;
-                last_name: string | null;
-                email: string | null;
-                phone_number: string | null;
-                telegram: string | null;
-            }
-        ];
-    } | null;
+    mainImage: string;
+    descriptions: any;
+    productImagesOptions: any;
+    mainStoreSettings: any;
+    additionalStoreSettings: any;
+    dataBaseStoreSettings: any;
+    securityStoreSettings: any;
+    storeProductTypes: any;
 }
 
 export interface ItemDescriptionInterface {
@@ -572,7 +558,7 @@ export interface VariationsInterface {
     defaultValue: boolean;
     option: {
         id: number;
-        code: 'COLOR' | '';
+        code: string;
         type: string;
         readOnly: boolean;
         name: null;
@@ -711,6 +697,45 @@ export interface ModelInterface {
     variationCode: string;
 }
 
+export interface CustomerInterface {
+    id: number;
+    emailAddress: string;
+    billing: {
+        postalCode: null | string;
+        countryCode: null | string;
+        firstName: string;
+        lastName: string;
+        bilstateOther: null | string;
+        company: null | string;
+        phone: string;
+        address: null | string;
+        city: null | string;
+        stateProvince: null | string;
+        billingAddress: false;
+        latitude: null | string;
+        longitude: null | string;
+        zone: null | string;
+        country: string;
+    };
+    delivery: null;
+    gender: string;
+    language: string;
+    firstName: string;
+    lastName: string;
+    provider: null;
+    storeCode: null;
+    userName: string;
+    rating: number;
+    ratingCount: number;
+    attributes: [];
+    groups: {
+        name: string;
+        type: string;
+        id: number;
+    }[];
+    favoriteStores: [];
+}
+
 export interface OrderInterface {
     id: number;
     totals: any[];
@@ -727,7 +752,7 @@ export interface OrderInterface {
     confirmedAddress: boolean;
     comments: null;
     customer: null;
-    products: null;
+    products: ProductInterface[];
     billing: {
         postalCode: null;
         countryCode: null;

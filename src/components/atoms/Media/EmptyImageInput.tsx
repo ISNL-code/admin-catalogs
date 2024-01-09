@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useOutletContext } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
+import Loader from '../Loader/Loader';
 
 interface ImageInterface {
     width: number;
@@ -62,96 +63,100 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
     }, [screenWidth, loading, xxs, xs, s, sm, sx, slx, m, mx, ls, l]);
 
     return (
-        <Dropzone
-            noClick
-            onDrop={(acceptedFiles: any) => {
-                if (['image/jpg', 'image/jpeg', 'image/png', 'image/webp'].includes(acceptedFiles[0].type)) {
-                    async function handleImageUpload() {
-                        const imageFile = acceptedFiles[0];
-                        const options = {
-                            maxSizeMB: 0.05,
-                        };
-                        try {
-                            const compressedFile = await imageCompression(imageFile, options);
-                            addAction(compressedFile);
-                        } catch (error) {
-                            console.log(error);
+        <>
+            {loading && <Loader />}
+            <Dropzone
+                noClick
+                onDrop={(acceptedFiles: any) => {
+                    if (['image/jpg', 'image/jpeg', 'image/png', 'image/webp'].includes(acceptedFiles[0].type)) {
+                        async function handleImageUpload() {
+                            const imageFile = acceptedFiles[0];
+                            const options = {
+                                maxSizeMB: 0.05,
+                            };
+                            try {
+                                const compressedFile = await imageCompression(imageFile, options);
+                                addAction(compressedFile);
+                            } catch (error) {
+                                console.log(error);
+                            }
                         }
+                        handleImageUpload();
+                    } else {
+                        toast.error(string?.wrong_file_format);
                     }
-                    handleImageUpload();
-                } else {
-                    toast.error(string?.wrong_file_format);
-                }
-            }}
-        >
-            {({ getRootProps, getInputProps }) => (
-                <Button variant="text" component="label" sx={{ width: '100%', height: '100%' }}>
-                    <Box
-                        {...getRootProps()}
-                        ref={ref}
-                        sx={{
-                            width: '100%',
-                            height: imgHeight,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            overflow: 'hidden',
-                            cursor: 'pointer',
-                            maxWidth: maxWidth,
-                            backgroundColor: '#ffffff',
-                        }}
-                    >
-                        <input
-                            {...getInputProps()}
-                            hidden
-                            style={{ width: '100%', height: '100%' }}
-                            accept="image/jpg, image/jpeg, image/png, image/webp"
-                            multiple
-                            type="file"
-                            onChange={(event: any) => {
-                                if (
-                                    ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'].includes(
-                                        event.target.files[0].type
-                                    )
-                                ) {
-                                    async function handleImageUpload() {
-                                        const imageFile = event.target.files[0];
-                                        const options = {
-                                            maxSizeMB: 0.05,
-                                        };
-                                        try {
-                                            const compressedFile = await imageCompression(imageFile, options);
-                                            addAction(compressedFile);
-                                        } catch (error) {
-                                            console.log(error);
-                                        }
-                                    }
-                                    handleImageUpload();
-                                } else {
-                                    toast.error(string?.wrong_file_format);
-                                }
-                            }}
-                        />
+                }}
+            >
+                {({ getRootProps, getInputProps }) => (
+                    <Button variant="text" component="label" sx={{ width: '100%', height: '100%' }}>
                         <Box
+                            {...getRootProps()}
+                            ref={ref}
                             sx={{
+                                width: '100%',
+                                height: imgHeight,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                flexDirection: 'column',
-                                gap: 0.5,
+                                overflow: 'hidden',
+                                cursor: 'pointer',
+                                maxWidth: maxWidth,
+                                backgroundColor: '#ffffff',
                             }}
                         >
-                            <Typography>{title}</Typography>
-                            <AddPhotoAlternateIcon fontSize="large" sx={{ my: 0.5 }} />
-                            <Typography>Formats:</Typography>
-                            <Typography sx={{ textTransform: 'lowercase', fontSize: 12 }}>
-                                .jpg .jpeg .png .webp
-                            </Typography>
+                            <input
+                                {...getInputProps()}
+                                hidden
+                                style={{ width: '100%', height: '100%' }}
+                                accept="image/jpg, image/jpeg, image/png, image/webp"
+                                multiple
+                                type="file"
+                                onChange={(event: any) => {
+                                    if (
+                                        ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'].includes(
+                                            event.target.files[0]?.type
+                                        )
+                                    ) {
+                                        async function handleImageUpload() {
+                                            setLoading(true);
+                                            const imageFile = event.target.files[0];
+                                            const options = {
+                                                maxSizeMB: 0.05,
+                                            };
+                                            try {
+                                                const compressedFile = await imageCompression(imageFile, options);
+                                                addAction(compressedFile).finally(() => setLoading(false));
+                                            } catch (error) {
+                                                console.log(error);
+                                            }
+                                        }
+                                        handleImageUpload();
+                                    } else {
+                                        toast.error(string?.wrong_file_format);
+                                    }
+                                }}
+                            />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexDirection: 'column',
+                                    gap: 0.5,
+                                }}
+                            >
+                                <Typography>{title}</Typography>
+                                <AddPhotoAlternateIcon fontSize="large" sx={{ my: 0.5 }} />
+                                <Typography>Formats:</Typography>
+                                <Typography sx={{ textTransform: 'lowercase', fontSize: 12 }}>
+                                    .jpg .jpeg .png .webp
+                                </Typography>
+                            </Box>
                         </Box>
-                    </Box>
-                </Button>
-            )}
-        </Dropzone>
+                    </Button>
+                )}
+            </Dropzone>
+        </>
     );
 };
 

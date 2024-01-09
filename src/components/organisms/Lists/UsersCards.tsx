@@ -27,9 +27,11 @@ const UsersCards = ({ data, updateUsersListData, deleteUser, canEdit }: UsersCar
     const getWidth = () => {
         if (xs) return 12; //475
         if (sx) return 6; //900
-        if (ls) return 4; //1240
-        return 2;
+        if (ls) return 6; //1240
+        return 3;
     };
+
+    if (!data) <></>;
 
     return (
         <>
@@ -63,23 +65,55 @@ const UsersCards = ({ data, updateUsersListData, deleteUser, canEdit }: UsersCar
                                     gap: 1,
                                 }}
                             >
-                                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
                                     <Typography sx={{ width: '30%' }} variant="body1">
                                         {string?.first_name}:
                                     </Typography>
                                     <Typography variant="h5">{item.firstName}</Typography>
                                 </Box>
-                                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
                                     <Typography sx={{ width: '30%' }} variant="body1">
                                         {string?.last_name}:
                                     </Typography>
                                     <Typography variant="h5">{item.lastName}</Typography>
                                 </Box>
-                                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
                                     <Typography sx={{ width: '30%' }} variant="body1">
                                         {string?.email}:
                                     </Typography>
                                     <Typography variant="h5">{item.userName}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                                    <Typography sx={{ width: '30%' }} variant="body1">
+                                        {string?.phone_number}:
+                                    </Typography>
+                                    <Typography variant="h5">{item.contacts?.phone || '---'}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                                    <Typography sx={{ width: '30%' }} variant="body1">
+                                        Viber:
+                                    </Typography>
+                                    <Typography variant="h5">{item.contacts?.viber || '---'}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                                    <Typography sx={{ width: '30%' }} variant="body1">
+                                        WhatsApp:
+                                    </Typography>
+                                    <Typography variant="h5">{item.contacts?.whatsapp || '---'}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                                    <Typography sx={{ width: '30%' }} variant="body1">
+                                        Telegram:
+                                    </Typography>
+                                    <Typography variant="h5">{item.contacts?.telegram || '---'}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                                    <Typography sx={{ width: '30%' }} variant="body1">
+                                        {string?.manager}:
+                                    </Typography>
+                                    <Typography variant="h5">
+                                        {item.options?.manager ? string?.yes : string?.no}
+                                    </Typography>
                                 </Box>
                             </Box>
                             <Box

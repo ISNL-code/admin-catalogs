@@ -27,6 +27,7 @@ import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 import modelFormValidations from 'helpers/Validations/modelFormValidations';
 import { useProductsApi } from 'api/useProductsApi';
+import DeleteModal from 'components/organisms/Modals/DeleteModal';
 
 const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
     const { productId, storeCode } = useParams();
@@ -34,6 +35,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const [variationGroups, setVariationGroups] = useState<any>([]);
     const [initSku, setInitSku] = useState<number | any>(null);
+    const [openModal, setOpenModal] = useState(false);
 
     const { refetch: checkUnique } = useProductsApi().useCheckUniqueModelSku({
         storeCode,
@@ -114,6 +116,24 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                 formik.handleSubmit();
             }}
         >
+            {openModal && (
+                <DeleteModal
+                    close={() => setOpenModal(false)}
+                    string={string}
+                    text={string?.do_you_want_to_delete_model}
+                    action={() => {
+                        deleteVariant({ productId, variantId: variant?.id, storeCode })
+                            .then(_res => {
+                                toast.success(string?.deleted);
+                                updateVariants();
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                toast.error(err.message);
+                            });
+                    }}
+                />
+            )}
             {(loadDelete || loadDeleteVar || loadUpdate || loadMediaFile) && <Loader />}
             <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
                 <Grid p={1} xs={sx ? 12 : 6} sx={{ display: 'flex', gap: 1 }}>
@@ -122,15 +142,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            deleteVariant({ productId, variantId: variant?.id })
-                                .then(_res => {
-                                    toast.success(string?.deleted);
-                                    updateVariants();
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                    toast.error(err.message);
-                                });
+                            setOpenModal(true);
                         }}
                         variant="contained"
                         color="error"

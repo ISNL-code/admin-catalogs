@@ -16,9 +16,9 @@ export const useProductsApi = () => {
     };
 
     const useSwitchProduct = () =>
-        useMutation(({ id, complete }: any) =>
+        useMutation(({ id, complete, storeCode }: any) =>
             patch({
-                url: `v1/private/product/${id}`,
+                url: `v1/private/product/${id}?store=${storeCode}`,
                 body: {
                     available: complete,
                     quantity: 100000,

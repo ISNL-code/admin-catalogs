@@ -27,7 +27,7 @@ const ColorsCards = ({ data, deleteVariation, deleteColor, setDataList }: CardsI
     const [selectedVariationId, setSelectedVariationId] = useState<null | number>(null);
     const [selectedColorId, setSelectedColorId] = useState<null | number>(null);
 
-    if (!data) return <ProductsListSkeleton />;
+    if (!data) return <></>;
 
     return (
         <>
@@ -52,7 +52,7 @@ const ColorsCards = ({ data, deleteVariation, deleteColor, setDataList }: CardsI
                             })
                             .catch(err => {
                                 console.log(err);
-                                toast.error(err.message);
+                                toast.error(string?.attached_to_the_product_deletion_is_not_possible);
                             })
                     }
                 />

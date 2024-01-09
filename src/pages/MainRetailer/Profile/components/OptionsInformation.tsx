@@ -2,10 +2,14 @@ import {
     Box,
     Button,
     Checkbox,
+    Chip,
     FormControl,
     FormControlLabel,
     InputLabel,
     MenuItem,
+    OutlinedInput,
+    Radio,
+    RadioGroup,
     Select,
     TextField,
     Typography,
@@ -25,6 +29,8 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
+import { PRODUCT_TYPES } from 'dataBase/PRODUCT_TYPES';
+import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
 
 interface OptionsPageInterface {
     data: EditDataStore;
@@ -43,7 +49,7 @@ const OptionsInformation = ({
     handleSetTitle,
     handleSetActionButtons,
 }: OptionsPageInterface) => {
-    const { sx } = useDevice();
+    const { sx, s } = useDevice();
     const { string }: any = useOutletContext();
 
     useEffect(() => {
@@ -54,165 +60,147 @@ const OptionsInformation = ({
         handleSetActionButtons([{ name: 'save', disabled: true, action: () => {} }]);
     }, []);
 
+    if (!data?.mainStoreSettings || !data?.additionalStoreSettings) return <></>;
+
     return (
         <>
             <Grid container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
-                <Grid xs={sx ? 12 : 6} sx={{ p: 1, position: 'relative' }}>
+                <Grid xs={sx ? 12 : 6} sx={{ p: 1 }}>
+                    <Typography variant="h3"> {string?.logo}</Typography>
                     <Box
                         sx={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '100%',
                             border: '1px solid #ccc',
-                            borderRadius: 1,
+                            height: '400px',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
                         }}
                     >
-                        <Typography sx={{ position: 'absolute', top: 15, left: 20, color: 'gray' }}>
-                            {string?.logo}
-                        </Typography>
-                        <Box sx={{ minHeight: '300px', opacity: data.logo?.path ? 1 : 0 }}>
-                            <Box
-                                sx={{
-                                    minWidth: '160px',
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%,-50%)',
-                                }}
-                            >
-                                <Image width={1} height={1} imgUrl={data.logo?.path as any} maxWidth="200px" />
-                            </Box>
-                        </Box>
-
-                        <Button
-                            variant="text"
-                            component="label"
-                            sx={{
-                                padding: 0,
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%,-50%)',
-                                opacity: data.logo?.path ? 0 : 1,
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    width: 245,
-                                    height: 245,
-                                    borderRadius: '50%',
-                                    border: '4px dotted #ccc',
-                                    overflow: 'hidden',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: '#fff',
-                                }}
-                            >
-                                {string?.download_logo}
-                            </Box>
-
-                            <input
-                                disabled
-                                hidden
-                                accept="image/*, video/*"
-                                multiple
-                                type="file"
-                                onChange={(event: any) => {
-                                    async function handleImageUpload() {
-                                        const imageFile = event.target.files[0];
-
-                                        const options = {
-                                            maxSizeMB: 0.1,
-                                            maxWidthOrHeight: 1920,
-                                        };
-                                        try {
-                                            const compressedFile = await imageCompression(imageFile, options);
-                                            uploadLogo({ storeCode: data.code, img: compressedFile }).then(() => {
-                                                refreshStoreData();
-                                            });
-                                        } catch (err) {
-                                            console.log(err);
-                                            toast.error('Error');
-                                        }
-                                    }
-                                    handleImageUpload();
+                        {data?.logo?.path ? (
+                            <>
+                                <Button
+                                    disabled
+                                    variant="outlined"
+                                    component="label"
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 5,
+                                        right: 5,
+                                        zIndex: 1,
+                                        width: 100,
+                                        height: 30,
+                                        backgroundColor: 'white',
+                                        '&:hover': { backgroundColor: 'white' },
+                                    }}
+                                >
+                                    <Box>
+                                        {string?.replace}
+                                        <Box sx={{ visibility: 'hidden', width: 0, height: 0 }}>
+                                            <EmptyImageInput
+                                                width={1}
+                                                height={1}
+                                                title=""
+                                                addAction={val => {
+                                                    uploadLogo({ storeCode: data?.code, img: val }).then(() => {
+                                                        refreshStoreData();
+                                                    });
+                                                }}
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Button>
+                                <Box
+                                    sx={{
+                                        position: 'absolute',
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Image
+                                        width={1}
+                                        height={1}
+                                        imgUrl={data?.logo?.path as any}
+                                        maxWidth={s ? '75%' : '40%'}
+                                    />
+                                </Box>
+                            </>
+                        ) : (
+                            <EmptyImageInput
+                                width={1}
+                                height={1}
+                                title=""
+                                addAction={val => {
+                                    uploadLogo({ storeCode: data?.code, img: val }).then(() => {
+                                        refreshStoreData();
+                                    });
                                 }}
                             />
-                        </Button>
+                        )}
                     </Box>
                 </Grid>
-                <Grid xs={sx ? 12 : 6} sx={{ p: 1, position: 'relative' }}>
+                <Grid xs={sx ? 12 : 6} sx={{ p: 1 }}>
+                    <Typography variant="h3"> {string?.store_image} (Feature)</Typography>
                     <Box
                         sx={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '100%',
                             border: '1px solid #ccc',
-                            borderRadius: 1,
+                            height: '400px',
+                            overflow: 'hidden',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
                         }}
                     >
-                        <Typography sx={{ position: 'absolute', top: 15, left: 20, color: 'gray' }}>
-                            {string?.store_image}
-                        </Typography>
-
-                        <Box sx={{ minHeight: '300px', opacity: data.image ? 1 : 0 }}>
-                            <Box
-                                sx={{
-                                    minWidth: '245px',
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%,-50%)',
-                                }}
-                            >
-                                <Image width={1} height={1} imgUrl="" maxWidth="200px" />
-                            </Box>
-                        </Box>
-
-                        <Button
-                            variant="text"
-                            component="label"
-                            sx={{
-                                padding: 0,
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%,-50%)',
-                                opacity: data.image ? 0 : 1,
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    width: 245,
-                                    height: 245,
-                                    borderRadius: '50%',
-                                    border: '4px dotted #ccc',
-                                    overflow: 'hidden',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: '#fff',
-                                }}
-                            >
-                                {string?.download_image}
-                            </Box>
-
-                            <input
-                                disabled
-                                hidden
-                                accept="image/*, video/*"
-                                multiple
-                                type="file"
-                                onChange={event => {}}
-                            />
-                        </Button>
+                        {data?.mainImage ? (
+                            <>
+                                <Button
+                                    disabled
+                                    variant="outlined"
+                                    component="label"
+                                    sx={{
+                                        position: 'absolute',
+                                        top: 5,
+                                        right: 5,
+                                        zIndex: 1,
+                                        width: 100,
+                                        height: 30,
+                                        backgroundColor: 'white',
+                                        '&:hover': { backgroundColor: 'white' },
+                                    }}
+                                >
+                                    <Box>
+                                        {string?.replace}
+                                        <Box sx={{ visibility: 'hidden', width: 0, height: 0 }}>
+                                            <EmptyImageInput width={1} height={1} title="" />
+                                        </Box>
+                                    </Box>
+                                </Button>
+                                <Box
+                                    sx={{
+                                        position: 'absolute',
+                                        width: '100%',
+                                        height: '100%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Image
+                                        width={1}
+                                        height={1}
+                                        imgUrl={data?.mainImage as any}
+                                        maxWidth={s ? '75%' : '40%'}
+                                    />
+                                </Box>
+                            </>
+                        ) : (
+                            <EmptyImageInput width={1} height={1} title="" />
+                        )}
                     </Box>
                 </Grid>
                 <Grid xs={12} sx={{ px: 1, mt: 3 }}>
@@ -220,50 +208,108 @@ const OptionsInformation = ({
                 </Grid>
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
-                        disabled
                         InputLabelProps={{ shrink: true }}
-                        value={''}
+                        value={data?.productImagesOptions?.width}
                         onChange={e => {}}
                         size="small"
                         label={string?.width}
                         fullWidth
+                        disabled
                     />
                 </Grid>
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
-                        disabled
                         InputLabelProps={{ shrink: true }}
-                        value={''}
+                        value={data?.productImagesOptions?.height}
                         onChange={e => {}}
                         size="small"
                         label={string?.height}
                         fullWidth
+                        disabled
                     />
                 </Grid>
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
-                        disabled
                         InputLabelProps={{ shrink: true }}
-                        value={''}
+                        value={data?.productImagesOptions?.cropX}
                         onChange={e => {}}
                         size="small"
                         label={string?.crop_width}
                         fullWidth
+                        disabled
                     />
                 </Grid>
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
-                        disabled
                         InputLabelProps={{ shrink: true }}
-                        value={''}
+                        value={data?.productImagesOptions?.cropY}
                         onChange={e => {}}
                         size="small"
                         label={string?.crop_height}
                         fullWidth
+                        disabled
                     />
                 </Grid>
                 <Grid xs={12} sx={{ px: 1, mt: 3 }}>
                     <Typography variant="h3">{string?.functions_settings}</Typography>
+                </Grid>
+                <Grid container xs={sx ? 12 : 6}>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.skuSearch} />}
+                            label={string?.search_by_sku}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.colors} />}
+                            label={string?.colors}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.prices} />}
+                            label={string?.prices}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.sizes} />}
+                            label={string?.sizes}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.contacts} />}
+                            label={string?.contacts}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.categories} />}
+                            label={string?.categories}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.browserSearch} />}
+                            label={string?.available_in_browser}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.productShare} />}
+                            label={string?.share_product_link}
+                            disabled
+                        />
+                    </Grid>
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
@@ -273,36 +319,168 @@ const OptionsInformation = ({
                         <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.favorites} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.contacts} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.promo} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.filter} />
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.video} />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.size_table} />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.call_back} />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
                             control={<Checkbox defaultChecked disabled />}
-                            label={string?.share_product_link}
+                            label={string?.show_in_market}
                         />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={'Apple Store'} />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={'Play Market'} />
                     </Grid>
                 </Grid>
-                <Grid container xs={sx ? 12 : 6}>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel
-                            control={<Checkbox defaultChecked disabled />}
-                            label={string?.search_by_sku}
-                        />
+
+                <Grid container xs={12} sx={{ alignItems: 'center', borderTop: '1px solid #ccc' }}>
+                    <Grid p={1} xs={sx ? 12 : 'auto'}>
+                        <Typography variant="h4" sx={{ width: 140 }}>
+                            {string?.users}
+                        </Typography>
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.prices} />
+                        <FormControl>
+                            <RadioGroup
+                                row
+                                aria-labelledby="users-radio-group"
+                                name="row-radio-buttons-group"
+                                value={data?.dataBaseStoreSettings?.users}
+                                onChange={() => {}}
+                            >
+                                <FormControlLabel value="2" control={<Radio disabled />} label="2" />
+                                <FormControlLabel value="5" control={<Radio disabled />} label="5" />
+                                <FormControlLabel value="10" control={<Radio disabled />} label="10" />
+                                <FormControlLabel
+                                    value={'unlimited'}
+                                    control={<Radio disabled />}
+                                    label={string?.unlimited}
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container xs={12} sx={{ alignItems: 'center', borderTop: '1px solid #ccc' }}>
+                    <Grid p={1} xs={sx ? 12 : 'auto'}>
+                        <Typography variant="h4" sx={{ width: 140 }}>
+                            {string?.products}
+                        </Typography>
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.sizes} />
+                        <FormControl>
+                            <RadioGroup
+                                row
+                                aria-labelledby="users-radio-group"
+                                name="row-radio-buttons-group"
+                                value={data?.dataBaseStoreSettings?.products}
+                                onChange={() => {}}
+                            >
+                                <FormControlLabel value="50" control={<Radio disabled />} label="50" />
+                                <FormControlLabel value="200" control={<Radio disabled />} label="200" />
+                                <FormControlLabel value="500" control={<Radio disabled />} label="500" />
+                                <FormControlLabel
+                                    value={'unlimited'}
+                                    control={<Radio disabled />}
+                                    label={string?.unlimited}
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container xs={12} sx={{ alignItems: 'center', borderTop: '1px solid #ccc' }}>
+                    <Grid p={1} xs={sx ? 12 : 'auto'}>
+                        <Typography variant="h4" sx={{ width: 140 }}>
+                            {string?.models}
+                        </Typography>
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.colors} />
+                        <FormControl>
+                            <RadioGroup
+                                row
+                                aria-labelledby="users-radio-group"
+                                name="row-radio-buttons-group"
+                                value={data?.dataBaseStoreSettings?.productModels}
+                                onChange={() => {}}
+                            >
+                                <FormControlLabel value="5" control={<Radio disabled />} label="5" />
+                                <FormControlLabel value="10" control={<Radio disabled />} label="10" />
+                                <FormControlLabel value="15" control={<Radio disabled />} label="15" />
+                                <FormControlLabel
+                                    value={'unlimited'}
+                                    control={<Radio disabled />}
+                                    label={string?.unlimited}
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container xs={12} sx={{ alignItems: 'center', borderTop: '1px solid #ccc' }}>
+                    <Grid p={1} xs={sx ? 12 : 'auto'}>
+                        <Typography variant="h4" sx={{ width: 140 }}>
+                            {string?.photo}
+                        </Typography>
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.promo} />
+                        <FormControl>
+                            <RadioGroup
+                                row
+                                aria-labelledby="users-radio-group"
+                                name="row-radio-buttons-group"
+                                value={data?.dataBaseStoreSettings?.photos}
+                                onChange={() => {}}
+                            >
+                                <FormControlLabel value="5" control={<Radio disabled />} label="5" />
+                                <FormControlLabel value="10" control={<Radio disabled />} label="10" />
+                                <FormControlLabel value="15" control={<Radio disabled />} label="15" />
+                                <FormControlLabel
+                                    value={'unlimited'}
+                                    control={<Radio disabled />}
+                                    label={string?.unlimited}
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    xs={12}
+                    sx={{ alignItems: 'center', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}
+                >
+                    <Grid p={1} xs={sx ? 12 : 'auto'}>
+                        <Typography variant="h4" sx={{ width: 140 }}>
+                            {string?.video}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControl>
+                            <RadioGroup
+                                row
+                                aria-labelledby="users-radio-group"
+                                name="row-radio-buttons-group"
+                                value={data?.dataBaseStoreSettings?.videos}
+                                onChange={() => {}}
+                            >
+                                <FormControlLabel value="1" control={<Radio disabled />} label="1" />
+                                <FormControlLabel value="3" control={<Radio disabled />} label="3" />
+                                <FormControlLabel value="5" control={<Radio disabled />} label="5" />
+                                <FormControlLabel
+                                    value={'unlimited'}
+                                    control={<Radio disabled />}
+                                    label={string?.unlimited}
+                                />
+                            </RadioGroup>
+                        </FormControl>
                     </Grid>
                 </Grid>
 
@@ -311,17 +489,21 @@ const OptionsInformation = ({
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={sx ? 12 : 4} sx={{ p: 1, py: 1.25 }}>
-                        <FormControlLabel disabled control={<Checkbox />} label={string?.private_store} />
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.securityStoreSettings?.private} />}
+                            label={string?.private_store}
+                            disabled
+                        />
                     </Grid>
                     <Grid xs={sx ? 12 : 8} sx={{ p: 1, py: 1.25 }}>
                         <TextField
-                            disabled
                             InputLabelProps={{ shrink: true }}
-                            value={''}
+                            value={data?.securityStoreSettings?.securityKey}
                             onChange={e => {}}
                             size="small"
                             label={string?.store_key}
                             fullWidth
+                            disabled
                         />
                     </Grid>
                 </Grid>
@@ -329,12 +511,26 @@ const OptionsInformation = ({
                     <Typography variant="h3">{string?.product_settings}</Typography>
                 </Grid>
                 <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
-                    <FormControl disabled fullWidth size="small">
+                    <FormControl fullWidth size="small" disabled>
                         <InputLabel>{string?.product_types}</InputLabel>
-                        <Select value={''} label={string?.product_types + '*'} onChange={e => {}}>
-                            {[].map(el => (
-                                <MenuItem key={el} value={el}>
-                                    {el}
+                        <Select
+                            size="small"
+                            value={data?.storeProductTypes?.map(el => el.code) || []}
+                            label={string?.product_types + '*'}
+                            onChange={e => {}}
+                            multiple
+                            input={<OutlinedInput size="small" label={string?.product_types + '*'} />}
+                            renderValue={selected => (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {selected?.map(value => (
+                                        <Chip size="small" key={value} label={value} />
+                                    ))}
+                                </Box>
+                            )}
+                        >
+                            {PRODUCT_TYPES.map((el, idx) => (
+                                <MenuItem key={idx} value={el.code}>
+                                    {el.code}
                                 </MenuItem>
                             ))}
                         </Select>

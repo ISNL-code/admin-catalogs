@@ -5,45 +5,18 @@ import { useStoresApi } from 'api/useStoresApi';
 import Loader from 'components/atoms/Loader/Loader';
 import { useUserApi } from 'api/useUserApi';
 import StoresTabsPanel from 'components/organisms/Panels/StoresTabsPanel';
-import { Box, Typography } from '@mui/material';
-import toast from 'react-hot-toast';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import StoreInformation from './components/StoreInformation';
 import UserInformation from './components/UserInformation';
 import OptionsInformation from './components/OptionsInformation';
 import PageHeader from 'components/organisms/Panels/PageHeader';
-
-const INITIAL_STORE_DATA = {
-    name: '',
-    code: '',
-    phone: '',
-    email: '',
-    address: {
-        searchControl: '',
-        stateProvince: '',
-        country: 'UA',
-        address: '',
-        postalCode: '',
-        city: '',
-    },
-    supportedLanguages: [],
-    defaultLanguage: '',
-    currency: '',
-    currencyFormatNational: false, //not in use
-    weight: '', //not in use
-    dimension: '', //not in use
-    inBusinessSince: new Date(),
-    useCache: false, //not in use
-    retailer: false, //not in use
-    logo: null,
-    //add
-    image: null,
-};
+import { STORES_DATA } from 'dataBase/STORES';
+import { USERS_DATA } from 'dataBase/USERS';
 
 const ManageStore = () => {
     const { userProfile, string }: RetailerContextInterface = useOutletContext();
     const { storeCode } = useParams();
-    const [storeData, setStoreData] = useState<EditDataStore>(INITIAL_STORE_DATA);
+    const [storeData, setStoreData] = useState<EditDataStore | any>();
     const [usersList, setUsersList] = useState<UserListInterface[] | null>(null);
     const [title, setTitle] = useState('');
     const [buttons, setButtons] = useState([]);
@@ -70,6 +43,7 @@ const ManageStore = () => {
         if (!storeDataRes || isFetching) return;
         setStoreData({
             ...storeDataRes.data,
+            ...STORES_DATA.find(({ code }) => code === storeDataRes.data.code),
             supportedLanguages: storeDataRes.data.supportedLanguages?.map(el => {
                 return el.code;
             }),
@@ -78,22 +52,12 @@ const ManageStore = () => {
 
     useEffect(() => {
         if (!usersListData) return;
-        setUsersList(usersListData.data.data);
-    }, [usersListData]);
-
-    const submitStoresForm = isValid => {
-        if (!isValid()) return;
-        updateStoreData(storeData)
-            .then(res => {
-                if (res.status === 200) {
-                    if (res.status === 200) toast.success(string?.updated);
-                }
+        setUsersList(
+            usersListData.data.data.map(el => {
+                return { ...el, ...USERS_DATA.find(({ emailAddress }) => emailAddress === el.emailAddress) };
             })
-            .catch(err => {
-                console.log(err);
-                toast.error(err.message);
-            });
-    };
+        );
+    }, [usersListData]);
 
     const handleChangeStoreData = newData => {
         setStoreData({ ...storeData, ...newData });
@@ -133,7 +97,6 @@ const ManageStore = () => {
                         <StoreInformation
                             data={storeData}
                             handleChangeStoreData={handleChangeStoreData}
-                            submitForm={submitStoresForm}
                             isLoading={isLoading}
                             handleSetTitle={handleSetTitle}
                             handleSetActionButtons={handleSetActionButtons}

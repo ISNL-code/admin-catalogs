@@ -8,6 +8,7 @@ import Header from './HeaderRetailer';
 import NavigationHeader from './NavigationRetailer';
 import { StoreInterface, UserProfileInterface } from 'types';
 import { useStoresApi } from 'api/useStoresApi';
+import { STORES_DATA } from 'dataBase/STORES';
 
 interface MainLayoutInterface {
     lang: { code: string; label: string };
@@ -35,7 +36,7 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
 
     useEffect(() => {
         if (!storeDataRes || isFetching) return;
-        setStoreData(storeDataRes.data);
+        setStoreData({ ...storeDataRes.data, ...STORES_DATA.find(({ code }) => code === storeDataRes.data.code) });
     }, [storeDataRes]);
 
     useEffect(() => {

@@ -13,35 +13,53 @@ export const useProductCategoriesApi = () => {
         );
     };
 
-    // const useAddCategoryToShop = () =>
-    //     useMutation(({ code, parent, descriptions }) =>
-    //         post({
-    //             url: `v1/private/category`,
-    //             body: {
-    //                 code: code + Date.now(),
-    //                 sortOrder: 0,
-    //                 visible: true,
-    //                 parent: {
-    //                     code: parent.parentCode,
-    //                     id: parent.parentID,
-    //                 },
-    //                 descriptions,
-    //             },
-    //         })
-    //     );
+    const useGetShopCategoryBuId = ({ categoryId, storeCode }) => {
+        return useQuery(
+            //query key
+            ['get-shop-category-by-id'],
+            //get function
+            () => get({ url: `/v1/private/category/${categoryId}?lang=_all&store=${storeCode}` }),
+            { enabled: false }
+        );
+    };
+
+    const useAddCategoryToShop = () =>
+        useMutation(({ storeCode, data }: any) =>
+            post({
+                url: `v1/private/category?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            })
+        );
+
+    const useDeleteCategoryToShop = () =>
+        useMutation(({ storeCode, categoryId }: any) =>
+            remove({
+                url: `v1/private/category/${categoryId}?store=${storeCode}`,
+            })
+        );
 
     const useAddCategoryToProduct = () =>
-        useMutation(({ productId, categoryId }: any) =>
+        useMutation(({ productId, categoryId, storeCode }: any) =>
             post({
-                url: `v1/private/product/${productId}/category/${categoryId}`,
+                url: `v1/private/product/${productId}/category/${categoryId}?store=${storeCode}`,
                 body: {},
             })
         );
 
+    const useUpdateCategoryToShop = () =>
+        useMutation(({ storeCode, data }: any) =>
+            put({
+                url: `v1/private/category/${data.id}?store=${storeCode}`,
+                body: { ...data },
+            })
+        );
+
     const useDeleteCategoryToProduct = () =>
-        useMutation(({ productId, categoryId }: any) =>
+        useMutation(({ productId, categoryId, storeCode }: any) =>
             remove({
-                url: `v1/private/product/${productId}/category/${categoryId}`,
+                url: `v1/private/product/${productId}/category/${categoryId}?store=${storeCode}`,
             })
         );
 
@@ -51,11 +69,26 @@ export const useProductCategoriesApi = () => {
         );
     };
 
+    const useCheckCategoryUnique = ({ code, storeCode }) =>
+        useQuery(
+            ['get-category-unique'],
+
+            () =>
+                get({
+                    url: `v1/private/category/unique?code=${code}&store=${storeCode}`,
+                }),
+            { enabled: false }
+        );
+
     return {
         useGetAllProductsCategories,
         useAddCategoryToProduct,
         useDeleteCategoryToProduct,
         useGetSelectedCategories,
-        // useAddCategoryToShop,
+        useAddCategoryToShop,
+        useDeleteCategoryToShop,
+        useUpdateCategoryToShop,
+        useCheckCategoryUnique,
+        useGetShopCategoryBuId,
     };
 };

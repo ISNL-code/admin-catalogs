@@ -26,6 +26,7 @@ const ActionPanel = ({ button }) => {
                     action={() => action('cancel')}
                     active={!disabled('cancel')}
                     disabled={disabled('cancel')}
+                    type="button"
                 />
             )}
             {isShown('save') && (
@@ -36,6 +37,7 @@ const ActionPanel = ({ button }) => {
                     action={() => action('save')}
                     active={!disabled('save')}
                     disabled={disabled('save')}
+                    type="submit"
                 />
             )}
             {isShown('create') && (
@@ -46,6 +48,7 @@ const ActionPanel = ({ button }) => {
                     action={() => action('create')}
                     active={!disabled('create')}
                     disabled={disabled('create')}
+                    type="button"
                 />
             )}
             {isShown('activate') && (
@@ -57,6 +60,7 @@ const ActionPanel = ({ button }) => {
                     active={!disabled('activate')}
                     disabled={disabled('activate')}
                     tooltip={tooltip('activate')}
+                    type="button"
                 />
             )}
             {isShown('deactivate') && (
@@ -68,6 +72,7 @@ const ActionPanel = ({ button }) => {
                     active={!disabled('deactivate')}
                     disabled={disabled('deactivate')}
                     tooltip={tooltip('deactivate')}
+                    type="button"
                 />
             )}
         </Box>

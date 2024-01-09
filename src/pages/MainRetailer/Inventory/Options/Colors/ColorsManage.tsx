@@ -18,6 +18,7 @@ const ColorsManage = () => {
     const [buttons, setButtons] = useState([]);
     const [valueData, setValueData] = useState<any>(null);
     const [valuesList, setValuesList] = useState<any>([]);
+    const [initColor, setInitColor] = useState(null);
 
     const { data: valuesListRes } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500 });
     const { data: valueItemRes, isFetching } = useOptionsApi().useGetValueById({ storeCode, valueId: colorId });
@@ -27,7 +28,7 @@ const ColorsManage = () => {
         initialValues: valueData,
         validationSchema: colorFormValidations,
         onSubmit: values => {
-            if (valuesList?.some(el => el?.code === valueData?.code && el.code !== valueData.code)) {
+            if (valuesList?.some(el => el?.code === valueData?.code && initColor !== valueData?.code)) {
                 toast.error(string?.color_with_this_code_is_registered);
             } else {
                 updateValue({ storeCode, data: values })
@@ -62,6 +63,7 @@ const ColorsManage = () => {
                     };
             }),
         });
+        setInitColor(valueItemRes.data.code);
     }, [valueItemRes]);
 
     useEffect(() => {

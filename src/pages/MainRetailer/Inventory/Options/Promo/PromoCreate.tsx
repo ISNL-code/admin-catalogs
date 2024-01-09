@@ -23,9 +23,8 @@ const PromoCreate = () => {
     const [title, setTitle] = useState('');
     const [buttons, setButtons] = useState([]);
     const [valueData, setValueData] = useState(INITIAL_VALUE_DATA);
-
     const { mutateAsync: createValue, isLoading: loadCreateValue } = useOptionsApi().useCreateValue();
-    const { refetch: checkUnique } = useOptionsApi().useCheckValuesUnique({ code: valueData.code });
+    const { refetch: checkUnique } = useOptionsApi().useCheckValuesUnique({ code: valueData.code, storeCode });
 
     const formik = useFormik({
         initialValues: valueData,

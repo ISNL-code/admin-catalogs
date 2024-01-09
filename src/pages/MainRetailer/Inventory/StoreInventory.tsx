@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Navigate, Route, Routes, useOutletContext, useParams } from 'react-router-dom';
 import { RetailerContextInterface } from 'types';
 import BrandsList from './Brands/BrandsList';
-import CategoriesList from './Categories/CategoriesList';
+import CategoriesList from './Categories/CategoriesListManage';
 import ProductsList from './Product/ProductsList';
 import InventoryNavigation from './InventoryNavigation';
 import ColorsList from './Options/Colors/ColorsList';

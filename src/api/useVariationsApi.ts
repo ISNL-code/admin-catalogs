@@ -33,9 +33,9 @@ export const useVariationsApi = () => {
         );
 
     const useCreateVariationGroup = () =>
-        useMutation(({ variantId }: any) => {
+        useMutation(({ variantId, storeCode }: any) => {
             return post({
-                url: `/v2/private/product/productVariantGroup`,
+                url: `/v2/private/product/productVariantGroup?store=${storeCode}`,
                 body: {
                     productVariants: [variantId],
                 },
@@ -54,24 +54,24 @@ export const useVariationsApi = () => {
     };
 
     const useSetImageOrder = () =>
-        useMutation(({ variationGroupId, imageId, order }: any) =>
+        useMutation(({ variationGroupId, imageId, order, storeCode }: any) =>
             patch({
-                url: `/v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?order=${order}`,
+                url: `/v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?order=${order}&store=${storeCode}`,
                 body: {},
             })
         );
 
     const useDeleteVariantMedia = () =>
-        useMutation(({ variationGroupId, imageId }: any) =>
+        useMutation(({ variationGroupId, imageId, storeCode }: any) =>
             remove({
-                url: `v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}`,
+                url: `v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?store=${storeCode}`,
             })
         );
 
     const useDeleteProductVariant = () =>
-        useMutation(({ productId, variantId }: any) =>
+        useMutation(({ productId, variantId, storeCode }: any) =>
             remove({
-                url: `v2/private/product/${productId}/variant/${variantId}`,
+                url: `v2/private/product/${productId}/variant/${variantId}?store=${storeCode}`,
             })
         );
 
@@ -86,7 +86,7 @@ export const useVariationsApi = () => {
         );
 
     const useAddVariantMedia = () =>
-        useMutation(({ variationGroupId, mediaFile }: any) => {
+        useMutation(({ variationGroupId, mediaFile, storeCode }: any) => {
             const file = new File(
                 [mediaFile],
                 mediaFile.name
@@ -100,7 +100,7 @@ export const useVariationsApi = () => {
             formData.append('file', file);
 
             return post({
-                url: `/v2/private/product/productVariantGroup/${variationGroupId}/image`,
+                url: `/v2/private/product/productVariantGroup/${variationGroupId}/image?store=${storeCode}`,
                 body: formData,
             });
         });

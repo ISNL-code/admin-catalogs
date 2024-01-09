@@ -1,5 +1,4 @@
 import { Route, Routes, useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { useDevice } from 'hooks/useDevice';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import Loader from 'components/atoms/Loader/Loader';
 import ProductsManageTabsPanel from 'components/organisms/Panels/ProductsManageTabsPanel';
@@ -37,11 +36,8 @@ const INIT_PRODUCT_DATA = {
 const ProductCreate = () => {
     const navigate = useNavigate();
     const { storeCode } = useParams();
-    const { sx } = useDevice();
     const { string, storeData }: any = useOutletContext();
     const [product, setProduct] = useState(INIT_PRODUCT_DATA);
-    const [title, setTitle] = useState('');
-    const [buttons, setButtons] = useState([]);
     const [brandsList, setBrandsList] = useState<BrandsInterface[] | any>(null);
 
     const { mutateAsync: createProduct, isLoading } = useProductsApi().useCreateProduct();
@@ -92,14 +88,6 @@ const ProductCreate = () => {
         setBrandsList(brandsRes?.data.manufacturers as BrandsInterface[]);
     }, [brandsRes]);
 
-    const handleSetTitle = title => {
-        setTitle(title);
-    };
-
-    const handleSetActionButtons = buttons => {
-        setButtons(buttons);
-    };
-
     return (
         <form
             onSubmit={e => {
@@ -112,6 +100,12 @@ const ProductCreate = () => {
             <PageHeader title={string?.create}>
                 <ActionPanel
                     button={[
+                        {
+                            name: 'cancel',
+                            action: () => {
+                                navigate(-1);
+                            },
+                        },
                         {
                             name: 'save',
                             action: () => {},

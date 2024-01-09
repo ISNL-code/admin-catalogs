@@ -28,7 +28,7 @@ const PromoList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsIn
 
     useEffect(() => {
         if (!dataRes || isFetching) return;
-        setDataList(dataRes.data.optionValues.filter(el => el.descriptions.some(el => el.description === 'PROMO')));
+        setDataList(dataRes.data.optionValues.filter(el => el.descriptions.some(el => el.description === `PROMO`)));
     }, [dataRes]);
 
     useEffect(() => {

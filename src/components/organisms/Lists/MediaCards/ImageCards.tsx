@@ -18,15 +18,17 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateVariants, addMedia }) => {
-    const { productId } = useParams();
-    const { string }: any = useOutletContext();
+    const { storeCode } = useParams();
+    const { string, storeData }: any = useOutletContext();
     const [images, setImages] = useState<any>([]);
     const [imageSlots, setImageSlots] = useState<any>([]);
     const [video, setVideo] = useState<any>([]);
     const [videoSlots, setVideoSlots] = useState<any>([]);
 
-    const imageQuota = 5;
-    const videoQuota = 1;
+    const imageQuota = storeData?.dataBaseStoreSettings.photos;
+    const videoQuota = storeData?.dataBaseStoreSettings.videos;
+    const imageWidth = storeData?.productImagesOptions.width;
+    const imageHeight = storeData?.productImagesOptions.height;
 
     useEffect(() => {
         const imageData = data.filter(el => !el.imageName.includes('mp4'));
@@ -69,7 +71,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
         }));
         setImages(updatedImages);
 
-        setImageOrder({ variationGroupId, imageId: result.draggableId, order: result.destination.index });
+        setImageOrder({ variationGroupId, imageId: result.draggableId, order: result.destination.index, storeCode });
     };
 
     return (
@@ -120,13 +122,17 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                                         }}
                                                     >
                                                         <Image
-                                                            height={9}
-                                                            width={6}
+                                                            height={imageHeight}
+                                                            width={imageWidth}
                                                             imgUrl={image?.imageUrl}
                                                             isDrag
                                                             isRemovable
                                                             deleteAction={() =>
-                                                                deleteFile({ variationGroupId, imageId: image?.id })
+                                                                deleteFile({
+                                                                    variationGroupId,
+                                                                    imageId: image?.id,
+                                                                    storeCode,
+                                                                })
                                                                     .then(_res => {
                                                                         updateVariants();
                                                                     })
@@ -169,11 +175,11 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                     }}
                                 >
                                     <EmptyImageInput
-                                        height={9}
-                                        width={6}
+                                        height={imageHeight}
+                                        width={imageWidth}
                                         title={`${string?.image} ${slot}`}
                                         addAction={val => {
-                                            addMedia({ variationGroupId, mediaFile: val })
+                                            addMedia({ variationGroupId, mediaFile: val, storeCode })
                                                 .then(() => {
                                                     updateVariants();
                                                 })
@@ -210,12 +216,12 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                     }}
                                 >
                                     <Video
-                                        height={9}
-                                        width={6}
+                                        height={imageHeight}
+                                        width={imageWidth}
                                         imgUrl={image?.imageUrl}
                                         isRemovable
                                         deleteAction={() =>
-                                            deleteFile({ variationGroupId, imageId: image?.id })
+                                            deleteFile({ variationGroupId, imageId: image?.id, storeCode })
                                                 .then(_res => {
                                                     updateVariants();
                                                 })
@@ -252,11 +258,11 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                     }}
                                 >
                                     <EmptyVideoInput
-                                        height={9}
-                                        width={6}
+                                        height={imageHeight}
+                                        width={imageWidth}
                                         title={`${string?.video} ${slot}`}
                                         addAction={val => {
-                                            addMedia({ variationGroupId, mediaFile: val })
+                                            addMedia({ variationGroupId, mediaFile: val, storeCode })
                                                 .then(() => {
                                                     updateVariants();
                                                 })

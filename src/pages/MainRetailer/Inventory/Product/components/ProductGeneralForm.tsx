@@ -68,6 +68,7 @@ const ProductGeneral = ({
                                     />
                                 }
                             >
+                                {!brandsList?.length && <MenuItem>{string?.create_a_brand}</MenuItem>}
                                 {(brandsList as any[])?.map(el => {
                                     return (
                                         <MenuItem key={el.id} value={el.code}>
@@ -151,8 +152,15 @@ const ProductGeneral = ({
                                 #fff 10px
                               )`,
                                 p: 2,
-                                border: '1px solid #ccc',
-                                borderBottom: '1px solid #ccc',
+                                border: '1px solid',
+
+                                borderColor:
+                                    formik?.errors.descriptions &&
+                                    formik.touched.descriptions &&
+                                    formik.errors.descriptions[idx]?.name &&
+                                    formik.touched.descriptions[idx]?.name
+                                        ? '#d32f2f'
+                                        : '#ccc',
                             }}
                         >
                             <Grid xs={12} mb={-1}>

@@ -25,6 +25,26 @@ export const useOptionsApi = () => {
                 })
         );
 
+    const useUpdateOption = () =>
+        useMutation(({ storeCode, data }: any) =>
+            put({
+                url: `v1/private/product/option/${data.id}?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            })
+        );
+
+    const useCreateOption = () =>
+        useMutation(({ storeCode, data }: any) =>
+            post({
+                url: `v1/private/product/option?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            })
+        );
+
     const useGetValueById = ({ storeCode, valueId }): any => {
         return useQuery(
             ['get-value-by-id'],
@@ -82,19 +102,19 @@ export const useOptionsApi = () => {
         );
 
     const useDeleteProductOption = () => {
-        return useMutation(({ productId, attrId }: any) => {
+        return useMutation(({ productId, attrId, storeCode }: any) => {
             return remove({
-                url: `/v1/private/product/${productId}/attribute/${attrId}`,
+                url: `/v1/private/product/${productId}/attribute/${attrId}?store=${storeCode}`,
             });
         });
     };
 
-    const useCheckValuesUnique = ({ code }) => {
+    const useCheckValuesUnique = ({ code, storeCode }) => {
         return useQuery(
             ['get-values-unique'],
             () =>
                 get({
-                    url: `v1/private/product/option/value/unique?code=${code}`,
+                    url: `v1/private/product/option/value/unique?code=${code.replaceAll('#', '')}&store=${storeCode}`,
                 }),
             { enabled: false }
         );
@@ -111,5 +131,7 @@ export const useOptionsApi = () => {
         useUpdateValue,
         useAddProductOption,
         useDeleteProductOption,
+        useCreateOption,
+        useUpdateOption,
     };
 };

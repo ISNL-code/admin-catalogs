@@ -1,5 +1,4 @@
 import {
-    Box,
     Checkbox,
     FormControl,
     FormControlLabel,
@@ -14,14 +13,15 @@ import { useDevice } from 'hooks/useDevice';
 import Grid from '@mui/material/Unstable_Grid2';
 import { RetailerStoreInterface } from 'types';
 import { LANGUAGES } from 'constants/constants';
-import { passwordValidate, validateCreateRetailer } from 'helpers/validation';
 import { useUserApi } from 'api/useUserApi';
 import Loader from 'components/atoms/Loader/Loader';
 import StoresTabsPanel from 'components/organisms/Panels/StoresTabsPanel';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageHeader from 'components/organisms/Panels/PageHeader';
+import { useFormik } from 'formik';
+import createUserFormValidations from 'helpers/Validations/createUserFormValidations';
 
 const INITIAL_USER_DATA = {
     firstName: '',
@@ -40,11 +40,8 @@ const INITIAL_USER_DATA = {
         },
     ],
     //add
-    phone: '',
-    manager: false,
-    telegram: '',
-    viber: '',
-    whatsApp: '',
+    options: { manager: false },
+    contacts: { phone: '', viber: '', whatsapp: '', telegram: '' },
 };
 
 const CreateUser = () => {
@@ -53,49 +50,59 @@ const CreateUser = () => {
     const { sx } = useDevice();
     const { string }: any = useOutletContext();
     const [usersData, setUsersData] = useState<RetailerStoreInterface>(INITIAL_USER_DATA);
-    const isValid = () => validateCreateRetailer(usersData);
 
     const { mutateAsync: checkUniqueEmail } = useUserApi().useCheckUniqueEmailCode();
     const { mutateAsync: createUser, isLoading } = useUserApi().useCreateUser();
 
-    const submitForm = () => {
-        if (!isValid()) return;
+    const formik = useFormik({
+        initialValues: usersData,
+        validationSchema: createUserFormValidations,
+        onSubmit: values => {
+            checkUniqueEmail({
+                unique: usersData.emailAddress,
+            })
+                .then(res => {
+                    if ((res as any).data.exists) {
+                        toast.error(string?.user_with_this_email_is_registered);
+                        return;
+                    }
+                    return res;
+                })
+                .then(res => {
+                    if (res) {
+                        createUser({ storeCode, data: { ...values, store: storeCode } })
+                            .then(_ => {
+                                if (res.status === 200) toast.success(string?.created);
+                                navigate(-1);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                toast.error(err.message);
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error(err.message);
+                });
+        },
+    });
 
-        checkUniqueEmail({
-            unique: usersData.emailAddress,
-        })
-            .then(res => {
-                if ((res as any).data.exists) {
-                    toast.error(string?.user_with_this_email_is_registered);
-                    return;
-                }
-                return res;
-            })
-            .then(res => {
-                if (res) {
-                    createUser({ ...usersData, store: storeCode })
-                        .then(_ => {
-                            if (res.status === 200) toast.success(string?.created);
-                            navigate(-1);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            toast.error(err.message);
-                        });
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error(err.message);
-            });
-    };
+    useEffect(() => {
+        formik.setValues(usersData);
+    }, [usersData]);
 
     const handleChangeUserData = newData => {
         setUsersData({ ...usersData, ...newData });
     };
 
     return (
-        <>
+        <form
+            onSubmit={e => {
+                e.preventDefault();
+                formik.handleSubmit();
+            }}
+        >
             {isLoading && <Loader />}
 
             <StoresTabsPanel
@@ -122,10 +129,7 @@ const CreateUser = () => {
                         },
                         {
                             name: 'save',
-                            disabled: !isValid() || isLoading,
-                            action: () => {
-                                submitForm();
-                            },
+                            action: () => {},
                         },
                     ]}
                 />
@@ -149,7 +153,7 @@ const CreateUser = () => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={!!usersData.manager}
+                                        checked={!!usersData?.options?.manager}
                                         onChange={e => {
                                             if (e.target.checked) {
                                                 handleChangeUserData({
@@ -163,12 +167,8 @@ const CreateUser = () => {
                                         }}
                                     />
                                 }
-                                label={string?.manager}
-                                sx={{
-                                    '.MuiTypography-root': {
-                                        color: 'red',
-                                    },
-                                }}
+                                label={string?.manager + '(Feature)'}
+                                disabled
                             />
                         </Grid>
                         <Grid xs={sx ? 12 : 6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -198,51 +198,50 @@ const CreateUser = () => {
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={usersData.firstName}
-                            error={!usersData.firstName}
                             onChange={e => handleChangeUserData({ firstName: e.target.value })}
                             size="small"
                             label={string?.first_name}
                             fullWidth
-                            required
+                            error={!!(formik.errors.firstName && formik.touched.firstName)}
+                            helperText={formik.errors.firstName}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={usersData.lastName}
-                            error={!usersData.lastName}
                             onChange={e => handleChangeUserData({ lastName: e.target.value })}
                             size="small"
-                            required
                             label={string?.last_name}
                             fullWidth
+                            error={!!(formik.errors.lastName && formik.touched.lastName)}
+                            helperText={formik.errors.lastName}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={usersData.emailAddress}
-                            error={!usersData.emailAddress}
                             onChange={e =>
                                 handleChangeUserData({ emailAddress: e.target.value, userName: e.target.value })
                             }
                             size="small"
-                            required
                             label={string?.email}
                             fullWidth
+                            error={!!(formik.errors.emailAddress && formik.touched.emailAddress)}
+                            helperText={formik.errors.emailAddress}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.phone}
-                            error={!usersData.phone}
                             type="tel"
                             onChange={e => handleChangeUserData({ phone: e.target.value })}
                             size="small"
-                            required
-                            label={string?.phone_number + ' Надо добавить'}
+                            label={string?.phone_number}
                             fullWidth
+                            value={'Feature'}
+                            disabled
                         />
                     </Grid>
 
@@ -252,16 +251,13 @@ const CreateUser = () => {
                                 <TextField
                                     InputLabelProps={{ shrink: true }}
                                     value={usersData.password}
-                                    error={!passwordValidate(usersData.password || '')}
                                     type="password"
-                                    helperText={
-                                        string?.should_contains_1_character_lowercase_1_character_uppercase_1_digit_6_to_12_characters
-                                    }
                                     onChange={e => handleChangeUserData({ password: e.target.value })}
                                     size="small"
-                                    required
                                     label={string?.password}
                                     fullWidth
+                                    error={!!(formik.errors.password && formik.touched.password)}
+                                    helperText={formik.errors.password}
                                 />
                             </Grid>
                             <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -269,17 +265,12 @@ const CreateUser = () => {
                                     InputLabelProps={{ shrink: true }}
                                     value={usersData.repeatPassword}
                                     type="password"
-                                    error={!usersData.repeatPassword || usersData.repeatPassword !== usersData.password}
-                                    helperText={
-                                        usersData.repeatPassword !== usersData.password
-                                            ? string?.passwords_do_not_match
-                                            : ''
-                                    }
                                     onChange={e => handleChangeUserData({ repeatPassword: e.target.value })}
                                     size="small"
-                                    required
                                     label={string?.confirm_password}
                                     fullWidth
+                                    error={!!(formik.errors.repeatPassword && formik.touched.repeatPassword)}
+                                    helperText={formik.errors.repeatPassword}
                                 />
                             </Grid>
                         </>
@@ -304,7 +295,8 @@ const CreateUser = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.telegram}
+                            value={'Feature'}
+                            disabled
                             onChange={e => handleChangeUserData({ telegram: e.target.value })}
                             size="small"
                             label={'Telegram'}
@@ -314,7 +306,8 @@ const CreateUser = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.viber}
+                            value={'Feature'}
+                            disabled
                             onChange={e => handleChangeUserData({ viber: e.target.value })}
                             size="small"
                             label={'Viber'}
@@ -324,7 +317,8 @@ const CreateUser = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.whatsApp}
+                            value={'Feature'}
+                            disabled
                             onChange={e => handleChangeUserData({ whatsApp: e.target.value })}
                             size="small"
                             label={'Whatsapp'}
@@ -333,7 +327,7 @@ const CreateUser = () => {
                     </Grid>
                 </Grid>
             </Grid>
-        </>
+        </form>
     );
 };
 

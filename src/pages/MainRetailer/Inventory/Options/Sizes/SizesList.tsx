@@ -31,7 +31,7 @@ const SizesList = ({ handleSetTitle, handleSetActionButtons }: InventorySizesInt
         if (!dataRes || isFetching) return;
         setDataList(
             dataRes.data.optionValues
-                .filter(el => el.descriptions.some(el => el.description === 'SIZE'))
+                .filter(el => el.descriptions.some(el => el.description === `SIZE`))
                 .sort((a, b) => {
                     var regex = /[\d|,|.|e|E|\+]+/g;
                     return a.code.match(regex) - b.code.match(regex);

@@ -14,7 +14,6 @@ import { useDevice } from 'hooks/useDevice';
 import Grid from '@mui/material/Unstable_Grid2';
 import { RetailerStoreInterface } from 'types';
 import { LANGUAGES } from 'constants/constants';
-import { passwordValidate, validateEditRetailer } from 'helpers/validation';
 import { useEffect, useState } from 'react';
 import { useUserApi } from 'api/useUserApi';
 import Loader from 'components/atoms/Loader/Loader';
@@ -22,6 +21,9 @@ import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import toast from 'react-hot-toast';
 import StoresTabsPanel from 'components/organisms/Panels/StoresTabsPanel';
 import PageHeader from 'components/organisms/Panels/PageHeader';
+import { useFormik } from 'formik';
+import editUserFormValidations from 'helpers/Validations/editUserFormValidations';
+import { USERS_DATA } from 'dataBase/USERS';
 
 const INITIAL_USER_DATA = {
     id: null,
@@ -40,15 +42,11 @@ const INITIAL_USER_DATA = {
             name: 'ADMIN_RETAIL',
         },
     ],
-    //add
-    phone: '',
-    manager: false,
-    telegram: '',
-    viber: '',
-    whatsApp: '',
+    options: { manager: false },
+    contacts: { phone: '', viber: '', whatsapp: '', telegram: '' },
 };
 
-const UserForm = () => {
+const EditUser = () => {
     const navigate = useNavigate();
     const { storeCode, userId } = useParams();
     const { sx } = useDevice();
@@ -58,13 +56,30 @@ const UserForm = () => {
 
     const { mutateAsync: updateUser, isLoading: loadUpdateUser } = useUserApi().useUpdateUser();
 
-    const isValid = () => {
-        return validateEditRetailer(usersData);
-    };
     const { data: userDataRes, isFetching } = useUserApi().useGetUsersById({
         storeCode: storeCode,
         userId: userId,
     });
+
+    const formik = useFormik({
+        initialValues: usersData,
+        validationSchema: editUserFormValidations,
+        onSubmit: values => {
+            updateUser({ ...values, id: usersData.id })
+                .then(res => {
+                    if (res.status === 200) toast.success(string?.updated);
+                    navigate(-1);
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error(err.message);
+                });
+        },
+    });
+
+    useEffect(() => {
+        formik.setValues(usersData);
+    }, [usersData]);
 
     useEffect(() => {
         if (!userDataRes || isFetching) return;
@@ -82,35 +97,22 @@ const UserForm = () => {
             defaultLanguage: user.defaultLanguage,
             groups: user.groups,
             //add
-            phone: user.phone,
-            manager: user.manager,
-            telegram: user.telegram,
-            viber: user.viber,
-            whatsApp: user.whatsApp,
+            ...USERS_DATA.find(({ emailAddress }) => emailAddress === user.emailAddress),
         });
         setUserNameInit(user.firstName);
     }, [userDataRes, userId]);
 
-    const submitForm = () => {
-        if (!isValid()) return;
-
-        updateUser({ ...usersData, id: usersData.id })
-            .then(res => {
-                if (res.status === 200) toast.success(string?.updated);
-                navigate(-1);
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error(err.message);
-            });
-    };
-
     const handleChangeUserData = newData => {
         setUsersData({ ...usersData, ...newData });
     };
-
+    console.log(usersData);
     return (
-        <>
+        <form
+            onSubmit={e => {
+                e.preventDefault();
+                formik.handleSubmit();
+            }}
+        >
             {(loadUpdateUser || isFetching) && <Loader />}
 
             <StoresTabsPanel
@@ -129,7 +131,6 @@ const UserForm = () => {
                     button={[
                         {
                             name: 'cancel',
-                            disabled: loadUpdateUser,
                             action: () => {
                                 navigate(-1);
                                 handleChangeUserData(INITIAL_USER_DATA);
@@ -137,10 +138,7 @@ const UserForm = () => {
                         },
                         {
                             name: 'save',
-                            disabled: !isValid() || loadUpdateUser,
-                            action: () => {
-                                submitForm();
-                            },
+                            action: () => {},
                         },
                     ]}
                 />
@@ -164,7 +162,7 @@ const UserForm = () => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={!!usersData.manager}
+                                        checked={!!usersData.options?.manager}
                                         onChange={e => {
                                             if (e.target.checked) {
                                                 handleChangeUserData({
@@ -179,11 +177,7 @@ const UserForm = () => {
                                     />
                                 }
                                 label={string?.manager}
-                                sx={{
-                                    '.MuiTypography-root': {
-                                        color: 'red',
-                                    },
-                                }}
+                                disabled
                             />
                         </Grid>
                         <Grid xs={sx ? 12 : 6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -213,93 +207,51 @@ const UserForm = () => {
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={usersData.firstName}
-                            error={!usersData.firstName}
                             onChange={e => handleChangeUserData({ firstName: e.target.value })}
                             size="small"
                             label={string?.first_name}
                             fullWidth
-                            required
+                            error={!!(formik.errors.firstName && formik.touched.firstName)}
+                            helperText={formik.errors.firstName}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={usersData.lastName}
-                            error={!usersData.lastName}
                             onChange={e => handleChangeUserData({ lastName: e.target.value })}
                             size="small"
-                            required
                             label={string?.last_name}
                             fullWidth
+                            error={!!(formik.errors.lastName && formik.touched.lastName)}
+                            helperText={formik.errors.lastName}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={usersData.emailAddress}
-                            error={!usersData.emailAddress}
-                            onChange={e =>
-                                handleChangeUserData({ emailAddress: e.target.value, userName: e.target.value })
-                            }
                             size="small"
                             disabled={!!userId}
-                            required
                             label={string?.email}
                             fullWidth
+                            error={!!(formik.errors.emailAddress && formik.touched.emailAddress)}
+                            helperText={formik.errors.emailAddress}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.phone}
-                            error={!usersData.phone}
+                            value={usersData.contacts?.phone}
                             type="tel"
                             onChange={e => handleChangeUserData({ phone: e.target.value })}
                             size="small"
-                            required
-                            label={string?.phone_number + ' Надо добавить'}
+                            label={string?.phone_number}
                             fullWidth
+                            disabled
                         />
                     </Grid>
 
-                    {!userId && (
-                        <>
-                            <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
-                                <TextField
-                                    InputLabelProps={{ shrink: true }}
-                                    value={usersData.password}
-                                    error={!passwordValidate(usersData.password || '')}
-                                    type="password"
-                                    helperText={
-                                        string?.should_contains_1_character_lowercase_1_character_uppercase_1_digit_6_to_12_characters
-                                    }
-                                    onChange={e => handleChangeUserData({ password: e.target.value })}
-                                    size="small"
-                                    required
-                                    label={string?.password}
-                                    fullWidth
-                                />
-                            </Grid>
-                            <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
-                                <TextField
-                                    InputLabelProps={{ shrink: true }}
-                                    value={usersData.repeatPassword}
-                                    type="password"
-                                    error={!usersData.repeatPassword || usersData.repeatPassword !== usersData.password}
-                                    helperText={
-                                        usersData.repeatPassword !== usersData.password
-                                            ? string?.passwords_do_not_match
-                                            : ''
-                                    }
-                                    onChange={e => handleChangeUserData({ repeatPassword: e.target.value })}
-                                    size="small"
-                                    required
-                                    label={string?.confirm_password}
-                                    fullWidth
-                                />
-                            </Grid>
-                        </>
-                    )}
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <FormControl fullWidth size="small">
                             <InputLabel error={!usersData.defaultLanguage}>{string?.default_language + '*'}</InputLabel>
@@ -320,37 +272,40 @@ const UserForm = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.telegram}
+                            value={usersData?.contacts?.telegram}
                             onChange={e => handleChangeUserData({ telegram: e.target.value })}
                             size="small"
                             label={'Telegram'}
                             fullWidth
+                            disabled
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.viber}
+                            value={usersData?.contacts?.viber}
                             onChange={e => handleChangeUserData({ viber: e.target.value })}
                             size="small"
                             label={'Viber'}
                             fullWidth
+                            disabled
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.whatsApp}
+                            value={usersData?.contacts?.whatsapp}
                             onChange={e => handleChangeUserData({ whatsApp: e.target.value })}
                             size="small"
                             label={'Whatsapp'}
                             fullWidth
+                            disabled
                         />
                     </Grid>
                 </Grid>
             </Grid>
-        </>
+        </form>
     );
 };
 
-export default UserForm;
+export default EditUser;

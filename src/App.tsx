@@ -21,7 +21,7 @@ const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
     if (!userProfile) return <Loader />;
 
     const initializePermissions = permissions => {
-        const haveAccess = permissions.every(el => userProfile.permissions.map(el => el.id).includes(el));
+        const haveAccess = permissions.every(el => userProfile.permissions?.map(el => el.id).includes(el));
         return haveAccess;
     };
 

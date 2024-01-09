@@ -15,53 +15,40 @@ export const useOrdersApi = () => {
         );
     };
 
-    const useGetOrderByID = ({ id }) => {
+    const useGetOrderById = ({ orderId }) => {
         return useQuery(
             ['get-private-order-by-id'],
 
             () =>
                 get({
-                    url: `v1/private/orders/${id}`,
+                    url: `v1/private/orders/${orderId}`,
                 })
         );
     };
 
-    // const useUpdateOrderStatus = () =>
-    //     useMutation(({ id, status, comments, date }) => {
-    //         return post({
-    //             url: `v1/private/orders/${id}/history`,
-    //             body: { status, comments, date },
-    //         });
-    //     });
+    const useUpdateOrderStatus = () =>
+        useMutation(({ orderId, data }: any) => {
+            return post({
+                url: `v1/private/orders/${orderId}/history`,
+                body: { ...data },
+            });
+        });
 
-    // const useGetCustomersOrders = () => {
-    //     return useQuery(
-    //         ['get-customers-orders'],
+    const useGetOrderHistory = ({ orderId }) => {
+        return useQuery(
+            ['get-order-history'],
 
-    //         () =>
-    //             get({
-    //                 url: `v1/auth/orders/`,
-    //             })
-    //     );
-    // };
-
-    // const useGetOrderHistory = ({ id }) => {
-    //     return useQuery(
-    //         ['get-order-history'],
-
-    //         () =>
-    //             get({
-    //                 url: `v1/private/orders/${id}/history`,
-    //             })
-    //     );
-    // };
+            () =>
+                get({
+                    url: `v1/private/orders/${orderId}/history`,
+                })
+        );
+    };
 
     return {
-        // useCreateOrder,
         useGetOrdersList,
-        useGetOrderByID,
-        // useUpdateOrderStatus,
-        // useGetCustomersOrders,
-        // useGetOrderHistory,
+        useGetOrderById,
+        useUpdateOrderStatus,
+        useGetOrderHistory,
     };
 };

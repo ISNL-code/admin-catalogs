@@ -1,7 +1,6 @@
 import {
     Box,
     Checkbox,
-    Divider,
     FormControl,
     FormControlLabel,
     InputLabel,
@@ -20,12 +19,13 @@ import { CreateDataStore } from 'types';
 import { COUNTRIES, CURRENCY, LANGUAGES } from 'constants/constants';
 import dayjs from 'dayjs';
 import ActionPanel from '../../../components/organisms/Panels/ActionPanel';
-import { validateCreateStore } from 'helpers/validation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStoresApi } from 'api/useStoresApi';
 import toast from 'react-hot-toast';
 import StoresTabsPanel from 'components/organisms/Panels/StoresTabsPanel';
 import PageHeader from 'components/organisms/Panels/PageHeader';
+import { useFormik } from 'formik';
+import storeFormValidations from 'helpers/Validations/storeFormValidations';
 
 const INITIAL_STORE_DATA = {
     name: '',
@@ -63,42 +63,53 @@ const CreateStore = () => {
 
     const { mutateAsync: createStore, isLoading } = useStoresApi().useCreateStore();
 
-    const isValid = () => validateCreateStore(storeData);
+    const formik = useFormik({
+        initialValues: storeData,
+        validationSchema: storeFormValidations,
+        onSubmit: values => {
+            checkUnique()
+                .then(res => {
+                    if ((res as any).data.data.exists) {
+                        toast.error(string?.store_with_this_code_is_registered);
+                        return;
+                    }
+                    return res;
+                })
+                .then(res => {
+                    if (res) {
+                        createStore(values)
+                            .then(res => {
+                                if (res.status === 200) toast.success(string?.created);
+                                navigate(`/admin/store/manage/${storeData.code}/main`);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                toast.error(err.message);
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error(err.message);
+                });
+        },
+    });
+
+    useEffect(() => {
+        formik.setValues(storeData);
+    }, [storeData]);
 
     const handleChangeStoreData = newData => {
         setStoreData({ ...storeData, ...newData });
     };
 
-    const submitStoresForm = isValid => {
-        if (!isValid()) return;
-        checkUnique()
-            .then(res => {
-                if ((res as any).data.data.exists) {
-                    return setStoreData({ ...storeData, code: '' });
-                }
-                return res;
-            })
-            .then(res => {
-                if (res) {
-                    createStore(storeData)
-                        .then(res => {
-                            if (res.status === 200) toast.success(string?.created);
-                            navigate(`/admin/store/manage/${storeData.code}/main`);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            toast.error(err.message);
-                        });
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                toast.error(err.message);
-            });
-    };
-
     return (
-        <Box>
+        <form
+            onSubmit={e => {
+                e.preventDefault();
+                formik.handleSubmit();
+            }}
+        >
             <StoresTabsPanel
                 nav={[
                     {
@@ -115,8 +126,7 @@ const CreateStore = () => {
                     button={[
                         {
                             name: 'save',
-                            disabled: !isValid() || isLoading,
-                            action: () => submitStoresForm(isValid),
+                            action: () => {},
                         },
                     ]}
                 />
@@ -126,26 +136,26 @@ const CreateStore = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            error={!storeData.name}
                             value={storeData.name}
                             onChange={e => handleChangeStoreData({ name: e.target.value })}
                             size="small"
-                            required
+                            name="name"
                             label={string?.store_name}
                             fullWidth
+                            error={!!(formik.errors.name && formik.touched.name)}
+                            helperText={formik.errors.name}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={storeData.code}
-                            error={!storeData.code}
-                            helperText={string?.code_must_be_unique}
                             onChange={e => handleChangeStoreData({ code: e.target.value })}
                             size="small"
-                            required
                             label={string?.store_code}
                             fullWidth
+                            error={!!(formik.errors.code && formik.touched.code)}
+                            helperText={formik.errors.code}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -174,7 +184,6 @@ const CreateStore = () => {
                         <FormControl fullWidth size="small">
                             <InputLabel error={!storeData.address.country}>{string?.store_country + '*'}</InputLabel>
                             <Select
-                                required
                                 error={!storeData.address.country}
                                 value={storeData.address.country}
                                 onChange={e =>
@@ -292,7 +301,6 @@ const CreateStore = () => {
                             <InputLabel error={!storeData.defaultLanguage}>{string?.default_language + '*'}</InputLabel>
                             <Select
                                 value={storeData.defaultLanguage}
-                                error={!storeData.defaultLanguage}
                                 onChange={e => handleChangeStoreData({ defaultLanguage: e.target.value })}
                                 label={string?.default_language + '*'}
                             >
@@ -341,11 +349,10 @@ const CreateStore = () => {
                         <Grid key={idx} xs={12} sx={{ p: 1, py: 1.25 }}>
                             <TextField
                                 InputLabelProps={{ shrink: true }}
-                                value={''}
-                                error={true}
+                                disabled
+                                value={'Feature'}
                                 onChange={e => {}}
                                 size="small"
-                                required
                                 label={string?.store_description + ' ' + el.toUpperCase()}
                                 fullWidth
                             />
@@ -353,7 +360,7 @@ const CreateStore = () => {
                     ))}
                 </Grid>
             </Box>
-        </Box>
+        </form>
     );
 };
 

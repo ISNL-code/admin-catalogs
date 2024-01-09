@@ -9,13 +9,11 @@ import { OrderInterface, ProductInterface } from 'types';
 import { useIsMount } from 'hooks/useIsMount';
 import OrdersCards from 'components/organisms/Lists/OrdersCards';
 import { useOrdersApi } from 'api/useOrdersApi';
+import MarketTabsPanel from 'components/organisms/Panels/MarketTabsPanel';
+import PageHeader from 'components/organisms/Panels/PageHeader';
+import ActionPanel from 'components/organisms/Panels/ActionPanel';
 
-interface InventoryOrdersInterface {
-    handleSetTitle;
-    handleSetActionButtons;
-}
-
-const OrdersList = ({ handleSetTitle, handleSetActionButtons }: InventoryOrdersInterface) => {
+const OrdersList = () => {
     const mount = useIsMount();
     const { storeCode } = useParams();
     const [page, setPage] = useState<number>(0);
@@ -48,19 +46,27 @@ const OrdersList = ({ handleSetTitle, handleSetActionButtons }: InventoryOrdersI
         setPage(prev => prev + val);
     };
 
-    useEffect(() => {
-        handleSetTitle(string?.orders);
-    }, []);
-
-    useEffect(() => {
-        handleSetActionButtons([]);
-    }, [storeCode]);
-
     return (
         <Box>
             {loadingOrders && <Loader />}
             {!ordersList?.length && !loadingOrders && <EmptyPage />}
-
+            <MarketTabsPanel
+                nav={[
+                    {
+                        name: 'orders',
+                        path: `/store-market/${storeCode}/orders`,
+                        disabled: false,
+                    },
+                    {
+                        name: 'customers',
+                        path: `/store-market/${storeCode}/customers`,
+                        disabled: false,
+                    },
+                ]}
+            />
+            <PageHeader title={string?.orders}>
+                <ActionPanel button={[]} />
+            </PageHeader>
             <Box>
                 <OrdersCards data={ordersList} />
             </Box>
