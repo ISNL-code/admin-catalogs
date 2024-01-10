@@ -5,6 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useDevice } from 'hooks/useDevice';
 import { Box, TextField, Typography } from '@mui/material';
 import ColorIndicatorButton from 'components/atoms/ColorIndicatorButton/ColorIndicatorButton';
+import { RetailerContextInterface } from 'types';
 
 interface ValuesFormInterface {
     handleSetTitle;
@@ -17,7 +18,7 @@ interface ValuesFormInterface {
 const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData, formik }: ValuesFormInterface) => {
     const navigate = useNavigate();
     const { storeCode } = useParams();
-    const { string }: any = useOutletContext();
+    const { string }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
 
     useEffect(() => {

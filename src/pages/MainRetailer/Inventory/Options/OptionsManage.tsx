@@ -36,10 +36,12 @@ const OptionsManage = () => {
                     {
                         name: 'sizes',
                         path: `/store-inventory/${storeCode}/options/sizes`,
+                        // disabled: true,
                     },
                     {
                         name: 'promos',
                         path: `/store-inventory/${storeCode}/options/promos`,
+                        // disabled: true,
                     },
                 ]}
             />

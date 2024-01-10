@@ -1,10 +1,9 @@
 import { Box, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import PromoTags from 'components/atoms/PromoTags/PromoTags';
-import SizesIndicatorButton from 'components/atoms/SizesIndicatorButton/SizesIndicatorButton';
-import { useDevice } from 'hooks/useDevice';
 import { useEffect } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { RetailerContextInterface } from 'types';
 
 interface ValuesFormInterface {
     handleSetTitle;
@@ -14,10 +13,9 @@ interface ValuesFormInterface {
     formik;
 }
 
-const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData, formik }: ValuesFormInterface) => {
-    const { storeCode, promoId } = useParams();
-    const { sx } = useDevice();
-    const { string }: any = useOutletContext();
+const PromoForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData, formik }: ValuesFormInterface) => {
+    const { promoId } = useParams();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,11 +30,11 @@ const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
             },
             {
                 name: 'save',
-                disabled: false,
+                disabled: !storeData?.additionalStoreSettings?.promo,
                 action: () => {},
             },
         ]);
-    }, []);
+    }, [storeData]);
 
     return (
         <Box
@@ -142,4 +140,4 @@ const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
     );
 };
 
-export default SizesForm;
+export default PromoForm;

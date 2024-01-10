@@ -37,7 +37,7 @@ const INIT_PRODUCT_DATA = {
 
 const ProductGeneralManage = () => {
     const navigate = useNavigate();
-    const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
     const [product, setProduct] = useState<ManageProductInterface>(INIT_PRODUCT_DATA);
     const [brandsList, setBrandsList] = useState<BrandsInterface[] | any>(null);
@@ -55,7 +55,7 @@ const ProductGeneralManage = () => {
         initialValues: product,
         validationSchema: productFormValidations,
         onSubmit: values => {
-            updateProduct({ data: values, storeCode })
+            updateProduct({ data: { ...values, price: values.price.replaceAll(',', '') }, storeCode })
                 .then(() => {
                     toast.success(string?.updated);
                 })
@@ -88,7 +88,16 @@ const ProductGeneralManage = () => {
             quantity: product.inventory.quantity,
             sortOrder: product.sortOrder,
             productSpecifications: product.productSpecifications,
-            descriptions: product.descriptions,
+            descriptions: storeData?.supportedLanguages.map(({ code }) => {
+                if (product.descriptions.find(el => el.language === code)) {
+                    return { ...product.descriptions.find(el => el.language === code) };
+                } else
+                    return {
+                        language: code,
+                        name: '',
+                        description: '',
+                    };
+            }),
         });
     }, [productDataRes]);
 

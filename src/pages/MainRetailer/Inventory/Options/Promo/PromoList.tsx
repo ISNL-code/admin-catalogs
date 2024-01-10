@@ -5,7 +5,7 @@ import Loader from 'components/atoms/Loader/Loader';
 import PromoCards from 'components/organisms/Lists/PromoCards';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { OptionsValueInterface } from 'types';
+import { OptionsValueInterface, RetailerContextInterface } from 'types';
 
 interface InventoryColorsInterface {
     handleSetTitle;
@@ -14,7 +14,7 @@ interface InventoryColorsInterface {
 
 const PromoList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsInterface) => {
     const navigate = useNavigate();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const { storeCode } = useParams();
     const [dataList, setDataList] = useState<OptionsValueInterface[] | any>(null);
 
@@ -36,13 +36,13 @@ const PromoList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsIn
         handleSetActionButtons([
             {
                 name: 'create',
-                disabled: false,
+                disabled: !storeData?.additionalStoreSettings?.promo,
                 action: () => {
                     navigate(`/store-inventory/${storeCode}/options/promos/create`);
                 },
             },
         ]);
-    }, []);
+    }, [storeData]);
 
     return (
         <Box mt={1}>

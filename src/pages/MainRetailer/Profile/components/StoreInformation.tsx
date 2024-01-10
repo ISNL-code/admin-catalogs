@@ -58,7 +58,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.name}
+                            value={data?.name || ''}
                             onChange={e => handleChangeStoreData({ name: e.target.value })}
                             size="small"
                             label={string?.store_name}
@@ -69,7 +69,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.code}
+                            value={data?.code || ''}
                             onChange={e => handleChangeStoreData({ code: e.target.value })}
                             size="small"
                             label={string?.store_code}
@@ -80,7 +80,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.phone}
+                            value={data?.phone || ''}
                             onChange={e => handleChangeStoreData({ phone: e.target.value })}
                             type="tel"
                             size="small"
@@ -92,7 +92,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.email}
+                            value={data?.email || ''}
                             type="email"
                             onChange={e => handleChangeStoreData({ email: e.target.value })}
                             size="small"
@@ -104,7 +104,7 @@ const StoreInformation = ({
                         <FormControl fullWidth size="small" disabled>
                             <InputLabel error={!data?.address?.country}>{string?.store_country + '*'}</InputLabel>
                             <Select
-                                value={data?.address?.country}
+                                value={data?.address?.country || ''}
                                 onChange={e =>
                                     handleChangeStoreData({
                                         ...data,
@@ -125,7 +125,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.city}
+                            value={data?.address?.city || ''}
                             onChange={e =>
                                 handleChangeStoreData({ address: { ...data.address, city: e.target.value } })
                             }
@@ -138,7 +138,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.postalCode}
+                            value={data?.address?.postalCode || ''}
                             type="number"
                             onChange={e =>
                                 handleChangeStoreData({
@@ -154,7 +154,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.stateProvince}
+                            value={data?.address?.stateProvince || ''}
                             onChange={e =>
                                 handleChangeStoreData({
                                     address: { ...data.address, stateProvince: e.target.value },
@@ -169,7 +169,7 @@ const StoreInformation = ({
                         <TextField
                             disabled
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.address}
+                            value={data?.address?.address || ''}
                             onChange={e =>
                                 handleChangeStoreData({
                                     address: { ...data.address, address: e.target.value },
@@ -185,7 +185,7 @@ const StoreInformation = ({
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 disabled
-                                value={dayjs(data?.inBusinessSince)}
+                                value={dayjs(data?.inBusinessSince) || ''}
                                 onChange={e => {
                                     handleChangeStoreData({ inBusinessSince: e });
                                 }}
@@ -206,7 +206,7 @@ const StoreInformation = ({
                         <FormControl fullWidth size="small" disabled>
                             <InputLabel error={!data?.currency}>{string?.currency + '*'}</InputLabel>
                             <Select
-                                value={data?.currency}
+                                value={data?.currency || ''}
                                 onChange={e => handleChangeStoreData({ currency: e.target.value })}
                                 label={string?.currency + '*'}
                             >
@@ -223,7 +223,7 @@ const StoreInformation = ({
                         <FormControl fullWidth size="small" disabled>
                             <InputLabel>{string?.default_language + '*'}</InputLabel>
                             <Select
-                                value={data?.defaultLanguage}
+                                value={data?.defaultLanguage || ''}
                                 onChange={e => handleChangeStoreData({ defaultLanguage: e.target.value })}
                                 label={string?.default_language + '*'}
                             >
@@ -274,7 +274,7 @@ const StoreInformation = ({
                             <TextField
                                 InputLabelProps={{ shrink: true }}
                                 disabled
-                                value={data?.descriptions?.find(item => item.language === el)?.title}
+                                value={data?.descriptions?.find(item => item.language === el)?.title || ''}
                                 onChange={e => {}}
                                 size="small"
                                 label={string?.store_description + ' ' + el.toUpperCase()}

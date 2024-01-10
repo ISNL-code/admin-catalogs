@@ -17,7 +17,7 @@ const ManageStore = () => {
     const { userProfile, string }: RetailerContextInterface = useOutletContext();
     const { storeCode } = useParams();
     const [storeData, setStoreData] = useState<EditDataStore | any>();
-    const [usersList, setUsersList] = useState<UserListInterface[] | null>(null);
+    const [usersList, setUsersList] = useState<UserListInterface[] | any>([]);
     const [title, setTitle] = useState('');
     const [buttons, setButtons] = useState([]);
 

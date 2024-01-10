@@ -75,6 +75,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                     if (res) {
                         updateVariant({
                             productId,
+                            storeCode,
                             data: {
                                 id: values.id,
                                 available: values.available,

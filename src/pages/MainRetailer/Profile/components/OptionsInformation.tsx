@@ -60,7 +60,7 @@ const OptionsInformation = ({
         handleSetActionButtons([{ name: 'save', disabled: true, action: () => {} }]);
     }, []);
 
-    if (!data?.mainStoreSettings || !data?.additionalStoreSettings) return <></>;
+    if (!data?.mainStoreSettings || !data?.additionalStoreSettings || !data?.dataBaseStoreSettings) return <></>;
 
     return (
         <>
@@ -209,7 +209,7 @@ const OptionsInformation = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.width}
+                        value={data?.productImagesOptions?.width || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.width}
@@ -220,7 +220,7 @@ const OptionsInformation = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.height}
+                        value={data?.productImagesOptions?.height || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.height}
@@ -231,7 +231,7 @@ const OptionsInformation = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.cropX}
+                        value={data?.productImagesOptions?.cropX || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.crop_width}
@@ -242,7 +242,7 @@ const OptionsInformation = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.cropY}
+                        value={data?.productImagesOptions?.cropY || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.crop_height}
@@ -313,34 +313,67 @@ const OptionsInformation = ({
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.cart} />
-                    </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.favorites} />
-                    </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.promo} />
-                    </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.video} />
-                    </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.size_table} />
-                    </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={string?.call_back} />
-                    </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
-                            control={<Checkbox defaultChecked disabled />}
-                            label={string?.show_in_market}
+                            control={<Checkbox checked={data?.additionalStoreSettings?.cart} />}
+                            label={string?.cart}
+                            disabled
                         />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={'Apple Store'} />
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.favorites} />}
+                            label={string?.favorites}
+                            disabled
+                        />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel control={<Checkbox defaultChecked disabled />} label={'Play Market'} />
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.promo} />}
+                            label={string?.promo}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.video} />}
+                            label={string?.video}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.tableSizes} />}
+                            label={string?.size_table}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.callback} />}
+                            label={string?.call_back}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.platformAvailable} />}
+                            label={string?.show_in_market}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.appleStore} />}
+                            label={'Apple Store'}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.playMarket} />}
+                            label={'Play Market'}
+                            disabled
+                        />
                     </Grid>
                 </Grid>
 
@@ -498,7 +531,7 @@ const OptionsInformation = ({
                     <Grid xs={sx ? 12 : 8} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data?.securityStoreSettings?.securityKey}
+                            value={data?.securityStoreSettings?.securityKey || ''}
                             onChange={e => {}}
                             size="small"
                             label={string?.store_key}

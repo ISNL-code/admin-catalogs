@@ -55,7 +55,7 @@ const CategoriesForm = () => {
         <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
             <Grid xs={12} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                 <Typography variant="h3">{string?.categories}:</Typography>
-                <Typography>({string?.option_not_available})</Typography>
+                {!storeData?.mainStoreSettings?.categories && <Typography>({string?.option_not_available})</Typography>}
                 <Button
                     disabled={!storeData?.mainStoreSettings?.categories}
                     variant="contained"

@@ -54,7 +54,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data.name}
+                            value={data.name || ''}
                             onChange={e => handleChangeStoreData({ name: e.target.value })}
                             size="small"
                             label={string?.store_name}
@@ -66,7 +66,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data.code}
+                            value={data.code || ''}
                             error={!!(formik.errors.code && formik.touched.code)}
                             helperText={formik.errors.code}
                             onChange={e => handleChangeStoreData({ code: e.target.value })}
@@ -79,7 +79,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data.phone}
+                            value={data.phone || ''}
                             onChange={e => handleChangeStoreData({ phone: e.target.value })}
                             type="tel"
                             size="small"
@@ -90,7 +90,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data.email}
+                            value={data.email || ''}
                             type="email"
                             onChange={e => handleChangeStoreData({ email: e.target.value })}
                             size="small"
@@ -102,7 +102,7 @@ const StoreForm = ({
                         <FormControl fullWidth size="small">
                             <InputLabel>{string?.store_country + '*'}</InputLabel>
                             <Select
-                                value={data?.address?.country}
+                                value={data?.address?.country || ''}
                                 onChange={e =>
                                     handleChangeStoreData({
                                         ...data,
@@ -122,7 +122,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.city}
+                            value={data?.address?.city || ''}
                             onChange={e =>
                                 handleChangeStoreData({ address: { ...data.address, city: e.target.value } })
                             }
@@ -134,7 +134,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.postalCode}
+                            value={data?.address?.postalCode || ''}
                             type="number"
                             onChange={e =>
                                 handleChangeStoreData({
@@ -149,7 +149,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.stateProvince}
+                            value={data?.address?.stateProvince || ''}
                             onChange={e =>
                                 handleChangeStoreData({
                                     address: { ...data.address, stateProvince: e.target.value },
@@ -163,7 +163,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data?.address?.address}
+                            value={data?.address?.address || ''}
                             onChange={e =>
                                 handleChangeStoreData({
                                     address: { ...data.address, address: e.target.value },
@@ -178,7 +178,7 @@ const StoreForm = ({
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
-                                value={dayjs(data.inBusinessSince)}
+                                value={dayjs(data.inBusinessSince) || ''}
                                 onChange={e => {
                                     handleChangeStoreData({ inBusinessSince: e });
                                 }}
@@ -199,7 +199,7 @@ const StoreForm = ({
                         <FormControl fullWidth size="small">
                             <InputLabel>{string?.currency + '*'}</InputLabel>
                             <Select
-                                value={data.currency}
+                                value={data.currency || ''}
                                 onChange={e => handleChangeStoreData({ currency: e.target.value })}
                                 label={string?.currency + '*'}
                             >
@@ -216,7 +216,7 @@ const StoreForm = ({
                         <FormControl fullWidth size="small">
                             <InputLabel>{string?.default_language + '*'}</InputLabel>
                             <Select
-                                value={data.defaultLanguage}
+                                value={data.defaultLanguage || ''}
                                 onChange={e => handleChangeStoreData({ defaultLanguage: e.target.value })}
                                 label={string?.default_language + '*'}
                             >
@@ -266,7 +266,7 @@ const StoreForm = ({
                             <TextField
                                 InputLabelProps={{ shrink: true }}
                                 disabled
-                                value={data?.descriptions?.find(item => item.language === el)?.title}
+                                value={data?.descriptions?.find(item => item.language === el)?.title || ''}
                                 onChange={e => {}}
                                 size="small"
                                 label={string?.store_description + ' ' + el.toUpperCase()}

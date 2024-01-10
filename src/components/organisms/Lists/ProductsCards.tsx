@@ -161,6 +161,7 @@ const ProductsCards = ({
                                                     switchProduct({
                                                         id: item.id,
                                                         complete: !item.available,
+                                                        storeCode,
                                                     }).then(() =>
                                                         setProductsList(prev =>
                                                             prev.map(el => {

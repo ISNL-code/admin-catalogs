@@ -25,33 +25,12 @@ import { useFormik } from 'formik';
 import editUserFormValidations from 'helpers/Validations/editUserFormValidations';
 import { USERS_DATA } from 'dataBase/USERS';
 
-const INITIAL_USER_DATA = {
-    id: null,
-    firstName: '',
-    lastName: '',
-    store: '',
-    userName: '',
-    emailAddress: '',
-    password: '',
-    repeatPassword: '',
-    active: false,
-    defaultLanguage: 'ua',
-    groups: [
-        {
-            id: 3,
-            name: 'ADMIN_RETAIL',
-        },
-    ],
-    options: { manager: false },
-    contacts: { phone: '', viber: '', whatsapp: '', telegram: '' },
-};
-
 const EditUser = () => {
     const navigate = useNavigate();
     const { storeCode, userId } = useParams();
     const { sx } = useDevice();
     const { string }: any = useOutletContext();
-    const [usersData, setUsersData] = useState<RetailerStoreInterface>(INITIAL_USER_DATA);
+    const [usersData, setUsersData] = useState<RetailerStoreInterface | any>(null);
     const [userNameInit, setUserNameInit] = useState('');
 
     const { mutateAsync: updateUser, isLoading: loadUpdateUser } = useUserApi().useUpdateUser();
@@ -133,7 +112,7 @@ const EditUser = () => {
                             name: 'cancel',
                             action: () => {
                                 navigate(-1);
-                                handleChangeUserData(INITIAL_USER_DATA);
+                                handleChangeUserData(null);
                             },
                         },
                         {
@@ -162,7 +141,7 @@ const EditUser = () => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={!!usersData.options?.manager}
+                                        checked={!!usersData?.options?.manager}
                                         onChange={e => {
                                             if (e.target.checked) {
                                                 handleChangeUserData({
@@ -184,7 +163,7 @@ const EditUser = () => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        checked={!!usersData.active}
+                                        checked={!!usersData?.active}
                                         onChange={e => {
                                             if (e.target.checked) {
                                                 handleChangeUserData({
@@ -206,43 +185,43 @@ const EditUser = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.firstName}
+                            value={usersData?.firstName || ''}
                             onChange={e => handleChangeUserData({ firstName: e.target.value })}
                             size="small"
                             label={string?.first_name}
                             fullWidth
                             error={!!(formik.errors.firstName && formik.touched.firstName)}
-                            helperText={formik.errors.firstName}
+                            helperText={!!formik.errors.firstName}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.lastName}
+                            value={usersData?.lastName || ''}
                             onChange={e => handleChangeUserData({ lastName: e.target.value })}
                             size="small"
                             label={string?.last_name}
                             fullWidth
                             error={!!(formik.errors.lastName && formik.touched.lastName)}
-                            helperText={formik.errors.lastName}
+                            helperText={!!formik.errors.lastName}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.emailAddress}
+                            value={usersData?.emailAddress || ''}
                             size="small"
                             disabled={!!userId}
                             label={string?.email}
                             fullWidth
                             error={!!(formik.errors.emailAddress && formik.touched.emailAddress)}
-                            helperText={formik.errors.emailAddress}
+                            helperText={!!formik.errors.emailAddress}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData.contacts?.phone}
+                            value={usersData?.contacts?.phone || ''}
                             type="tel"
                             onChange={e => handleChangeUserData({ phone: e.target.value })}
                             size="small"
@@ -254,10 +233,12 @@ const EditUser = () => {
 
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <FormControl fullWidth size="small">
-                            <InputLabel error={!usersData.defaultLanguage}>{string?.default_language + '*'}</InputLabel>
+                            <InputLabel error={!usersData?.defaultLanguage}>
+                                {string?.default_language + '*'}
+                            </InputLabel>
                             <Select
-                                value={usersData.defaultLanguage}
-                                error={!usersData.defaultLanguage}
+                                value={usersData?.defaultLanguage}
+                                error={!usersData?.defaultLanguage}
                                 onChange={e => handleChangeUserData({ defaultLanguage: e.target.value })}
                                 label={string?.default_language + '*'}
                             >
@@ -272,7 +253,7 @@ const EditUser = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData?.contacts?.telegram}
+                            value={usersData?.contacts?.telegram || ''}
                             onChange={e => handleChangeUserData({ telegram: e.target.value })}
                             size="small"
                             label={'Telegram'}
@@ -283,7 +264,7 @@ const EditUser = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData?.contacts?.viber}
+                            value={usersData?.contacts?.viber || ''}
                             onChange={e => handleChangeUserData({ viber: e.target.value })}
                             size="small"
                             label={'Viber'}
@@ -294,7 +275,7 @@ const EditUser = () => {
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={usersData?.contacts?.whatsapp}
+                            value={usersData?.contacts?.whatsapp || ''}
                             onChange={e => handleChangeUserData({ whatsApp: e.target.value })}
                             size="small"
                             label={'Whatsapp'}

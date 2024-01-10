@@ -15,7 +15,7 @@ interface InventorySizesInterface {
 
 const SizesList = ({ handleSetTitle, handleSetActionButtons }: InventorySizesInterface) => {
     const navigate = useNavigate();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: any = useOutletContext();
     const { storeCode } = useParams();
     const [dataList, setDataList] = useState<OptionsValueInterface[] | any>(null);
 
@@ -44,13 +44,13 @@ const SizesList = ({ handleSetTitle, handleSetActionButtons }: InventorySizesInt
         handleSetActionButtons([
             {
                 name: 'create',
-                disabled: false,
+                disabled: !storeData?.mainStoreSettings?.sizes,
                 action: () => {
                     navigate(`/store-inventory/${storeCode}/options/sizes/create`);
                 },
             },
         ]);
-    }, []);
+    }, [storeData]);
 
     return (
         <Box mt={1}>

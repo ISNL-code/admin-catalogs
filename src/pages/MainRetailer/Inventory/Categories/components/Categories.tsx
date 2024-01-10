@@ -35,7 +35,6 @@ const Categories = ({
                     string={string}
                     text={string?.do_you_want_to_delete_category}
                     action={() => {
-                        if (!expand) return;
                         deleteCategory({ storeCode, categoryId: selectedId })
                             .then(_ => toast.success(string?.deleted))
                             .catch(err => {

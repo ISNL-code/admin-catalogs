@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { OptionsValueInterface, ProductAttrOptionsInterface } from 'types';
+import { OptionsValueInterface, ProductAttrOptionsInterface, RetailerContextInterface } from 'types';
 import SizesIndicatorButton from 'components/atoms/SizesIndicatorButton/SizesIndicatorButton';
 import toast from 'react-hot-toast';
 import AddIcon from '@mui/icons-material/Add';
@@ -23,17 +23,23 @@ const SizesForm = ({
 }: SizeFormInterface) => {
     const navigate = useNavigate();
     const { productId, storeCode } = useParams();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
 
     return (
         <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
             <Grid sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                 <Typography variant="h3">{string?.sizes}:</Typography>
-                <Typography>({string?.click_to_choose})</Typography>
+                {storeData?.mainStoreSettings?.sizes ? (
+                    <Typography>({string?.click_to_choose})</Typography>
+                ) : (
+                    <Typography>({string?.option_not_available})</Typography>
+                )}
+
                 <Button
                     variant="contained"
                     sx={{ borderRadius: '50%', minWidth: 28, height: 28, p: 0 }}
                     onClick={() => navigate(`/store-inventory/${storeCode}/options/sizes/create`)}
+                    disabled={!storeData?.mainStoreSettings?.sizes}
                 >
                     <AddIcon fontSize="small" />
                 </Button>

@@ -8,6 +8,7 @@ import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
 import { useOutletContext, useParams } from 'react-router-dom';
 import EmptyVideoInput from 'components/atoms/Media/EmptyVideoInput';
 import Video from 'components/atoms/Media/Video';
+import { RetailerContextInterface } from 'types';
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -19,14 +20,14 @@ const reorder = (list, startIndex, endIndex) => {
 
 const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateVariants, addMedia }) => {
     const { storeCode } = useParams();
-    const { string, storeData }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const [images, setImages] = useState<any>([]);
     const [imageSlots, setImageSlots] = useState<any>([]);
     const [video, setVideo] = useState<any>([]);
     const [videoSlots, setVideoSlots] = useState<any>([]);
 
     const imageQuota = storeData?.dataBaseStoreSettings.photos;
-    const videoQuota = storeData?.dataBaseStoreSettings.videos;
+    const videoQuota = storeData?.additionalStoreSettings?.videos ? storeData?.dataBaseStoreSettings.videos : 0;
     const imageWidth = storeData?.productImagesOptions.width;
     const imageHeight = storeData?.productImagesOptions.height;
 

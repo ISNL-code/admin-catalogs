@@ -76,9 +76,9 @@ export const useVariationsApi = () => {
         );
 
     const useUpdateProductVariant = () =>
-        useMutation(({ data, productId }: any) =>
+        useMutation(({ data, productId, storeCode }: any) =>
             put({
-                url: `v2/private/product/${productId}/variant/${data.id}`,
+                url: `v2/private/product/${productId}/variant/${data.id}?store=${storeCode}`,
                 body: {
                     ...data,
                 },

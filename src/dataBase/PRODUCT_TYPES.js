@@ -164,4 +164,70 @@ export const PRODUCT_TYPES = [
             },
         ],
     },
+    {
+        code: 'Men clothes',
+        descriptions: [
+            {
+                language: 'ua',
+                name: 'Чоловічий одяг',
+            },
+            {
+                language: 'en',
+                name: 'Men clothes',
+            },
+            {
+                language: 'pl',
+                name: 'Odzież męska',
+            },
+            {
+                language: 'cz',
+                name: 'Mužské oblečení',
+            },
+            {
+                language: 'ru',
+                name: 'Мужская одежда',
+            },
+            {
+                language: 'fr',
+                name: 'Vêtements pour hommes',
+            },
+            {
+                language: 'es',
+                name: 'Ropa de hombre',
+            },
+        ],
+    },
+    {
+        code: 'Hats',
+        descriptions: [
+            {
+                language: 'ua',
+                name: 'Головнi убори',
+            },
+            {
+                language: 'en',
+                name: 'Hats',
+            },
+            {
+                language: 'pl',
+                name: 'Kapelusze',
+            },
+            {
+                language: 'cz',
+                name: 'Klobouky',
+            },
+            {
+                language: 'ru',
+                name: 'Головные Уборы',
+            },
+            {
+                language: 'fr',
+                name: 'Chapeaux',
+            },
+            {
+                language: 'es',
+                name: 'Sombreros',
+            },
+        ],
+    },
 ];

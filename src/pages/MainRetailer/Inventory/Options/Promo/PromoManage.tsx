@@ -7,7 +7,7 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import InventoryNavigation from '../../InventoryNavigation';
 import toast from 'react-hot-toast';
 import Loader from 'components/atoms/Loader/Loader';
-import sizeFormValidations from 'helpers/Validations/sizeFormValidations';
+import promoFormValidations from 'helpers/Validations/promoFormValidations';
 import PromoForm from './components/PromoForm';
 
 const PromoManage = () => {
@@ -22,7 +22,7 @@ const PromoManage = () => {
 
     const formik = useFormik({
         initialValues: valueData,
-        validationSchema: sizeFormValidations,
+        validationSchema: promoFormValidations,
         onSubmit: values => {
             updateValue({ storeCode, data: values })
                 .then(() => {
@@ -45,7 +45,6 @@ const PromoManage = () => {
             ...valueItemRes.data,
 
             descriptions: storeData?.supportedLanguages.map(({ code }) => {
-                console.log(valueItemRes.data.descriptions.find(el => el.language === code));
                 if (valueItemRes.data.descriptions.find(el => el.language === code)) {
                     return { ...valueItemRes.data.descriptions.find(el => el.language === code) };
                 } else

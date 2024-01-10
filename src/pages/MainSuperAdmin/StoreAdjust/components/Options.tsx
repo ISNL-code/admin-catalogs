@@ -62,7 +62,7 @@ const Options = ({
         handleSetActionButtons([{ name: 'save', action: () => {} }]);
     }, []);
 
-    // if (!data?.mainStoreSettings || !data?.additionalStoreSettings) return <></>;
+    if (!data?.mainStoreSettings || !data?.additionalStoreSettings || !data?.dataBaseStoreSettings) return <></>;
 
     return (
         <>
@@ -209,7 +209,7 @@ const Options = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.width}
+                        value={data?.productImagesOptions?.width || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.width}
@@ -220,7 +220,7 @@ const Options = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.height}
+                        value={data?.productImagesOptions?.height || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.height}
@@ -231,7 +231,7 @@ const Options = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.cropX}
+                        value={data?.productImagesOptions?.cropX || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.crop_width}
@@ -242,7 +242,7 @@ const Options = ({
                 <Grid xs={sx ? 12 : 3} sx={{ p: 1, py: 1.25 }}>
                     <TextField
                         InputLabelProps={{ shrink: true }}
-                        value={data?.productImagesOptions?.cropY}
+                        value={data?.productImagesOptions?.cropY || ''}
                         onChange={e => {}}
                         size="small"
                         label={string?.crop_height}
@@ -256,21 +256,21 @@ const Options = ({
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
-                            control={<Checkbox checked={data?.mainStoreSettings?.skuSearch} />}
+                            control={<Checkbox checked={data?.mainStoreSettings?.skuSearch || ''} />}
                             label={string?.search_by_sku}
                             disabled
                         />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
-                            control={<Checkbox checked={data?.mainStoreSettings?.colors} />}
+                            control={<Checkbox checked={data?.mainStoreSettings?.colors || ''} />}
                             label={string?.colors}
                             disabled
                         />
                     </Grid>
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
-                            control={<Checkbox checked={data?.mainStoreSettings?.prices} />}
+                            control={<Checkbox checked={data?.mainStoreSettings?.prices || ''} />}
                             label={string?.prices}
                             disabled
                         />
@@ -553,7 +553,7 @@ const Options = ({
                     <Grid xs={sx ? 12 : 8} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
-                            value={data?.securityStoreSettings?.securityKey}
+                            value={data?.securityStoreSettings?.securityKey || ''}
                             onChange={e => {}}
                             size="small"
                             label={string?.store_key}
