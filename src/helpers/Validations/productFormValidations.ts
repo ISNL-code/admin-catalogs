@@ -7,7 +7,7 @@ const productFormValidations = yup.object().shape({
     descriptions: yup.array().of(
         yup.object().shape({
             description: yup.string().required('Обов`язкове поле'),
-            name: yup.string().required('Обов`язкове поле'),
+            name: yup.string().required('Обов`язкове поле').max(60, 'Максимально 60 символiв'),
         })
     ),
 });

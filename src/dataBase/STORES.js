@@ -499,7 +499,7 @@ export const STORES_DATA = [
             skuSearch: true,
             colors: true,
             prices: true,
-            sizes: false,
+            sizes: true,
             contacts: true,
             categories: true,
             browserSearch: true,
