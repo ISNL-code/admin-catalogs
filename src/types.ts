@@ -89,6 +89,7 @@ export interface CreateDataStore {
 export interface EditDataStore {
     name: string;
     code: string;
+    webUrl: string;
     phone: string;
     email: string;
     address: {

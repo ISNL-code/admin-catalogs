@@ -65,36 +65,37 @@ export const PRODUCT_TYPES = [
             },
         ],
     },
+
     {
-        code: 'Outerwear',
+        code: 'Hats',
         descriptions: [
             {
                 language: 'ua',
-                name: 'Верхній одяг',
+                name: 'Головнi убори',
             },
             {
                 language: 'en',
-                name: 'Outerwear',
+                name: 'Hats',
             },
             {
                 language: 'pl',
-                name: 'Odzież wierzchnia',
+                name: 'Kapelusze',
             },
             {
                 language: 'cz',
-                name: 'Svrchní oděvy',
+                name: 'Klobouky',
             },
             {
                 language: 'ru',
-                name: 'Верхняя одежда',
+                name: 'Головные Уборы',
             },
             {
                 language: 'fr',
-                name: 'Vêtements d`extérieur',
+                name: 'Chapeaux',
             },
             {
                 language: 'es',
-                name: 'Ropa de calle',
+                name: 'Sombreros',
             },
         ],
     },
@@ -128,6 +129,39 @@ export const PRODUCT_TYPES = [
             {
                 language: 'es',
                 name: 'Bolsas',
+            },
+        ],
+    },
+    {
+        code: 'Outerwear',
+        descriptions: [
+            {
+                language: 'ua',
+                name: 'Верхній одяг',
+            },
+            {
+                language: 'en',
+                name: 'Outerwear',
+            },
+            {
+                language: 'pl',
+                name: 'Odzież wierzchnia',
+            },
+            {
+                language: 'cz',
+                name: 'Svrchní oděvy',
+            },
+            {
+                language: 'ru',
+                name: 'Верхняя одежда',
+            },
+            {
+                language: 'fr',
+                name: 'Vêtements d`extérieur',
+            },
+            {
+                language: 'es',
+                name: 'Ropa de calle',
             },
         ],
     },
@@ -194,39 +228,6 @@ export const PRODUCT_TYPES = [
             {
                 language: 'es',
                 name: 'Ropa de hombre',
-            },
-        ],
-    },
-    {
-        code: 'Hats',
-        descriptions: [
-            {
-                language: 'ua',
-                name: 'Головнi убори',
-            },
-            {
-                language: 'en',
-                name: 'Hats',
-            },
-            {
-                language: 'pl',
-                name: 'Kapelusze',
-            },
-            {
-                language: 'cz',
-                name: 'Klobouky',
-            },
-            {
-                language: 'ru',
-                name: 'Головные Уборы',
-            },
-            {
-                language: 'fr',
-                name: 'Chapeaux',
-            },
-            {
-                language: 'es',
-                name: 'Sombreros',
             },
         ],
     },

@@ -1,6 +1,7 @@
 export const STORES_DATA = [
     {
         code: 'Carvela',
+        webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/w-shoes.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
         descriptions: [
@@ -80,6 +81,7 @@ export const STORES_DATA = [
     },
     {
         code: 'DEFAULT',
+        webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/alb.jpeg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 20 },
         descriptions: [
@@ -162,6 +164,7 @@ export const STORES_DATA = [
     },
     {
         code: 'Test',
+        webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/bags.jpeg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
         descriptions: [
@@ -241,6 +244,7 @@ export const STORES_DATA = [
     },
     {
         code: 'KREMEN',
+        webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/belts.jpeg'),
         productImagesOptions: { width: 4, height: 3, cropX: 0, cropY: 0 },
         descriptions: [
@@ -320,6 +324,7 @@ export const STORES_DATA = [
     },
     {
         code: 'johnlewis',
+        webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/johnlewis.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
         descriptions: [
@@ -399,6 +404,7 @@ export const STORES_DATA = [
     },
     {
         code: 'DUNE',
+        webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/dune.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
         descriptions: [
@@ -471,6 +477,7 @@ export const STORES_DATA = [
     },
     {
         code: 'HATS',
+        webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/hats.jpeg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
         descriptions: [

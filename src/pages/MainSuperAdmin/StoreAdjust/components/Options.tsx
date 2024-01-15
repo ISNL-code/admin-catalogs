@@ -543,14 +543,14 @@ const Options = ({
                     <Typography variant="h3">{string?.store_security}</Typography>
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
-                    <Grid xs={sx ? 12 : 4} sx={{ p: 1, py: 1.25 }}>
+                    <Grid xs={sx ? 12 : 4} sx={{ p: 1 }}>
                         <FormControlLabel
                             control={<Checkbox checked={data?.securityStoreSettings?.private} />}
                             label={string?.private_store}
                             disabled
                         />
                     </Grid>
-                    <Grid xs={sx ? 12 : 8} sx={{ p: 1, py: 1.25 }}>
+                    <Grid xs={sx ? 12 : 8} sx={{ p: 1 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
                             value={data?.securityStoreSettings?.securityKey || ''}
@@ -562,7 +562,23 @@ const Options = ({
                         />
                     </Grid>
                 </Grid>
-                <Grid xs={12} sx={{ px: 1, mt: 3 }}>
+                <Grid pt={1} xs={12} sx={{ px: 1, mt: 3, borderTop: '1px solid #ccc' }}>
+                    <Typography variant="h3">WEB URL</Typography>
+                </Grid>
+                <Grid container xs={sx ? 12 : 6}>
+                    <Grid xs={sx ? 12 : 8} sx={{ p: 1 }}>
+                        <TextField
+                            InputLabelProps={{ shrink: true }}
+                            value={data?.webUrl || ''}
+                            onChange={e => {}}
+                            size="small"
+                            label={'WEB URL'}
+                            fullWidth
+                            disabled
+                        />
+                    </Grid>
+                </Grid>
+                <Grid pt={1} xs={12} sx={{ px: 1, mt: 3, borderTop: '1px solid #ccc' }}>
                     <Typography variant="h3">{string?.product_settings}</Typography>
                 </Grid>
                 <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
