@@ -26,6 +26,7 @@ import StoresTabsPanel from 'components/organisms/Panels/StoresTabsPanel';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import { useFormik } from 'formik';
 import storeFormValidations from 'helpers/Validations/storeFormValidations';
+import { useOptionsApi } from 'api/useOptionsApi';
 
 const INITIAL_STORE_DATA = {
     name: '',
@@ -62,6 +63,7 @@ const CreateStore = () => {
     });
 
     const { mutateAsync: createStore, isLoading } = useStoresApi().useCreateStore();
+    const { mutateAsync: createOption } = useOptionsApi().useCreateOption();
 
     const formik = useFormik({
         initialValues: storeData,
@@ -79,9 +81,48 @@ const CreateStore = () => {
                     if (res) {
                         createStore(values)
                             .then(res => {
-                                if (res.status === 200) toast.success(string?.created);
+                                if (res.status === 200) {
+                                    toast.success(string?.created);
+
+                                    createOption({
+                                        storeCode: values.code,
+                                        data: {
+                                            code: `SIZE`,
+                                            type: 'select',
+                                            selectedLanguage: 'ua',
+                                            descriptions: storeData.supportedLanguages.map(el => {
+                                                return { language: el, name: `SIZE` };
+                                            }),
+                                        },
+                                    });
+
+                                    createOption({
+                                        storeCode: values.code,
+                                        data: {
+                                            code: `COLOR`,
+                                            type: 'select',
+                                            selectedLanguage: 'ua',
+                                            descriptions: storeData.supportedLanguages.map(el => {
+                                                return { language: el, name: `COLOR` };
+                                            }),
+                                        },
+                                    });
+
+                                    createOption({
+                                        storeCode: values.code,
+                                        data: {
+                                            code: `PROMO`,
+                                            type: 'select',
+                                            selectedLanguage: 'ua',
+                                            descriptions: storeData.supportedLanguages.map(el => {
+                                                return { language: el, name: `PROMO` };
+                                            }),
+                                        },
+                                    });
+                                }
                                 navigate(`/admin/store/manage/${storeData.code}/main`);
                             })
+
                             .catch(err => {
                                 console.log(err);
                                 toast.error(err.message);
