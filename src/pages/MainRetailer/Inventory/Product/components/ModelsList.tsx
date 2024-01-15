@@ -69,6 +69,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                         toast.error(string?.model_with_this_vendor_code_is_registered);
                         return;
                     }
+                    setInitSku(values.sku);
                     return res;
                 })
                 .then(res => {
