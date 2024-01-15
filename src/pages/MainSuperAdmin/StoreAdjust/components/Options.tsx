@@ -507,37 +507,39 @@ const Options = ({
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Grid
-                    container
-                    xs={12}
-                    sx={{ alignItems: 'center', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}
-                >
-                    <Grid p={1} xs={sx ? 12 : 'auto'}>
-                        <Typography variant="h4" sx={{ width: 140 }}>
-                            {string?.video}
-                        </Typography>
+                {data?.additionalStoreSettings?.video && (
+                    <Grid
+                        container
+                        xs={12}
+                        sx={{ alignItems: 'center', borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}
+                    >
+                        <Grid p={1} xs={sx ? 12 : 'auto'}>
+                            <Typography variant="h4" sx={{ width: 140 }}>
+                                {string?.video}
+                            </Typography>
+                        </Grid>
+                        <Grid xs={12} sx={{ px: 1 }}>
+                            <FormControl>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="users-radio-group"
+                                    name="row-radio-buttons-group"
+                                    value={data?.dataBaseStoreSettings?.videos}
+                                    onChange={() => {}}
+                                >
+                                    <FormControlLabel value="1" control={<Radio disabled />} label="1" />
+                                    <FormControlLabel value="3" control={<Radio disabled />} label="3" />
+                                    <FormControlLabel value="5" control={<Radio disabled />} label="5" />
+                                    <FormControlLabel
+                                        value={'unlimited'}
+                                        control={<Radio disabled />}
+                                        label={string?.unlimited}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        </Grid>
                     </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControl>
-                            <RadioGroup
-                                row
-                                aria-labelledby="users-radio-group"
-                                name="row-radio-buttons-group"
-                                value={data?.dataBaseStoreSettings?.videos}
-                                onChange={() => {}}
-                            >
-                                <FormControlLabel value="1" control={<Radio disabled />} label="1" />
-                                <FormControlLabel value="3" control={<Radio disabled />} label="3" />
-                                <FormControlLabel value="5" control={<Radio disabled />} label="5" />
-                                <FormControlLabel
-                                    value={'unlimited'}
-                                    control={<Radio disabled />}
-                                    label={string?.unlimited}
-                                />
-                            </RadioGroup>
-                        </FormControl>
-                    </Grid>
-                </Grid>
+                )}
 
                 <Grid xs={12} sx={{ px: 1, mt: 3 }}>
                     <Typography variant="h3">{string?.store_security}</Typography>
