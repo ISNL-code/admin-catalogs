@@ -231,4 +231,37 @@ export const PRODUCT_TYPES = [
             },
         ],
     },
+    {
+        code: 'Textile',
+        descriptions: [
+            {
+                language: 'ua',
+                name: 'Текстиль',
+            },
+            {
+                language: 'en',
+                name: 'Textile',
+            },
+            {
+                language: 'pl',
+                name: 'Włókienniczy',
+            },
+            {
+                language: 'cz',
+                name: 'Textil',
+            },
+            {
+                language: 'ru',
+                name: 'Текстиль',
+            },
+            {
+                language: 'fr',
+                name: 'Textile',
+            },
+            {
+                language: 'es',
+                name: 'Textil',
+            },
+        ],
+    },
 ];
