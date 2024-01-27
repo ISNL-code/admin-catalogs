@@ -5,7 +5,7 @@ const AuthInterceptor = () => {
     const AUTH_ROUTE_PATH = '/secure';
     // const SERVER_ERROR_ROUTE_PATH = '/server-error';
 
-    axios.defaults.baseURL = 'https://alb-test.com/api';
+    axios.defaults.baseURL = 'https://alberto-bini.com/api';
 
     axios.interceptors.request.use(
         async request => {

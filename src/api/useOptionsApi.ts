@@ -22,7 +22,15 @@ export const useOptionsApi = () => {
             () =>
                 get({
                     url: `v1/private/product/options?store=${storeCode}&count=100`,
-                })
+                }),
+            { enabled: !!storeCode }
+        );
+
+    const useDeleteOption = () =>
+        useMutation(({ optionId, storeCode }: any) =>
+            remove({
+                url: `v1/private/product/option/${optionId}?store=${storeCode}`,
+            })
         );
 
     const useUpdateOption = () =>
@@ -133,5 +141,6 @@ export const useOptionsApi = () => {
         useDeleteProductOption,
         useCreateOption,
         useUpdateOption,
+        useDeleteOption,
     };
 };

@@ -9,9 +9,10 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useStoresApi } from 'api/useStoresApi';
 import Loader from 'components/atoms/Loader/Loader';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { StoreInterface } from 'types';
+import { useOptionsApi } from 'api/useOptionsApi';
 
 interface StoresCardsInterface {
     data: StoreInterface[] | null;
@@ -24,8 +25,19 @@ const StoresCards = ({ data, updateStoreDataRes }: StoresCardsInterface) => {
     const { xs, sx, ls } = useDevice();
     const [openModal, setOpenModal] = useState(false);
     const [selectedStoreCode, setSelectedStoreCode] = useState<string>('');
+    const [storeCode, setStoreCode] = useState<any>(null);
+    const [optionsList, setOptionsList] = useState<any>(null);
 
+    const { refetch: getOptionsListRes } = useOptionsApi().useGetOptionsList({ storeCode });
     const { mutateAsync: deleteStore, isLoading } = useStoresApi().useDeleteStore();
+    const { mutateAsync: deleteOption } = useOptionsApi().useDeleteOption();
+
+    useEffect(() => {
+        if (!storeCode) return;
+        getOptionsListRes().then(res => {
+            setOptionsList((res?.data?.data as any)?.options);
+        });
+    }, [storeCode]);
 
     const getWidth = () => {
         if (xs) return 12; //475
@@ -44,17 +56,22 @@ const StoresCards = ({ data, updateStoreDataRes }: StoresCardsInterface) => {
                     close={() => setOpenModal(false)}
                     string={string}
                     text={string?.do_you_want_to_delete_store}
-                    action={() =>
-                        deleteStore({ storeCode: selectedStoreCode })
-                            .then(res => {
-                                if (res.status === 200) toast.success(string?.deleted);
-                                updateStoreDataRes();
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                toast.error(err.message);
-                            })
-                    }
+                    action={() => {
+                        optionsList?.forEach((element, idx) => {
+                            deleteOption({ storeCode, optionId: element?.id }).then(_ => {
+                                if (optionsList.length === idx + 1)
+                                    deleteStore({ storeCode: selectedStoreCode })
+                                        .then(res => {
+                                            if (res.status === 200) toast.success(string?.deleted);
+                                            updateStoreDataRes();
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                            toast.error(err.message);
+                                        });
+                            });
+                        });
+                    }}
                 />
             )}
             <Grid container m={0} xs={12} spacing={1}>
@@ -95,69 +112,72 @@ const StoresCards = ({ data, updateStoreDataRes }: StoresCardsInterface) => {
                         </Typography>
                     </Box>
                 </Grid>
-                {data?.map(item => (
-                    <Grid key={item.id} xs={getWidth()}>
-                        <Box sx={{ border: '1px solid #ccc', borderRadius: 2 }}>
-                            <Box
-                                onClick={() => {
-                                    navigate(`/store-manager/${item.code}/main`);
-                                }}
-                                py={1}
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    flexDirection: 'column',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                <Box sx={{ width: '25%', cursor: 'pointer' }}>
-                                    <Image width={1} height={1} imgUrl={item?.logo?.path as any} />
-                                </Box>
-                                <Typography variant="h3">{item.name}</Typography>
-                            </Box>
-                            <Box
-                                p={1}
-                                sx={{
-                                    borderTop: '1px solid #ccc',
-                                    display: 'flex',
-                                    gap: 0.5,
-                                    justifyContent: 'space-between',
-                                }}
-                            >
-                                <IconButton
-                                    sx={{
-                                        border: '1px solid #ccc',
-                                        backgroundColor: '#e6ffdf',
-                                        '&:hover': { backgroundColor: '#e6ffdf' },
+                {data?.map(item => {
+                    return (
+                        <Grid key={item.id} xs={getWidth()}>
+                            <Box sx={{ border: '1px solid #ccc', borderRadius: 2 }}>
+                                <Box
+                                    onClick={() => {
+                                        navigate(`/store-manager/${item.code}/main`);
                                     }}
-                                    size="small"
-                                    onClick={() => {}}
+                                    py={1}
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexDirection: 'column',
+                                        cursor: 'pointer',
+                                    }}
                                 >
-                                    <PowerSettingsNewIcon fontSize="small" color="success" />
-                                </IconButton>
-                                <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'space-between' }}>
+                                    <Box sx={{ width: '25%', cursor: 'pointer' }}>
+                                        <Image width={1} height={1} imgUrl={item?.logo?.path as any} />
+                                    </Box>
+                                    <Typography variant="h3">{item.name}</Typography>
+                                </Box>
+                                <Box
+                                    p={1}
+                                    sx={{
+                                        borderTop: '1px solid #ccc',
+                                        display: 'flex',
+                                        gap: 0.5,
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
                                     <IconButton
-                                        sx={{ border: '1px solid #ccc' }}
-                                        size="small"
-                                        onClick={() => navigate(`store/manage/${item.code}/main`)}
-                                    >
-                                        <ModeEditIcon fontSize="small" />
-                                    </IconButton>
-                                    <IconButton
-                                        sx={{ border: '1px solid #ccc' }}
-                                        size="small"
-                                        onClick={() => {
-                                            setOpenModal(true);
-                                            setSelectedStoreCode(item.code);
+                                        sx={{
+                                            border: '1px solid #ccc',
+                                            backgroundColor: '#e6ffdf',
+                                            '&:hover': { backgroundColor: '#e6ffdf' },
                                         }}
+                                        size="small"
+                                        onClick={() => {}}
                                     >
-                                        <DeleteForeverIcon fontSize="small" />
+                                        <PowerSettingsNewIcon fontSize="small" color="success" />
                                     </IconButton>
+                                    <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'space-between' }}>
+                                        <IconButton
+                                            sx={{ border: '1px solid #ccc' }}
+                                            size="small"
+                                            onClick={() => navigate(`store/manage/${item.code}/main`)}
+                                        >
+                                            <ModeEditIcon fontSize="small" />
+                                        </IconButton>
+                                        <IconButton
+                                            sx={{ border: '1px solid #ccc' }}
+                                            size="small"
+                                            onClick={() => {
+                                                setStoreCode(item?.code);
+                                                setOpenModal(true);
+                                                setSelectedStoreCode(item.code);
+                                            }}
+                                        >
+                                            <DeleteForeverIcon fontSize="small" />
+                                        </IconButton>
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
-                    </Grid>
-                ))}
+                        </Grid>
+                    );
+                })}
             </Grid>
         </>
     );
