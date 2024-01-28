@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { ACCESS_TOKEN_KEY } from 'constants/constants';
+import { ACCESS_TOKEN_KEY, BASE_URL } from 'constants/constants';
 
 const AuthInterceptor = () => {
     const AUTH_ROUTE_PATH = '/secure';
     // const SERVER_ERROR_ROUTE_PATH = '/server-error';
 
-    axios.defaults.baseURL = 'https://alberto-bini.com/api';
+    axios.defaults.baseURL = BASE_URL;
 
     axios.interceptors.request.use(
         async request => {

@@ -1,5 +1,6 @@
 export const ACCESS_TOKEN_KEY = 'alb-test-token';
 export const WEB_URL = 'https://catalogtest.netlify.app';
+export const BASE_URL = 'https://alberto-bini.com/api';
 export const COUNTRIES = [
     {
         id: 1,
