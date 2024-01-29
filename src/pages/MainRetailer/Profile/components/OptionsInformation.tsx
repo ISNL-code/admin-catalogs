@@ -310,6 +310,13 @@ const OptionsInformation = ({
                             disabled
                         />
                     </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.platformAvailable} />}
+                            label={string?.show_in_market}
+                            disabled
+                        />
+                    </Grid>
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
@@ -354,13 +361,7 @@ const OptionsInformation = ({
                             disabled
                         />
                     </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel
-                            control={<Checkbox checked={data?.additionalStoreSettings?.platformAvailable} />}
-                            label={string?.show_in_market}
-                            disabled
-                        />
-                    </Grid>
+
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
                             control={<Checkbox checked={data?.additionalStoreSettings?.appleStore} />}
@@ -375,8 +376,14 @@ const OptionsInformation = ({
                             disabled
                         />
                     </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.analytics} />}
+                            label={string?.analytics}
+                            disabled
+                        />
+                    </Grid>
                 </Grid>
-
                 <Grid container xs={12} sx={{ alignItems: 'center', borderTop: '1px solid #ccc' }}>
                     <Grid p={1} xs={sx ? 12 : 'auto'}>
                         <Typography variant="h4" sx={{ width: 140 }}>

@@ -1,13 +1,13 @@
 export const USERS_DATA = [
     {
-        emailAddress: 'dmytro.orgish88@gmail.com',
+        emailAddress: 'Kremen.katalog@gmail.com',
         options: { manager: true },
         contacts: {
-            emailAddress: 'dmytro.orgish88@gmail.com',
-            phone: '+380665738771',
-            viber: '+380665738771',
-            whatsapp: '+380665738771',
-            telegram: 'https://t.me/@DmytroOrgish',
+            emailAddress: 'Kremen.katalog@gmail.com',
+            phone: '+380660355716',
+            viber: '+380660355716',
+            whatsapp: '+380660355716',
+            telegram: '',
         },
     },
 ];
