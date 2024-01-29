@@ -1,24 +1,13 @@
 export const USERS_DATA = [
     {
-        emailAddress: 'Kremen.katalog@gmail.com',
+        emailAddress: 'dmytro.orgish88@gmail.com',
         options: { manager: true },
         contacts: {
-            emailAddress: 'Kremen.katalog@gmail.com',
-            phone: '+380660355716',
-            viber: '+380660355716',
-            whatsapp: '+380660355716',
-            telegram: '',
-        },
-    },
-    {
-        emailAddress: 'skipper.katalog@gmail.com',
-        options: { manager: true },
-        contacts: {
-            emailAddress: 'skipper.katalog@gmail.com',
-            phone: '+380507377576',
-            viber: '+380507377576',
-            whatsapp: '+380507377576',
-            telegram: '',
+            emailAddress: 'dmytro.orgish88@gmail.com',
+            phone: '+380665738771',
+            viber: '+380665738771',
+            whatsapp: '+380665738771',
+            telegram: 'https://t.me/@DmytroOrgish',
         },
     },
 ];

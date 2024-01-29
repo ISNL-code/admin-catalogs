@@ -90,8 +90,6 @@ export interface EditDataStore {
     name: string;
     code: string;
     webUrl: string;
-    appStoreUrl: string;
-    playMarketUrl: string;
     phone: string;
     email: string;
     address: {
