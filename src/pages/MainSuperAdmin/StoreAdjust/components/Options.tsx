@@ -333,6 +333,13 @@ const Options = ({
                             disabled
                         />
                     </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.mainStoreSettings?.platformAvailable} />}
+                            label={string?.show_in_market}
+                            disabled
+                        />
+                    </Grid>
                 </Grid>
                 <Grid container xs={sx ? 12 : 6}>
                     <Grid xs={12} sx={{ px: 1 }}>
@@ -377,13 +384,7 @@ const Options = ({
                             disabled
                         />
                     </Grid>
-                    <Grid xs={12} sx={{ px: 1 }}>
-                        <FormControlLabel
-                            control={<Checkbox checked={data?.additionalStoreSettings?.platformAvailable} />}
-                            label={string?.show_in_market}
-                            disabled
-                        />
-                    </Grid>
+
                     <Grid xs={12} sx={{ px: 1 }}>
                         <FormControlLabel
                             control={<Checkbox checked={data?.additionalStoreSettings?.appleStore} />}
@@ -395,6 +396,13 @@ const Options = ({
                         <FormControlLabel
                             control={<Checkbox checked={data?.additionalStoreSettings?.playMarket} />}
                             label={'Play Market'}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid xs={12} sx={{ px: 1 }}>
+                        <FormControlLabel
+                            control={<Checkbox checked={data?.additionalStoreSettings?.analytics} />}
+                            label={string?.analytics}
                             disabled
                         />
                     </Grid>

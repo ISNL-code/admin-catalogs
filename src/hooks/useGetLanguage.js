@@ -206,6 +206,7 @@ export const useGetLanguage = ({ lang }) => {
                 available_in_browser: 'Доступний для браузера',
                 out_of: 'з',
                 photo: 'Фото',
+                analytics: 'Аналiтика',
             },
         },
     ];
