@@ -1,5 +1,6 @@
 export const USERS_DATA = [
     {
+        //kremen-belts
         emailAddress: 'Kremen.katalog@gmail.com',
         options: { manager: true },
         contacts: {
@@ -11,6 +12,7 @@ export const USERS_DATA = [
         },
     },
     {
+        //skipper-belts
         emailAddress: 'skipper.katalog@gmail.com',
         options: { manager: true },
         contacts: {
@@ -19,6 +21,18 @@ export const USERS_DATA = [
             viber: '+380507377576',
             whatsapp: '+380507377576',
             telegram: '',
+        },
+    },
+    {
+        //alb-sales
+        emailAddress: 'alb.sales@mail.com',
+        options: { manager: true },
+        contacts: {
+            emailAddress: 'alb.sales@mail.com',
+            phone: '+380983080085',
+            viber: '+380983080085',
+            whatsapp: '+380983080085',
+            telegram: 'https://t.me/@Albertobiniopt',
         },
     },
 ];
