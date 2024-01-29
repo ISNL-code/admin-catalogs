@@ -14,7 +14,7 @@ import { STORES_DATA } from 'dataBase/STORES';
 import { USERS_DATA } from 'dataBase/USERS';
 
 const ManageStore = () => {
-    const { userProfile, string }: RetailerContextInterface = useOutletContext();
+    const { userProfile }: RetailerContextInterface = useOutletContext();
     const { storeCode } = useParams();
     const [storeData, setStoreData] = useState<EditDataStore | any>();
     const [usersList, setUsersList] = useState<UserListInterface[] | any>([]);
@@ -34,8 +34,6 @@ const ManageStore = () => {
         isFetching,
         refetch: refreshStoreData,
     } = useStoresApi().useGetStoreByCode({ storeCode });
-
-    const { mutateAsync: updateStoreData, isLoading } = useStoresApi().useUpdateStoreData();
     const { mutateAsync: deleteUser } = useUserApi().useDeleteUser();
     const { mutateAsync: uploadLogo } = useStoresApi().useUploadLogo();
 
@@ -48,6 +46,7 @@ const ManageStore = () => {
                 return el.code;
             }),
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeDataRes]);
 
     useEffect(() => {
@@ -73,7 +72,7 @@ const ManageStore = () => {
 
     return (
         <>
-            {(isLoading || isFetching) && <Loader />}
+            {isFetching && <Loader />}
 
             <StoresTabsPanel
                 nav={[
@@ -97,7 +96,6 @@ const ManageStore = () => {
                         <StoreInformation
                             data={storeData}
                             handleChangeStoreData={handleChangeStoreData}
-                            isLoading={isLoading}
                             handleSetTitle={handleSetTitle}
                             handleSetActionButtons={handleSetActionButtons}
                         />

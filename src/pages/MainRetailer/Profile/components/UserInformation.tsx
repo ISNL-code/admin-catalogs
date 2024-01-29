@@ -38,6 +38,7 @@ const UserInformation = ({
 
     useEffect(() => {
         handleSetTitle(string?.users);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -50,6 +51,7 @@ const UserInformation = ({
                 },
             },
         ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeCode]);
 
     return (

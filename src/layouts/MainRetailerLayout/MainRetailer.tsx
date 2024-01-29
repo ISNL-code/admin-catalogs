@@ -37,10 +37,12 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
     useEffect(() => {
         if (!storeDataRes || isFetching) return;
         setStoreData({ ...storeDataRes.data, ...STORES_DATA.find(({ code }) => code === storeDataRes.data.code) });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeDataRes]);
 
     useEffect(() => {
         if (!storeCode || storeCode !== userProfile.merchant) navigate(`store-manager/${userProfile.merchant}/main`);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userProfile, storeCode, location]);
 
     return (

@@ -36,6 +36,7 @@ const OrderManage = () => {
     useEffect(() => {
         if (!getOrderHistoryRes || loadHistory) return;
         setOrderHistory(getOrderHistoryRes.data.reverse());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getOrderHistoryRes]);
 
     useEffect(() => {
@@ -73,6 +74,7 @@ const OrderManage = () => {
             },
             emailAddress: email,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getOrderRes]);
 
     return (

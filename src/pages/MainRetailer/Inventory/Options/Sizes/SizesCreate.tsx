@@ -1,9 +1,7 @@
 import { useOptionsApi } from 'api/useOptionsApi';
-import { useVariationsApi } from 'api/useVariationsApi';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import { useFormik } from 'formik';
-import colorFormValidations from 'helpers/Validations/colorFormValidations';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import InventoryNavigation from '../../InventoryNavigation';
@@ -63,6 +61,7 @@ const SizesCreate = () => {
 
     useEffect(() => {
         formik.setValues(valueData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueData]);
 
     useEffect(() => {
@@ -75,7 +74,7 @@ const SizesCreate = () => {
                     name: '',
                 };
             }),
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     const handleSetTitle = title => {

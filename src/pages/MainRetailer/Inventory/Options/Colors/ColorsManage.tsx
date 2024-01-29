@@ -4,14 +4,13 @@ import PageHeader from 'components/organisms/Panels/PageHeader';
 import { useFormik } from 'formik';
 import colorFormValidations from 'helpers/Validations/colorFormValidations';
 import { useEffect, useState } from 'react';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import InventoryNavigation from '../../InventoryNavigation';
 import ColorsForm from './components/ColorsForm';
 import toast from 'react-hot-toast';
 import Loader from 'components/atoms/Loader/Loader';
 
 const ColorsManage = () => {
-    const navigate = useNavigate();
     const { storeData, string }: any = useOutletContext();
     const { storeCode, colorId } = useParams();
     const [title, setTitle] = useState('');
@@ -40,11 +39,12 @@ const ColorsManage = () => {
                         toast.error(err.message);
                     });
             }
-        },
+        }, // eslint-disable-next-line react-hooks/exhaustive-deps
     });
 
     useEffect(() => {
         formik.setValues(valueData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueData]);
 
     useEffect(() => {
@@ -64,6 +64,7 @@ const ColorsManage = () => {
             }),
         });
         setInitColor(valueItemRes.data.code);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueItemRes]);
 
     useEffect(() => {

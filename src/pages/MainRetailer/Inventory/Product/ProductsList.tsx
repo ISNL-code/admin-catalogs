@@ -66,6 +66,7 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
                 ...(productsRes?.data.products as ProductInterface[]),
             ]);
         setProductsList(productsRes?.data.products as ProductInterface[]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productsRes, productsBySkuRes]);
 
     useEffect(() => {
@@ -73,6 +74,7 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
         if (sku) {
             updateFindBySku();
         } else updateProductsRes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, sku]);
 
     const handleSetPage = val => {
@@ -81,6 +83,7 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
 
     useEffect(() => {
         handleSetTitle(string?.products);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -95,7 +98,7 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
                     navigate(`/store-inventory/${storeCode}/products/create`);
                 },
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeCode, storeData, productsList]);
 
     return (

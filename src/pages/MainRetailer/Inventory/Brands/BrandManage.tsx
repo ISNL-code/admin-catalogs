@@ -1,7 +1,7 @@
 import Loader from 'components/atoms/Loader/Loader';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import { useEffect, useState } from 'react';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import { BrandsInterface } from 'types';
 import InventoryNavigation from '../InventoryNavigation';
@@ -12,7 +12,6 @@ import brandFormValidations from 'helpers/Validations/brandFormValidations';
 import toast from 'react-hot-toast';
 
 const BrandManage = () => {
-    const navigate = useNavigate();
     const { storeData, string }: any = useOutletContext();
     const { storeCode, brandId } = useParams();
     const [title, setTitle] = useState('');
@@ -43,6 +42,7 @@ const BrandManage = () => {
 
     useEffect(() => {
         formik.setValues(brand);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brand]);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const BrandManage = () => {
                         name: '',
                     };
             }),
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brandDataRes]);
 
     const handleSetTitle = title => {

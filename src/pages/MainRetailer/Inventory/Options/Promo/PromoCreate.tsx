@@ -60,6 +60,7 @@ const PromoCreate = () => {
 
     useEffect(() => {
         formik.setValues(valueData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueData]);
 
     useEffect(() => {
@@ -73,6 +74,7 @@ const PromoCreate = () => {
                 };
             }),
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     const handleSetTitle = title => {

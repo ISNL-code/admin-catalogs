@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { HexColorPicker } from 'react-colorful';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useDevice } from 'hooks/useDevice';
@@ -17,7 +17,6 @@ interface ValuesFormInterface {
 
 const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData, formik }: ValuesFormInterface) => {
     const navigate = useNavigate();
-    const { storeCode } = useParams();
     const { string }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
 
@@ -42,7 +41,7 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
                 disabled: false,
                 action: () => {},
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     return (
@@ -89,6 +88,7 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
                         <a
                             href="https://html5css.ru/colors/1-kody-cvetov-html.php"
                             target="_blank"
+                            rel="noreferrer"
                             style={{
                                 height: '40px',
                                 padding: '6px 16px',

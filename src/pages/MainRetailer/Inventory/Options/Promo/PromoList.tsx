@@ -29,6 +29,7 @@ const PromoList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsIn
     useEffect(() => {
         if (!dataRes || isFetching) return;
         setDataList(dataRes.data.optionValues.filter(el => el.descriptions.some(el => el.description === `PROMO`)));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataRes]);
 
     useEffect(() => {
@@ -41,7 +42,7 @@ const PromoList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsIn
                     navigate(`/store-inventory/${storeCode}/options/promos/create`);
                 },
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     return (

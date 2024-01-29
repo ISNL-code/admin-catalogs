@@ -49,7 +49,7 @@ const CreateUser = () => {
     const { storeCode } = useParams();
     const { sx } = useDevice();
     const { string }: any = useOutletContext();
-    const [usersData, setUsersData] = useState<RetailerStoreInterface>(INITIAL_USER_DATA);
+    const [usersData, setUsersData] = useState<RetailerStoreInterface | any>(INITIAL_USER_DATA);
 
     const { mutateAsync: checkUniqueEmail } = useUserApi().useCheckUniqueEmailCode();
     const { mutateAsync: createUser, isLoading } = useUserApi().useCreateUser();
@@ -90,6 +90,7 @@ const CreateUser = () => {
 
     useEffect(() => {
         formik.setValues(usersData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [usersData]);
 
     const handleChangeUserData = newData => {
@@ -203,7 +204,7 @@ const CreateUser = () => {
                             label={string?.first_name}
                             fullWidth
                             error={!!(formik.errors.firstName && formik.touched.firstName)}
-                            helperText={formik.errors.firstName}
+                            helperText={formik.errors.firstName as any}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -215,7 +216,7 @@ const CreateUser = () => {
                             label={string?.last_name}
                             fullWidth
                             error={!!(formik.errors.lastName && formik.touched.lastName)}
-                            helperText={formik.errors.lastName}
+                            helperText={formik.errors.lastName as any}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -229,7 +230,7 @@ const CreateUser = () => {
                             label={string?.email}
                             fullWidth
                             error={!!(formik.errors.emailAddress && formik.touched.emailAddress)}
-                            helperText={formik.errors.emailAddress}
+                            helperText={formik.errors.emailAddress as any}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -257,7 +258,7 @@ const CreateUser = () => {
                                     label={string?.password}
                                     fullWidth
                                     error={!!(formik.errors.password && formik.touched.password)}
-                                    helperText={formik.errors.password}
+                                    helperText={formik.errors.password as any}
                                 />
                             </Grid>
                             <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -270,7 +271,7 @@ const CreateUser = () => {
                                     label={string?.confirm_password}
                                     fullWidth
                                     error={!!(formik.errors.repeatPassword && formik.touched.repeatPassword)}
-                                    helperText={formik.errors.repeatPassword}
+                                    helperText={formik.errors.repeatPassword as any}
                                 />
                             </Grid>
                         </>

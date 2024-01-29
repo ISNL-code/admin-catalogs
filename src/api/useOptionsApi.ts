@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from './useApi';
 
 export const useOptionsApi = () => {
-    const { get, remove, post, put, patch } = useApi();
+    const { get, remove, post, put } = useApi();
 
     const useGetValuesList = ({ storeCode, page, countPerPage }): any => {
         return useQuery(

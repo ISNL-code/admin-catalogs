@@ -17,9 +17,7 @@ import {
 import { useOutletContext } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
 import Grid from '@mui/material/Unstable_Grid2';
-import imageCompression from 'browser-image-compression';
 import Image from 'components/atoms/Media/Image';
-import toast from 'react-hot-toast';
 import { EditDataStore } from 'types';
 import {
     QueryObserverResult,
@@ -56,10 +54,12 @@ const Options = ({
 
     useEffect(() => {
         handleSetTitle(string?.options);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         handleSetActionButtons([{ name: 'save', action: () => {} }]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!data?.mainStoreSettings || !data?.additionalStoreSettings || !data?.dataBaseStoreSettings) return <></>;

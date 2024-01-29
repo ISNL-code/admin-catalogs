@@ -90,7 +90,7 @@ const App = () => {
                 }
             });
         }
-        if (!auth) setUserProfile(null);
+        if (!auth) setUserProfile(null); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth]);
 
     if (isFetching) return <Loader />;
@@ -106,14 +106,7 @@ const App = () => {
                     {!auth && (
                         <Route
                             path={'/'}
-                            element={
-                                <Login
-                                    string={currentLanguage?.string}
-                                    setAuth={setAuth}
-                                    auth={auth}
-                                    isLoading={isFetching}
-                                />
-                            }
+                            element={<Login string={currentLanguage?.string} setAuth={setAuth} auth={auth} />}
                         />
                     )}
                     {auth && (

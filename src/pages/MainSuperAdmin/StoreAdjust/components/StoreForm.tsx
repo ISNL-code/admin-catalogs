@@ -15,7 +15,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { CreateDataStore, EditDataStore } from 'types';
+import { EditDataStore } from 'types';
 import { COUNTRIES, CURRENCY, LANGUAGES } from 'constants/constants';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
@@ -41,10 +41,12 @@ const StoreForm = ({
 
     useEffect(() => {
         handleSetTitle(storeCode);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     useEffect(() => {
         handleSetActionButtons([{ name: 'save', action: () => {} }]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
     return (

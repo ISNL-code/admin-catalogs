@@ -146,6 +146,7 @@ const ManageStore = () => {
 
     useEffect(() => {
         formik.setValues(storeData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     useEffect(() => {
@@ -156,7 +157,7 @@ const ManageStore = () => {
             supportedLanguages: storeDataRes.data.supportedLanguages?.map(el => {
                 return el.code;
             }),
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeDataRes]);
 
     useEffect(() => {

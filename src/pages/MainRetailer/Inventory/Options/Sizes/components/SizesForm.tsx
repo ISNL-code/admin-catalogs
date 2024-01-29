@@ -1,7 +1,6 @@
 import { Box, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import SizesIndicatorButton from 'components/atoms/SizesIndicatorButton/SizesIndicatorButton';
-import { useDevice } from 'hooks/useDevice';
 import { useEffect } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { RetailerContextInterface } from 'types';
@@ -15,8 +14,7 @@ interface ValuesFormInterface {
 }
 
 const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData, formik }: ValuesFormInterface) => {
-    const { storeCode, sizeId } = useParams();
-    const { sx } = useDevice();
+    const { sizeId } = useParams();
     const { string, storeData }: RetailerContextInterface = useOutletContext();
     const navigate = useNavigate();
 
@@ -35,7 +33,7 @@ const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                 disabled: !storeData?.mainStoreSettings?.sizes,
                 action: () => {},
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     return (

@@ -32,7 +32,6 @@ const ColorsCreate = () => {
     const { data: OptionsRes } = useOptionsApi().useGetOptionsList({ storeCode });
     const { mutateAsync: createValue, isLoading: loadCreateValue } = useOptionsApi().useCreateValue();
     const { mutateAsync: createVariation, isLoading: loadCreateVariation } = useVariationsApi().useCreateVariation();
-    const { refetch: checkUnique } = useOptionsApi().useCheckValuesUnique({ code: valueData.code, storeCode });
 
     const formik = useFormik({
         initialValues: valueData,
@@ -71,6 +70,7 @@ const ColorsCreate = () => {
 
     useEffect(() => {
         formik.setValues(valueData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueData]);
 
     useEffect(() => {
@@ -88,7 +88,7 @@ const ColorsCreate = () => {
                     name: '',
                 };
             }),
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     useEffect(() => {

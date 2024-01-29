@@ -62,7 +62,7 @@ const CreateStore = () => {
         code: storeData.code,
     });
 
-    const { mutateAsync: createStore, isLoading } = useStoresApi().useCreateStore();
+    const { mutateAsync: createStore } = useStoresApi().useCreateStore();
     const { mutateAsync: createOption } = useOptionsApi().useCreateOption();
 
     const formik = useFormik({
@@ -138,6 +138,7 @@ const CreateStore = () => {
 
     useEffect(() => {
         formik.setValues(storeData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     const handleChangeStoreData = newData => {

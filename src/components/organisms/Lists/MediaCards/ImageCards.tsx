@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import StrictModeDroppable from './StrictModeDroppable';
 import Image from 'components/atoms/Media/Image';
 import toast from 'react-hot-toast';
@@ -54,7 +54,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                 return sIdx + 1;
             });
             setVideoSlots(slotsVideoArray);
-        }
+        } // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     const onDragEnd = result => {
@@ -125,7 +125,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                     />
                                 </Box>
                             );
-                        }
+                        } else return null;
                     })}
                 </Box>
             )}
@@ -166,7 +166,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                     />
                                 </Box>
                             );
-                        }
+                        } else return null;
                     })}
                 </Box>
             )}
@@ -230,7 +230,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                                 )}
                                             </Draggable>
                                         );
-                                    }
+                                    } else return null;
                                 })}
                             </Box>
                         )}
@@ -275,7 +275,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                     />
                                 </Box>
                             );
-                        }
+                        } else return null;
                     })}
                 </Box>
             )}

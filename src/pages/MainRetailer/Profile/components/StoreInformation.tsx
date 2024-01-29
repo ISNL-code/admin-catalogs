@@ -9,13 +9,13 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
 import Grid from '@mui/material/Unstable_Grid2';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { CreateDataStore, EditDataStore } from 'types';
+import { EditDataStore } from 'types';
 import { COUNTRIES, CURRENCY, LANGUAGES } from 'constants/constants';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
@@ -23,13 +23,11 @@ import { useEffect } from 'react';
 const StoreInformation = ({
     data,
     handleChangeStoreData,
-    isLoading,
     handleSetTitle,
     handleSetActionButtons,
 }: {
     data: EditDataStore;
     handleChangeStoreData: (newData: any) => void;
-    isLoading: boolean;
     handleSetTitle;
     handleSetActionButtons;
 }) => {
@@ -38,6 +36,7 @@ const StoreInformation = ({
 
     useEffect(() => {
         handleSetTitle(data?.name);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     useEffect(() => {
@@ -48,7 +47,8 @@ const StoreInformation = ({
                 action: () => {},
             },
         ]);
-    }, [isLoading]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Box>

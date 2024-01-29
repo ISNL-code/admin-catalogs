@@ -77,11 +77,12 @@ const BrandCreate = () => {
                     title: '',
                 };
             }),
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     useEffect(() => {
         formik.setValues(brand);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brand]);
 
     const handleSetTitle = title => {

@@ -33,7 +33,7 @@ const PromoForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                 disabled: !storeData?.additionalStoreSettings?.promo,
                 action: () => {},
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     return (

@@ -20,7 +20,7 @@ export const useDevice = () => {
     const lxxx = useMediaQuery({ query: '(max-width:5600px)' });
 
     useEffect(() => {
-        setCurrentDevice(window.innerWidth);
+        setCurrentDevice(window.innerWidth); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [window.innerWidth]);
 
     return { xxxxs, xxxs, xxs, xs, s, sm, slx, sx, m, mx, ls, l, lx, lxx, lxxx, currentDevice };

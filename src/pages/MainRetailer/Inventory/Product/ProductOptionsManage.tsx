@@ -43,12 +43,14 @@ const ProductOptionsManage = () => {
     useEffect(() => {
         if (!optionsValuesRes || loadListOfOptions) return;
         setOptionsAttributes(optionsValuesRes.data.optionValues);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [optionsValuesRes]);
 
     useEffect(() => {
         if (!productOptionsRes || loadProductOptions) return;
 
         setProductOptionsAttributes(productOptionsRes.data.attributes);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productOptionsRes]);
 
     return (
@@ -91,7 +93,7 @@ const ProductOptionsManage = () => {
                 optionsData={optionsAttributes
                     .filter(el => el.descriptions.some(el => el.description === `SIZE`))
                     .sort((a, b) => {
-                        var regex = /[\d|,|.|e|E|\+]+/g;
+                        var regex = /[\d|,|.|e|E|]+/g;
                         return a.code.match(regex) - b.code.match(regex);
                     })}
                 refreshProductOptions={refreshProductOptions}
@@ -103,7 +105,7 @@ const ProductOptionsManage = () => {
                 optionsData={optionsAttributes
                     .filter(el => el.descriptions.some(el => el.description === `PROMO`))
                     .sort((a, b) => {
-                        var regex = /[\d|,|.|e|E|\+]+/g;
+                        var regex = /[\d|,|.|e|E|]+/g;
                         return a.code.match(regex) - b.code.match(regex);
                     })}
                 refreshProductOptions={refreshProductOptions}
