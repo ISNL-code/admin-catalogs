@@ -1,7 +1,9 @@
 export const STORES_DATA = [
     {
         code: 'DEFAULT', // kremen-belts
-        webUrl: 'https://',
+        webUrl: 'https://kremen-belts.com/',
+        appStoreUrl: '',
+        playMarketUrl: '',
         mainImage: require('./images/belts.jpeg'),
         productImagesOptions: { width: 4, height: 3, cropX: 0, cropY: 0 },
         descriptions: [
@@ -84,14 +86,16 @@ export const STORES_DATA = [
         ],
     },
     {
-        code: 'DEFAULT', // kremen-belts
-        webUrl: 'https://',
+        code: 'SKIPPER', // skipper ремни черновцы
+        webUrl: 'https://skipper-belts.netlify.app/',
+        appStoreUrl: '',
+        playMarketUrl: '',
         mainImage: require('./images/belts.jpeg'),
-        productImagesOptions: { width: 4, height: 3, cropX: 0, cropY: 0 },
+        productImagesOptions: { width: 6, height: 7.5, cropX: 0, cropY: 0 },
         descriptions: [
             {
                 language: 'ua',
-                name: 'Кремен Белтс',
+                name: 'Skipper',
                 description: 'Магазин ременiв',
                 friendlyUrl: 'Магазин ременiв',
                 keyWords: 'Магазин ременiв',
@@ -101,7 +105,7 @@ export const STORES_DATA = [
             },
             {
                 language: 'en',
-                name: 'Kremen Belts',
+                name: 'Skipper',
                 description: 'Belts Store',
                 friendlyUrl: 'Belts Store',
                 keyWords: 'Belts Store',
@@ -111,7 +115,7 @@ export const STORES_DATA = [
             },
             {
                 language: 'ru',
-                name: 'Кремень Белтс',
+                name: 'Skipper',
                 description: 'Магазин ремней',
                 friendlyUrl: 'Магазин ремней',
                 keyWords: 'Магазин ремней',
@@ -143,25 +147,25 @@ export const STORES_DATA = [
             analytics: false,
         },
         dataBaseStoreSettings: {
-            users: 'unlimited',
-            products: 'unlimited',
-            productModels: 'unlimited',
-            photos: 'unlimited',
+            users: 2,
+            products: 50,
+            productModels: 5,
+            photos: 5,
             videos: 1,
         },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [{ code: 'Men clothes' }, { code: 'Women clothes' }, { code: 'Belts' }],
         managers: [
             {
-                firstName: 'Sergey',
+                firstName: 'Alexander',
                 lastName: '',
-                emailAddress: 'Kremen.katalog@gmail.com',
+                emailAddress: '',
                 options: { manager: true },
                 contacts: {
-                    emailAddress: 'Kremen.katalog@gmail.com',
-                    phone: '+380660355716',
-                    viber: '+380660355716',
-                    whatsapp: '+380660355716',
+                    emailAddress: '',
+                    phone: '+380507377576',
+                    viber: '+380507377576',
+                    whatsapp: '+380507377576',
                     telegram: '',
                 },
             },

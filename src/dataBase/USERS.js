@@ -10,4 +10,15 @@ export const USERS_DATA = [
             telegram: '',
         },
     },
+    {
+        emailAddress: 'skipper.katalog@gmail.com',
+        options: { manager: true },
+        contacts: {
+            emailAddress: 'skipper.katalog@gmail.com',
+            phone: '+380507377576',
+            viber: '+380507377576',
+            whatsapp: '+380507377576',
+            telegram: '',
+        },
+    },
 ];
