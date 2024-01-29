@@ -69,7 +69,11 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
             <Dropzone
                 noClick
                 onDrop={(acceptedFiles: any) => {
-                    if (['image/jpg', 'image/jpeg', 'image/png', 'image/webp'].includes(acceptedFiles[0].type)) {
+                    if (
+                        ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(
+                            acceptedFiles[0].type
+                        )
+                    ) {
                         async function handleImageUpload() {
                             const imageFile = acceptedFiles[0];
                             const options = {
@@ -109,12 +113,12 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                                 {...getInputProps()}
                                 hidden
                                 style={{ width: '100%', height: '100%' }}
-                                accept="image/jpg, image/jpeg, image/png, image/webp"
+                                accept="image/jpg, image/jpeg, image/png, image/webp, 'image/avif'"
                                 multiple
                                 type="file"
                                 onChange={(event: any) => {
                                     if (
-                                        ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'].includes(
+                                        ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(
                                             event.target.files[0]?.type
                                         )
                                     ) {
@@ -150,7 +154,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                                 <AddPhotoAlternateIcon fontSize="large" sx={{ my: 0.5 }} />
                                 <Typography>Formats:</Typography>
                                 <Typography sx={{ textTransform: 'lowercase', fontSize: 12 }}>
-                                    .jpg .jpeg .png .webp
+                                    .jpg .jpeg .png .webp .avif
                                 </Typography>
                             </Box>
                         </Box>
