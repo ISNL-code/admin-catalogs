@@ -1,6 +1,8 @@
 export const STORES_DATA = [
     {
         code: 'Carvela',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/w-shoes.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
@@ -83,6 +85,8 @@ export const STORES_DATA = [
     },
     {
         code: 'DEFAULT',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/alb.jpeg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 20 },
@@ -167,6 +171,8 @@ export const STORES_DATA = [
     },
     {
         code: 'Test',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/bags.jpeg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
@@ -249,6 +255,8 @@ export const STORES_DATA = [
     },
     {
         code: 'KREMEN',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/belts.jpeg'),
         productImagesOptions: { width: 4, height: 3, cropX: 0, cropY: 0 },
@@ -330,6 +338,8 @@ export const STORES_DATA = [
     },
     {
         code: 'johnlewis',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/johnlewis.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
@@ -411,6 +421,8 @@ export const STORES_DATA = [
     },
     {
         code: 'DUNE',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/dune.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
@@ -485,6 +497,8 @@ export const STORES_DATA = [
     },
     {
         code: 'HATS',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/hats.jpeg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
@@ -560,6 +574,8 @@ export const STORES_DATA = [
     },
     {
         code: 'CoatsAndJackets',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/coatsandjackets.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
@@ -634,6 +650,8 @@ export const STORES_DATA = [
     },
     {
         code: 'WomanCoatsAndJackets',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/spring-jacket-women-1583332991.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
@@ -708,6 +726,8 @@ export const STORES_DATA = [
     },
     {
         code: 'Textil',
+        appStoreUrl: '',
+        playMarketUrl: '',
         webUrl: 'https://cocktail-catalog.netlify.app',
         mainImage: require('./images/Textil.jpg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 0 },
