@@ -27,6 +27,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
 
     useEffect(() => {
         setImgHeight(ref?.current?.clientWidth ? (ref?.current?.clientWidth / width) * height : 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -37,7 +38,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
         window.addEventListener('resize', (event: UIEvent) => {
             const w = event.target as Window;
             setScreenWidth(w.innerWidth);
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         window.innerWidth,
 
@@ -59,7 +60,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
         setTimeout(() => {
             setImgHeight(ref?.current?.clientWidth ? (ref?.current?.clientWidth / width) * height : 0);
             setLoading(false);
-        }, 250);
+        }, 250); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screenWidth, loading, xxs, xs, s, sm, sx, slx, m, mx, ls, l]);
 
     return (

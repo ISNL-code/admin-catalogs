@@ -30,7 +30,7 @@ const ColorsList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsI
             dataRes.data.items.map(el => {
                 return { ...el.optionValue, colorId: el.optionValue.id, variationId: el.id };
             })
-        );
+        ); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataRes]);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const ColorsList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsI
                     navigate(`/store-inventory/${storeCode}/options/colors/create`);
                 },
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

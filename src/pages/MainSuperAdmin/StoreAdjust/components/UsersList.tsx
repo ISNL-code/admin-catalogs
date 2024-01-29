@@ -38,6 +38,7 @@ const UsersList = ({
 
     useEffect(() => {
         handleSetTitle(string?.users);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const UsersList = ({
                     navigate(`/admin/store/manage/${storeCode}/users/create`);
                 },
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeCode]);
 
     return (

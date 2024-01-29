@@ -34,11 +34,13 @@ const CustomersList = () => {
         setTotalPages(customersDataRes?.data.totalPages);
         if (page) return setCustomersList([...customersList, ...customersDataRes?.data.customers]);
         setCustomersList(customersDataRes?.data.customers);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customersDataRes]);
 
     useEffect(() => {
         if (mount) return;
         updateOrdersList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     const handleSetPage = val => {

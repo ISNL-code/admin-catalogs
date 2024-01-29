@@ -2,7 +2,6 @@ import { Box } from '@mui/material';
 import { useOptionsApi } from 'api/useOptionsApi';
 import EmptyPage from 'components/atoms/EmptyPage/EmptyPage';
 import Loader from 'components/atoms/Loader/Loader';
-import ColorsCards from 'components/organisms/Lists/ColorsCards';
 import SizesCards from 'components/organisms/Lists/SizesCards';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
@@ -33,10 +32,10 @@ const SizesList = ({ handleSetTitle, handleSetActionButtons }: InventorySizesInt
             dataRes.data.optionValues
                 .filter(el => el.descriptions.some(el => el.description === `SIZE`))
                 .sort((a, b) => {
-                    var regex = /[\d|,|.|e|E|\+]+/g;
+                    var regex = /[\d|,|.|e|E|]+/g;
                     return a.code.match(regex) - b.code.match(regex);
                 })
-        );
+        ); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataRes]);
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const SizesList = ({ handleSetTitle, handleSetActionButtons }: InventorySizesInt
                     navigate(`/store-inventory/${storeCode}/options/sizes/create`);
                 },
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     return (

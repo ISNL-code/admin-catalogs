@@ -57,6 +57,7 @@ const EditUser = () => {
 
     useEffect(() => {
         formik.setValues(usersData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [usersData]);
 
     useEffect(() => {
@@ -78,6 +79,7 @@ const EditUser = () => {
             ...USERS_DATA.find(({ emailAddress }) => emailAddress === user.emailAddress),
         });
         setUserNameInit(user.firstName);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userDataRes, userId]);
 
     const handleChangeUserData = newData => {

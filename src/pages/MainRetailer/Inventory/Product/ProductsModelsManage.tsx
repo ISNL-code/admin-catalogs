@@ -70,9 +70,8 @@ const ProductModelsManage = () => {
     const { data: colorsListRes, isFetching: loadColorsList } = useVariationsApi().useGetListOfVariations({
         storeCode,
     });
-    const { mutateAsync: createModel, isLoading: loadModelCreate } = useProductsApi().useCreateModelByProductID();
-    const { mutateAsync: createVariationGroup, isLoading: loadVariationGroup } =
-        useVariationsApi().useCreateVariationGroup();
+    const { mutateAsync: createModel } = useProductsApi().useCreateModelByProductID();
+    const { mutateAsync: createVariationGroup } = useVariationsApi().useCreateVariationGroup();
 
     const formik = useFormik({
         initialValues: newModelData,
@@ -122,6 +121,7 @@ const ProductModelsManage = () => {
 
     useEffect(() => {
         formik.setValues(newModelData);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newModelData]);
 
     useEffect(() => {
@@ -131,7 +131,7 @@ const ProductModelsManage = () => {
         setProduct({
             visible: product.visible,
             ...product,
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productDataRes]);
 
     useEffect(() => {
@@ -141,13 +141,14 @@ const ProductModelsManage = () => {
             variantsRes.data.items.map(el => {
                 return { ...el, variation: el.variation?.id, inventory: { price: { price: el.inventory[0]?.price } } };
             })
-        );
+        ); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [variantsRes]);
 
     useEffect(() => {
         if (!colorsListRes || loadColorsList) return;
 
         setColorsList(colorsListRes.data.items);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [colorsListRes]);
 
     return (

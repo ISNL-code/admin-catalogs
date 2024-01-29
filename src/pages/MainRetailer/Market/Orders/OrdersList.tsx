@@ -1,11 +1,10 @@
 import { Box } from '@mui/material';
-import { useProductsApi } from 'api/useProductsApi';
 import LoadMoreButton from 'components/atoms/Buttons/LoadMoreButton';
 import EmptyPage from 'components/atoms/EmptyPage/EmptyPage';
 import Loader from 'components/atoms/Loader/Loader';
 import { useEffect, useState } from 'react';
 import { useOutletContext, useParams } from 'react-router-dom';
-import { OrderInterface, ProductInterface } from 'types';
+import { OrderInterface } from 'types';
 import { useIsMount } from 'hooks/useIsMount';
 import OrdersCards from 'components/organisms/Lists/OrdersCards';
 import { useOrdersApi } from 'api/useOrdersApi';
@@ -35,11 +34,13 @@ const OrdersList = () => {
         setTotalPages(ordersDataRes?.data.totalPages);
         if (page) return setOrdersList([...ordersList, ...ordersDataRes?.data.orders]);
         setOrdersList(ordersDataRes?.data.orders);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ordersDataRes]);
 
     useEffect(() => {
         if (mount) return;
         updateOrdersList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     const handleSetPage = val => {

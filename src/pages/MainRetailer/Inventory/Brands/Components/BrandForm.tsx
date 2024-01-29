@@ -21,7 +21,7 @@ const BrandForm = ({
     const navigate = useNavigate();
     const { brandId } = useParams();
     const { sx } = useDevice();
-    const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
 
     useEffect(() => {
         if (brandId) {
@@ -42,7 +42,7 @@ const BrandForm = ({
                 disabled: false,
                 action: () => {},
             },
-        ]);
+        ]); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

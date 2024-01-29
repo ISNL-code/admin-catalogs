@@ -165,25 +165,30 @@ const CategoriesListManage = ({ handleSetTitle, handleSetActionButtons }: Invent
                 setMode('edit');
             })
             .catch(err => console.log(err));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCategory?.id]);
 
     useEffect(() => {
         formik.setValues(selectedCategory);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCategory]);
 
     useEffect(() => {
         if (!categoriesListRes || loadCategoriesList) return;
 
         setCategories(categoriesListRes.data.categories.sort((a, b) => a.sortOrder - b.sortOrder));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoriesListRes]);
 
     useEffect(() => {
         handleSetInitValues();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);
 
     useEffect(() => {
         handleSetTitle(string?.categories);
         handleSetActionButtons([]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

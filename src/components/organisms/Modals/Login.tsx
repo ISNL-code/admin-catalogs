@@ -1,16 +1,14 @@
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useUserApi } from 'api/useUserApi';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { ACCESS_TOKEN_KEY } from 'constants/constants';
 import Loader from 'components/atoms/Loader/Loader';
-import { useNavigate } from 'react-router-dom';
 import ModalWindow from 'components/molecules/ModalWindow/ModalWindow';
 
-export default function Login({ string, setAuth, auth, isLoading }) {
-    const navigate = useNavigate();
+export default function Login({ string, setAuth, auth }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [validate, setValidate] = useState(false);

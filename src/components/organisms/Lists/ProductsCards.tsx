@@ -9,7 +9,6 @@ import DeleteModal from 'components/organisms/Modals/DeleteModal';
 import { Fragment, useState } from 'react';
 import toast from 'react-hot-toast';
 import { ProductInterface } from 'types';
-import ProductsListSkeleton from 'components/atoms/Skeleton/ProductsListSkeleton';
 
 interface ProductsCardsInterface {
     data: ProductInterface[] | null;

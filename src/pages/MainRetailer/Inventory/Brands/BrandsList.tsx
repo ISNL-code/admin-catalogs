@@ -44,11 +44,13 @@ const BrandsList = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsI
                 ...(brandsRes?.data.manufacturers as BrandsInterface[]),
             ]);
         setBrandsList(brandsRes?.data.manufacturers as BrandsInterface[]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brandsRes]);
 
     useEffect(() => {
         if (mount) return;
         updateBrandsRes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     const handleSetPage = val => {
@@ -57,6 +59,7 @@ const BrandsList = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsI
 
     useEffect(() => {
         handleSetTitle(string?.brands);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -69,6 +72,7 @@ const BrandsList = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsI
                 },
             },
         ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

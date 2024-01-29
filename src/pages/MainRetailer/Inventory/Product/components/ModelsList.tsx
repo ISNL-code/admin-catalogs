@@ -7,7 +7,6 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    FormHelperText,
     InputAdornment,
     InputLabel,
     MenuItem,
@@ -105,10 +104,12 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
 
     useEffect(() => {
         setInitSku(variant.sku);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         formik.setValues(variant);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [variant]);
 
     return (

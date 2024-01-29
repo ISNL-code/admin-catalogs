@@ -1,6 +1,5 @@
-import OrderDetailCard from 'components/organisms/Lists/OrderDetailCard';
 import Grid from '@mui/material/Unstable_Grid2';
-import { Box, Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useOutletContext } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
 import { useGetStatusParams } from 'hooks/useGetStatusParams';

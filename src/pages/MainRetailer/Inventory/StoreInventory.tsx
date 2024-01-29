@@ -2,8 +2,7 @@ import { Box } from '@mui/material';
 import ActionPanel from 'components/organisms/Panels/ActionPanel';
 import PageHeader from 'components/organisms/Panels/PageHeader';
 import { useState } from 'react';
-import { Navigate, Route, Routes, useOutletContext, useParams } from 'react-router-dom';
-import { RetailerContextInterface } from 'types';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import BrandsList from './Brands/BrandsList';
 import CategoriesList from './Categories/CategoriesListManage';
 import ProductsList from './Product/ProductsList';
@@ -11,12 +10,8 @@ import InventoryNavigation from './InventoryNavigation';
 import ColorsList from './Options/Colors/ColorsList';
 
 const StoreInventory = () => {
-    const { userProfile, string }: RetailerContextInterface = useOutletContext();
-    const { storeCode } = useParams();
     const [title, setTitle] = useState('');
     const [buttons, setButtons] = useState([]);
-
-    const storeCodeValue = storeCode || userProfile.merchant;
 
     const handleSetTitle = title => {
         setTitle(title);

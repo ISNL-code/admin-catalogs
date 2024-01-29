@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from './useApi';
 
 export const useProductCategoriesApi = () => {
-    const { get, post, put, patch, remove } = useApi();
+    const { get, post, put, remove } = useApi();
 
     const useGetAllProductsCategories = ({ storeCode }) => {
         return useQuery(

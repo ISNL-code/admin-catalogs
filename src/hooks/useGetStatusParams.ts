@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 export const useGetStatusParams = () => {
     const handleGetStatusParams = (status, string) => {
         if (status === 'ORDERED') return { name: string?.ordered, color: '#1E90FF' };

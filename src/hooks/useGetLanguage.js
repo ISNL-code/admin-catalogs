@@ -213,6 +213,7 @@ export const useGetLanguage = ({ lang }) => {
 
     useEffect(() => {
         setCurrentLanguage(langList.find(({ code }) => code === lang));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lang]);
 
     return { currentLanguage };

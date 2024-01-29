@@ -67,7 +67,7 @@ const ProductGeneralManage = () => {
     });
 
     useEffect(() => {
-        formik.setValues(product);
+        formik.setValues(product); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product]);
 
     useEffect(() => {
@@ -98,13 +98,14 @@ const ProductGeneralManage = () => {
                         description: '',
                     };
             }),
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productDataRes]);
 
     useEffect(() => {
         if (!brandsRes || isFetching) return;
 
         setBrandsList(brandsRes?.data.manufacturers as BrandsInterface[]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [brandsRes]);
 
     return (

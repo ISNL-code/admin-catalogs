@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Header from './HeaderSuperAdmin';
@@ -34,6 +34,7 @@ export default function MainSuperAdmin({ lang, auth, setAuth, currentLanguage, u
     useEffect(() => {
         if (!storeDataRes || isFetching) return;
         setStoreData({ ...storeDataRes.data, ...STORES_DATA.find(({ code }) => code === storeDataRes.data.code) });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeDataRes]);
 
     return (

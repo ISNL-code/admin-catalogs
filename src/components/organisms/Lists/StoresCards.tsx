@@ -27,7 +27,6 @@ const StoresCards = ({ data, updateStoreDataRes }: StoresCardsInterface) => {
     const [selectedStoreCode, setSelectedStoreCode] = useState<string>('');
     const [storeCode, setStoreCode] = useState<any>(null);
     const [optionsList, setOptionsList] = useState<any>(null);
-
     const { refetch: getOptionsListRes } = useOptionsApi().useGetOptionsList({ storeCode });
     const { mutateAsync: deleteStore, isLoading } = useStoresApi().useDeleteStore();
     const { mutateAsync: deleteOption } = useOptionsApi().useDeleteOption();
@@ -36,7 +35,7 @@ const StoresCards = ({ data, updateStoreDataRes }: StoresCardsInterface) => {
         if (!storeCode) return;
         getOptionsListRes().then(res => {
             setOptionsList((res?.data?.data as any)?.options);
-        });
+        }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeCode]);
 
     const getWidth = () => {

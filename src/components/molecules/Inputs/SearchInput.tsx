@@ -1,4 +1,4 @@
-import { Box, Button, InputAdornment, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { useOutletContext } from 'react-router-dom';

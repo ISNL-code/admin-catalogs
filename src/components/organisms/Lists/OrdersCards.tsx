@@ -3,9 +3,7 @@ import { useDevice } from 'hooks/useDevice';
 import { Box, IconButton, Typography } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-
 import { OrderInterface } from 'types';
-import ProductsListSkeleton from 'components/atoms/Skeleton/ProductsListSkeleton';
 import { useGetStatusParams } from 'hooks/useGetStatusParams';
 
 interface OrdersCardsInterface {

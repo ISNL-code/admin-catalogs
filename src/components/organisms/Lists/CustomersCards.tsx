@@ -5,7 +5,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 
 import { CustomerInterface } from 'types';
-import ProductsListSkeleton from 'components/atoms/Skeleton/ProductsListSkeleton';
 
 interface CustomersCardsInterface {
     data: CustomerInterface[];

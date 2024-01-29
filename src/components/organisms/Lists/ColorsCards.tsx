@@ -8,7 +8,6 @@ import DeleteModal from 'components/organisms/Modals/DeleteModal';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { OptionsVariationInterface } from 'types';
-import ProductsListSkeleton from 'components/atoms/Skeleton/ProductsListSkeleton';
 import ColorIndicatorButton from 'components/atoms/ColorIndicatorButton/ColorIndicatorButton';
 
 interface CardsInterface {

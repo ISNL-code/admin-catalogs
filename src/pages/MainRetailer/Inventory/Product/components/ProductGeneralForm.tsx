@@ -30,7 +30,7 @@ const ProductGeneral = ({
     setProduct: any;
 }) => {
     const navigate = useNavigate();
-    const { storeCode, productId } = useParams();
+    const { storeCode } = useParams();
     const { sx } = useDevice();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
 
