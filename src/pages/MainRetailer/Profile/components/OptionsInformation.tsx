@@ -566,6 +566,38 @@ const OptionsInformation = ({
                     </Grid>
                 </Grid>
                 <Grid pt={1} xs={12} sx={{ px: 1, mt: 3, borderTop: '1px solid #ccc' }}>
+                    <Typography variant="h3">AppStore URL</Typography>
+                </Grid>
+                <Grid container xs={sx ? 12 : 6}>
+                    <Grid xs={sx ? 12 : 8} sx={{ p: 1 }}>
+                        <TextField
+                            InputLabelProps={{ shrink: true }}
+                            value={data?.appStoreUrl || ''}
+                            onChange={e => {}}
+                            size="small"
+                            label={'WEB URL'}
+                            fullWidth
+                            disabled
+                        />
+                    </Grid>
+                </Grid>
+                <Grid pt={1} xs={12} sx={{ px: 1, mt: 3, borderTop: '1px solid #ccc' }}>
+                    <Typography variant="h3">PlayMarket URL</Typography>
+                </Grid>
+                <Grid container xs={sx ? 12 : 6}>
+                    <Grid xs={sx ? 12 : 8} sx={{ p: 1 }}>
+                        <TextField
+                            InputLabelProps={{ shrink: true }}
+                            value={data?.playMarketUrl || ''}
+                            onChange={e => {}}
+                            size="small"
+                            label={'WEB URL'}
+                            fullWidth
+                            disabled
+                        />
+                    </Grid>
+                </Grid>
+                <Grid pt={1} xs={12} sx={{ px: 1, mt: 3, borderTop: '1px solid #ccc' }}>
                     <Typography variant="h3">{string?.product_settings}</Typography>
                 </Grid>
                 <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
