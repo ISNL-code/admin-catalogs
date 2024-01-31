@@ -55,7 +55,7 @@ const SizesManage = () => {
                     };
             }),
         }); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [valueItemRes]);
+    }, [valueItemRes, storeData?.supportedLanguages]);
 
     const handleSetTitle = title => {
         setTitle(title);

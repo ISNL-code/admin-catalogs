@@ -106,7 +106,7 @@ const PromoCards = ({ data, deleteItem, setDataList }: CardsInterface) => {
                             <Typography variant="h5">{item.id}</Typography>
                         </Grid>
                         <Grid xs={sx ? 12 : 2} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
-                            <PromoTags value={item.code} size={20} selected />
+                            <PromoTags size={20} selected value={item.name || item.code} code={item.code} />
                         </Grid>
                         <Grid xs={sx ? 12 : 3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (

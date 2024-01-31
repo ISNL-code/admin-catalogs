@@ -65,77 +65,75 @@ const PromoForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                 </Grid>
             </Grid>
 
-            {data?.descriptions &&
-                data?.descriptions?.map(({ language, name }, idx) => (
-                    <Grid
-                        container
-                        xs={12}
-                        key={idx}
-                        sx={{
-                            gap: 2,
-                            background:
-                                idx % 2 !== 0
-                                    ? `repeating-linear-gradient(
+            {data?.descriptions?.map(({ language, name, code }, idx) => (
+                <Grid
+                    container
+                    xs={12}
+                    key={idx}
+                    sx={{
+                        gap: 2,
+                        background:
+                            idx % 2 !== 0
+                                ? `repeating-linear-gradient(
                                        45deg,
                                         #f3f3f378,
                                         #f3f3f378 5px,
                                         #fff 5px,
                                         #fff 10px
                                       )`
-                                    : `repeating-linear-gradient(
+                                : `repeating-linear-gradient(
                                 135deg,
                                 #f3f3f378,
                                 #f3f3f378 5px,
                                 #fff 5px,
                                 #fff 10px
                               )`,
-                            p: 2,
-                            border: '1px solid #ccc',
-                            borderBottom: '1px solid #ccc',
-                        }}
-                    >
-                        <Grid xs={12} mb={-1}>
-                            <Typography variant="h3">{language?.toUpperCase()}</Typography>
-                        </Grid>
-                        <Grid xs={12} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <PromoTags value={name} size={20} selected />
-                            <TextField
-                                InputLabelProps={{ shrink: true }}
-                                value={name}
-                                onChange={e => {
-                                    setValueData({
-                                        ...data,
-                                        descriptions: data.descriptions?.map(el => {
-                                            if (el.language === language) {
-                                                return {
-                                                    language,
-                                                    name: e.target.value,
-                                                    description: `PROMO`,
-                                                    friendlyUrl: e.target.value,
-                                                    keyWords: e.target.value,
-                                                    highlights: e.target.value,
-                                                    metaDescription: e.target.value,
-                                                    title: e.target.value,
-                                                };
-                                            }
-                                            return { ...el };
-                                        }),
-                                    });
-                                }}
-                                size="small"
-                                label={string?.name}
-                                fullWidth
-                                error={
-                                    formik?.errors.descriptions && formik.touched.descriptions
-                                        ? formik.errors.descriptions[idx]?.name &&
-                                          formik.touched.descriptions[idx]?.name
-                                        : false
-                                }
-                                helperText={formik?.errors.descriptions ? formik.errors.descriptions[idx]?.name : ''}
-                            />
-                        </Grid>
+                        p: 2,
+                        border: '1px solid #ccc',
+                        borderBottom: '1px solid #ccc',
+                    }}
+                >
+                    <Grid xs={12} mb={-1}>
+                        <Typography variant="h3">{language?.toUpperCase()}</Typography>
                     </Grid>
-                ))}
+                    <Grid xs={12} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <PromoTags size={20} selected value={name || code} code={data?.code} />
+                        <TextField
+                            InputLabelProps={{ shrink: true }}
+                            value={name}
+                            onChange={e => {
+                                setValueData({
+                                    ...data,
+                                    descriptions: data.descriptions?.map(el => {
+                                        if (el.language === language) {
+                                            return {
+                                                language,
+                                                name: e.target.value,
+                                                description: `PROMO`,
+                                                friendlyUrl: e.target.value,
+                                                keyWords: e.target.value,
+                                                highlights: e.target.value,
+                                                metaDescription: e.target.value,
+                                                title: e.target.value,
+                                            };
+                                        }
+                                        return { ...el };
+                                    }),
+                                });
+                            }}
+                            size="small"
+                            label={string?.name}
+                            fullWidth
+                            error={
+                                formik?.errors.descriptions && formik.touched.descriptions
+                                    ? formik.errors.descriptions[idx]?.name && formik.touched.descriptions[idx]?.name
+                                    : false
+                            }
+                            helperText={formik?.errors.descriptions ? formik.errors.descriptions[idx]?.name : ''}
+                        />
+                    </Grid>
+                </Grid>
+            ))}
         </Box>
     );
 };

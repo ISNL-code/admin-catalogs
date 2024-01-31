@@ -82,7 +82,13 @@ const PromoForm = ({
                                     }
                                 }}
                             >
-                                <PromoTags key={el.id} size={30} value={el.code} selected={!!selected} />
+                                <PromoTags
+                                    key={el.id}
+                                    size={30}
+                                    selected={!!selected}
+                                    value={el.name || el.code}
+                                    code={el.code}
+                                />
                             </Box>
                         );
                     })}

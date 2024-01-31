@@ -77,7 +77,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                         async function handleImageUpload() {
                             const imageFile = acceptedFiles[0];
                             const options = {
-                                maxSizeMB: 0.05,
+                                maxSizeMB: 0.075,
                             };
                             try {
                                 const compressedFile = await imageCompression(imageFile, options);

@@ -53,7 +53,6 @@ const ColorsManage = () => {
             ...valueItemRes.data,
 
             descriptions: storeData?.supportedLanguages.map(({ code }) => {
-                console.log(valueItemRes.data.descriptions.find(el => el.language === code));
                 if (valueItemRes.data.descriptions.find(el => el.language === code)) {
                     return { ...valueItemRes.data.descriptions.find(el => el.language === code) };
                 } else
@@ -65,7 +64,7 @@ const ColorsManage = () => {
         });
         setInitColor(valueItemRes.data.code);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [valueItemRes]);
+    }, [valueItemRes, storeData?.supportedLanguages]);
 
     useEffect(() => {
         if (!valuesListRes) return;

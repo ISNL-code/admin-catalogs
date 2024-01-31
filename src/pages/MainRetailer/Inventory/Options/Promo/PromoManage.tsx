@@ -42,21 +42,22 @@ const PromoManage = () => {
 
     useEffect(() => {
         if (!valueItemRes || isFetching) return;
+
         setValueData({
             ...valueItemRes.data,
-
-            descriptions: storeData?.supportedLanguages.map(({ code }) => {
-                if (valueItemRes.data.descriptions.find(el => el.language === code)) {
-                    return { ...valueItemRes.data.descriptions.find(el => el.language === code) };
+            code: valueItemRes.data?.code,
+            descriptions: storeData?.supportedLanguages.map(item => {
+                if (valueItemRes.data.descriptions.find(el => el.language === item?.code)) {
+                    return { ...valueItemRes.data.descriptions.find(el => el.language === item?.code) };
                 } else
                     return {
-                        language: code,
+                        language: item?.code,
                         name: '',
                     };
             }),
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [valueItemRes]);
+    }, [valueItemRes, storeData?.supportedLanguages]);
 
     const handleSetTitle = title => {
         setTitle(title);
