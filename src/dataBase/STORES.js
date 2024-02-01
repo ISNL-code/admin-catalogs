@@ -263,12 +263,12 @@ export const STORES_DATA = [
         appStoreUrl: '',
         playMarketUrl: '',
         webUrl: 'https://arctic-story-furs.netlify.app',
-        mainImage: require('./images/alb.jpeg'),
+        mainImage: require('./images/ASF.jpeg'),
         productImagesOptions: { width: 6, height: 9, cropX: 0, cropY: 15 },
         descriptions: [
             {
                 language: 'ua',
-                name: 'Магазин жiночого одягу',
+                name: 'Arctic Story Furs',
                 description: 'Магазин жiночого одягу',
                 friendlyUrl: 'Магазин жiночого одягу',
                 keyWords: 'Магазин жiночого одягу',
@@ -278,7 +278,7 @@ export const STORES_DATA = [
             },
             {
                 language: 'pl',
-                name: 'Skipper',
+                name: 'Arctic Story Furs',
                 description: 'Sklep z odzieżą damską',
                 friendlyUrl: 'Sklep z odzieżą damską',
                 keyWords: 'Sklep z odzieżą damską',
@@ -288,7 +288,7 @@ export const STORES_DATA = [
             },
             {
                 language: 'en',
-                name: 'Store of Women`s Clothes',
+                name: 'Arctic Story Furs',
                 description: 'Store of Women`s Clothes',
                 friendlyUrl: 'Store of Women`s Clothes',
                 keyWords: 'Store of Women`s Clothes',
@@ -298,7 +298,7 @@ export const STORES_DATA = [
             },
             {
                 language: 'ru',
-                name: 'Магазин Женской Одежды',
+                name: 'Arctic Story Furs',
                 description: 'Магазин Женской Одежды',
                 friendlyUrl: 'Магазин Женской Одежды',
                 keyWords: 'Магазин Женской Одежды',
