@@ -33,4 +33,16 @@ export const USERS_DATA = [
             telegram: 'Albertobiniopt',
         },
     },
+    {
+        //sergey vova верхняя одежда ArcticStoryFurs
+        emailAddress: 'koptiukh2015@gmail.com',
+        options: { manager: true },
+        contacts: {
+            emailAddress: 'koptiukh2015@gmail.com',
+            phone: '+380665607580',
+            viber: '+380665607580',
+            whatsapp: '+380665607580',
+            telegram: 'koptiukhsergey',
+        },
+    },
 ];
