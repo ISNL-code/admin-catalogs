@@ -150,7 +150,7 @@ export const STORES_DATA = [
             users: 'unlimited',
             products: 'unlimited',
             productModels: 'unlimited',
-            photos: 'unlimited',
+            photos: 10,
             videos: 1,
         },
         securityStoreSettings: { private: false, securityKey: null },
