@@ -130,7 +130,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                                             };
                                             try {
                                                 const compressedFile = await imageCompression(imageFile, options);
-                                                addAction(imageFile).finally(() => setLoading(false));
+                                                addAction(compressedFile).finally(() => setLoading(false));
                                             } catch (error) {
                                                 console.log(error);
                                             }
