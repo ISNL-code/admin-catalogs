@@ -113,7 +113,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                                 {...getInputProps()}
                                 hidden
                                 style={{ width: '100%', height: '100%' }}
-                                accept="image/jpg, image/jpeg, image/png, image/webp, 'image/avif'"
+                                accept="image/*"
                                 multiple
                                 type="file"
                                 onChange={(event: any) => {
@@ -126,11 +126,11 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                                             setLoading(true);
                                             const imageFile = event.target.files[0];
                                             const options = {
-                                                maxSizeMB: 0.05,
+                                                maxSizeMB: 0.075,
                                             };
                                             try {
                                                 const compressedFile = await imageCompression(imageFile, options);
-                                                addAction(compressedFile).finally(() => setLoading(false));
+                                                addAction(imageFile).finally(() => setLoading(false));
                                             } catch (error) {
                                                 console.log(error);
                                             }
@@ -153,7 +153,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                                 <Typography>{title}</Typography>
                                 <AddPhotoAlternateIcon fontSize="large" sx={{ my: 0.5 }} />
                                 <Typography>Formats:</Typography>
-                                <Typography sx={{ textTransform: 'lowercase', fontSize: 12 }}>
+                                <Typography sx={{ fontSize: 12, textTransform: 'lowercase' }}>
                                     .jpg .jpeg .png .webp .avif
                                 </Typography>
                             </Box>
