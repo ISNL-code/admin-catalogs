@@ -483,11 +483,7 @@ const OptionsInformation = ({
                                 <FormControlLabel value="5" control={<Radio disabled />} label="5" />
                                 <FormControlLabel value="10" control={<Radio disabled />} label="10" />
                                 <FormControlLabel value="15" control={<Radio disabled />} label="15" />
-                                <FormControlLabel
-                                    value={'unlimited'}
-                                    control={<Radio disabled />}
-                                    label={string?.unlimited}
-                                />
+                                <FormControlLabel value={'25'} control={<Radio disabled />} label={string?.unlimited} />
                             </RadioGroup>
                         </FormControl>
                     </Grid>
@@ -516,7 +512,7 @@ const OptionsInformation = ({
                                     <FormControlLabel value="3" control={<Radio disabled />} label="3" />
                                     <FormControlLabel value="5" control={<Radio disabled />} label="5" />
                                     <FormControlLabel
-                                        value={'unlimited'}
+                                        value={'10'}
                                         control={<Radio disabled />}
                                         label={string?.unlimited}
                                     />
