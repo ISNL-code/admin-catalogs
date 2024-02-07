@@ -11,8 +11,8 @@ const categoryFormValidations = yup.object().shape({
     code: yup
         .string()
         .required('Обов`язкове поле')
-        .matches(langCheck, 'Код має складатися щонайменше з 4 латинських символів або цифр')
-        .min(4, 'Код має складатися щонайменше з 4 латинських символів або цифр'),
+        .matches(langCheck, 'Код має складатися щонайменше з 3 латинських символів або цифр')
+        .min(3, 'Код має складатися щонайменше з 3 латинських символів або цифр'),
 });
 
 export default categoryFormValidations;
