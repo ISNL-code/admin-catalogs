@@ -17,6 +17,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { BrandsInterface, MainContextInterface, ManageProductInterface, RetailerContextInterface } from 'types';
 import AddIcon from '@mui/icons-material/Add';
 import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
+import { useProductsPriceApi } from 'api/useProductsPriceApi';
+import { useEffect } from 'react';
 
 const ProductGeneral = ({
     data,
@@ -33,7 +35,13 @@ const ProductGeneral = ({
     const { storeCode } = useParams();
     const { sx } = useDevice();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { data: getData } = useProductsPriceApi().useGetPrice();
 
+    useEffect(() => {
+        console.log('first');
+        if (!getData) return;
+        console.log(getData);
+    }, [getData]);
     return (
         <>
             <Box

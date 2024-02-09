@@ -89,7 +89,11 @@ const ProductModelsManage = () => {
                     if (res) {
                         createModel({
                             productId,
-                            data: { ...values, price: values.inventory.price.price.replaceAll(',', '') },
+                            data: {
+                                ...values,
+                                price: values.inventory.price.price.replaceAll(',', ''),
+                                discounted: true,
+                            },
                             storeCode,
                         })
                             .then(res => {
