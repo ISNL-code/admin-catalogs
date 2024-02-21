@@ -35,11 +35,6 @@ const ProductGeneral = ({
     const { sx } = useDevice();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
 
-    useEffect(() => {
-        console.log('first');
-        if (!getData) return;
-        console.log(getData);
-    }, [getData]);
     return (
         <>
             <Box
