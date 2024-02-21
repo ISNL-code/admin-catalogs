@@ -17,7 +17,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { BrandsInterface, MainContextInterface, ManageProductInterface, RetailerContextInterface } from 'types';
 import AddIcon from '@mui/icons-material/Add';
 import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
-import { useEffect } from 'react';
 
 const ProductGeneral = ({
     data,
