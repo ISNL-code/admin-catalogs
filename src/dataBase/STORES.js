@@ -232,7 +232,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: false,
         },
-        dataBaseStoreSettings: { users: 5, products: 50, productModels: 5, photos: 5, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 5, photos: 5, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {
