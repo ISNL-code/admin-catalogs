@@ -10,7 +10,7 @@ const StoreMarketRouter = () => {
             <Route path={'/customers'} element={<CustomersList />} />
             <Route path={'/orders/:orderId/manage'} element={<OrderManage />} />
 
-            {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     ) as any;
 };

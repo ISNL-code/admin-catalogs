@@ -61,7 +61,7 @@ const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
                     <Route path="/store-manager/:storeCode/*" element={<StoreProfileRouter />} />
                     <Route path={'/store-inventory/:storeCode/*'} element={<StoreInventoryRouter />} />
                     <Route path={'/store-market/:storeCode/*'} element={<StoreMarketRouter />} />
-                    {/* <Route path="*" element={<Navigate to="/store-manager" replace />} /> */}
+                    <Route path="*" element={<Navigate to="/store-manager" replace />} />
                 </Route>
             )}
             <Route path="*" element={<Navigate to="/" replace />} />
@@ -123,7 +123,7 @@ const App = () => {
                             }
                         />
                     )}
-                    {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Router>
         </ThemeProvider>
