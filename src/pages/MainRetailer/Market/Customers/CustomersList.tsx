@@ -20,7 +20,7 @@ const CustomersList = () => {
     const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const { string }: any = useOutletContext();
-    const countPerPage = 25;
+    const countPerPage = 1000;
 
     const {
         data: customersDataRes,

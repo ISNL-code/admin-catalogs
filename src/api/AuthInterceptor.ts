@@ -28,7 +28,7 @@ const AuthInterceptor = () => {
                 window.localStorage.removeItem(ACCESS_TOKEN_KEY);
                 if (window.location.pathname !== AUTH_ROUTE_PATH) window.location.href = AUTH_ROUTE_PATH;
             }
-            if (error.response.status === 404) window.location.href = '/';
+            // if (error.response.status === 404) window.location.href = '/';
             // if (error.response.status >= 500) window.location.href = SERVER_ERROR_ROUTE_PATH;
             return Promise.reject(error);
         }
