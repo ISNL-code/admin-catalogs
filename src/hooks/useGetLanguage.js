@@ -129,7 +129,8 @@ export const useGetLanguage = ({ lang }) => {
                 stores: 'Магазини',
                 favorites: 'Уподобане',
                 login: 'Вхід',
-                welcome_to_Cocktail_to_get_started_login: 'Ласкаво просимо до Cocktail, щоб почати роботу, увійдіть!',
+                welcome_to_Sales_Nest_to_get_started_login:
+                    'Ласкаво просимо до Sales Nest, щоб почати роботу, увійдіть!',
                 wrong_login_or_password: 'Неправильний логін або пароль',
                 cart: 'Кошик',
                 vendor_code: 'Артикул',

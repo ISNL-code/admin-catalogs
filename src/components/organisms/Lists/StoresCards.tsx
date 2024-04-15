@@ -56,20 +56,32 @@ const StoresCards = ({ data, updateStoreDataRes }: StoresCardsInterface) => {
                     string={string}
                     text={string?.do_you_want_to_delete_store}
                     action={() => {
-                        optionsList?.forEach((element, idx) => {
-                            deleteOption({ storeCode, optionId: element?.id }).then(_ => {
-                                if (optionsList.length === idx + 1)
-                                    deleteStore({ storeCode: selectedStoreCode })
-                                        .then(res => {
-                                            if (res.status === 200) toast.success(string?.deleted);
-                                            updateStoreDataRes();
-                                        })
-                                        .catch(err => {
-                                            console.log(err);
-                                            toast.error(err.message);
-                                        });
+                        if (optionsList?.length) {
+                            optionsList?.forEach((element, idx) => {
+                                deleteOption({ storeCode, optionId: element?.id }).then(_ => {
+                                    if (optionsList.length === idx + 1)
+                                        deleteStore({ storeCode: selectedStoreCode })
+                                            .then(res => {
+                                                if (res.status === 200) toast.success(string?.deleted);
+                                                updateStoreDataRes();
+                                            })
+                                            .catch(err => {
+                                                console.log(err);
+                                                toast.error(err.message);
+                                            });
+                                });
                             });
-                        });
+                        } else {
+                            deleteStore({ storeCode: selectedStoreCode })
+                                .then(res => {
+                                    if (res.status === 200) toast.success(string?.deleted);
+                                    updateStoreDataRes();
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    toast.error(err.message);
+                                });
+                        }
                     }}
                 />
             )}

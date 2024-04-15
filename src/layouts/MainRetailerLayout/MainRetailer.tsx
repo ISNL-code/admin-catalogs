@@ -27,7 +27,7 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
     const [storeData, setStoreData] = useState<StoreInterface | null>(null);
     const { sx, l } = useDevice();
     const [scrollPosition, setScrollPosition] = useState(0);
-    const headerHeight = 35;
+    const headerHeight = 48;
     const footerHeight = sx ? 70 : 0;
     const instrumentalBarHeight = 31;
     const appXPadding = l ? 2 : 4;

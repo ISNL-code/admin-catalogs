@@ -24,7 +24,7 @@ export default function MainSuperAdmin({ lang, auth, setAuth, currentLanguage, u
     const { sx, l } = useDevice();
     const [scrollPosition, setScrollPosition] = useState(0);
     const [storeData, setStoreData] = useState<StoreInterface | null>(null);
-    const headerHeight = 35;
+    const headerHeight = 48;
     const footerHeight = sx ? 70 : 0;
     const instrumentalBarHeight = 31;
     const appXPadding = l ? 2 : 4;

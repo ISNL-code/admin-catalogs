@@ -22,7 +22,7 @@ export default function Login({ string, setAuth, auth }) {
                 <>
                     <>{loadRegisterData && <Loader />}</>
                     <ModalWindow
-                        title={string?.welcome_to_Cocktail_to_get_started_login}
+                        title={string?.welcome_to_Sales_Nest_to_get_started_login}
                         actionTitle={string?.login}
                         primaryAction={() => {
                             setValidate(true);
