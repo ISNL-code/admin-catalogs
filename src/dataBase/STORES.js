@@ -87,7 +87,7 @@ export const STORES_DATA = [
     },
     {
         code: 'DEFAULT', // kremen-belts
-        webUrl: 'https://kremen-belts.com',
+        webUrl: 'https://kremen-belts.netlify.app',
         appStoreUrl: '',
         playMarketUrl: '',
         mainImage: require('./images/belts.jpeg'),
