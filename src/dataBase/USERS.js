@@ -22,6 +22,17 @@ export const USERS_DATA = [
         },
     },
     {
+        emailAddress: 'kremen-admin@gmail.com',
+        options: { manager: true },
+        contacts: {
+            emailAddress: 'Kremen.katalog@gmail.com',
+            phone: '+380660355716',
+            viber: '+380660355716',
+            whatsapp: '+380660355716',
+            telegram: '',
+        },
+    },
+    {
         //alberto-bini
         emailAddress: 'alb-admin@mail.com',
         options: { manager: true },
