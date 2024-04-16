@@ -422,8 +422,8 @@ const Options = ({
                                 value={data?.dataBaseStoreSettings?.users}
                                 onChange={() => {}}
                             >
-                                <FormControlLabel value="2" control={<Radio disabled />} label="2" />
-                                <FormControlLabel value="5" control={<Radio disabled />} label="5" />
+                                <FormControlLabel value="1" control={<Radio disabled />} label="1" />
+                                <FormControlLabel value="3" control={<Radio disabled />} label="3" />
                                 <FormControlLabel value="10" control={<Radio disabled />} label="10" />
                                 <FormControlLabel
                                     value={'unlimited'}
