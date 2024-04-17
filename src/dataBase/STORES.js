@@ -177,7 +177,7 @@ export const STORES_DATA = [
         appStoreUrl: '',
         playMarketUrl: '',
         mainImage: require('./images/belts.jpeg'),
-        productImagesOptions: { width: 4, height: 3, cropX: 0, cropY: 0 },
+        productImagesOptions: { width: 3, height: 2, cropX: 0, cropY: 0 },
         descriptions: [
             {
                 language: 'ua',
