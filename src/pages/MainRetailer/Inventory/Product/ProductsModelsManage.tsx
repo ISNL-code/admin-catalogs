@@ -33,7 +33,7 @@ const INIT_MODEL_VALUE = {
         price: {
             price: '',
         },
-        quantity: 10000,
+        quantity: 100009099,
     },
     variationCode: '',
 };

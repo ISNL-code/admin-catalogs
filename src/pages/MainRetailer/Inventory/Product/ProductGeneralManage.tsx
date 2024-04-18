@@ -24,7 +24,7 @@ const INIT_PRODUCT_DATA = {
     canBePurchased: false,
     timeBound: false,
     price: '',
-    quantity: 100000,
+    quantity: 1000000,
     sortOrder: '',
     productSpecifications: {
         weight: '',

@@ -21,7 +21,7 @@ export const useProductsApi = () => {
                 url: `v1/private/product/${id}?store=${storeCode}`,
                 body: {
                     available: complete,
-                    quantity: 100000,
+                    quantity: 1000020,
                 },
             })
         );
