@@ -55,6 +55,11 @@ export const LANGUAGES = [
         code: 'fr',
         name: 'Французька',
     },
+    {
+        id: 7,
+        code: 'kz',
+        name: 'Казахська',
+    },
 ];
 
 export const CURRENCY = [
