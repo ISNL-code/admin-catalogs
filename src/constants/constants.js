@@ -56,7 +56,7 @@ export const LANGUAGES = [
         name: 'Французька',
     },
     {
-        id: 7,
+        id: 8,
         code: 'kz',
         name: 'Казахська',
     },
