@@ -77,7 +77,7 @@ const ProductGeneral = ({
                                     );
                                 })}
                             </Select>
-                            <FormHelperText>{formik.errors.manufacturer}</FormHelperText>
+                            <FormHelperText>{string?.[formik.errors.manufacturer]}</FormHelperText>
                         </FormControl>
                         <Button
                             variant="contained"
@@ -94,7 +94,7 @@ const ProductGeneral = ({
                             type="number"
                             value={data?.price.replaceAll(',', '')}
                             error={formik.errors.price && formik.touched.price}
-                            helperText={formik.errors.price}
+                            helperText={string?.[formik.errors.price]}
                             onChange={e => {
                                 setProduct({ ...data, price: e.target.value });
                             }}
@@ -116,7 +116,7 @@ const ProductGeneral = ({
                             type="number"
                             value={data?.sortOrder}
                             error={formik.errors.sortOrder && formik.touched.sortOrder}
-                            helperText={formik.errors.sortOrder}
+                            helperText={string?.[formik.errors.sortOrder]}
                             onChange={e => {
                                 setProduct({ ...data, sortOrder: e.target.value });
                             }}
@@ -199,7 +199,9 @@ const ProductGeneral = ({
                                             : false
                                     }
                                     helperText={
-                                        formik?.errors.descriptions ? formik.errors.descriptions[idx]?.name : ''
+                                        formik?.errors.descriptions
+                                            ? string?.[formik.errors.descriptions[idx]?.name]
+                                            : ''
                                     }
                                 />
                             </Grid>
@@ -233,7 +235,9 @@ const ProductGeneral = ({
                                             : false
                                     }
                                     helperText={
-                                        formik?.errors.descriptions ? formik.errors.descriptions[idx]?.description : ''
+                                        formik?.errors.descriptions
+                                            ? string?.[formik.errors.descriptions[idx]?.description]
+                                            : ''
                                     }
                                 />
                             </Grid>

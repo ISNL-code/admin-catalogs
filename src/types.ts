@@ -162,6 +162,7 @@ export interface UserProfileInterface {
         name: string;
     }[];
     groups: { id: number; name: string; type: null }[];
+    contacts: any;
 }
 
 export interface UserListInterface {
@@ -181,6 +182,8 @@ export interface UserListInterface {
             name: string;
         }
     ];
+    contacts: any; // to add be
+    options: any; //to add be
 }
 
 export interface StoreInterface {

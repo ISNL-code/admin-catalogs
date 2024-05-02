@@ -68,4 +68,15 @@ export const USERS_DATA = [
             telegram: 'koptiukhsergey',
         },
     },
+    {
+        emailAddress: 'admin@shopizer.com',
+        options: { manager: false },
+        contacts: {
+            emailAddress: 'admin@shopizer.com',
+            phone: '+380665738771',
+            viber: '+380665738771',
+            whatsapp: '+380665738771',
+            telegram: '@SNBussinessApp',
+        },
+    },
 ];

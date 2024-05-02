@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { useProductsApi } from 'api/useProductsApi';
 import productFormValidations from 'helpers/Validations/productFormValidations';
 import { useBrandsApi } from 'api/useBrandsApi';
-import { BrandsInterface } from 'types';
+import { BrandsInterface, RetailerContextInterface } from 'types';
 
 const INIT_PRODUCT_DATA = {
     sku: '',
@@ -36,13 +36,18 @@ const INIT_PRODUCT_DATA = {
 const ProductCreate = () => {
     const navigate = useNavigate();
     const { storeCode } = useParams();
-    const { string, storeData }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const [product, setProduct] = useState(INIT_PRODUCT_DATA);
     const [brandsList, setBrandsList] = useState<BrandsInterface[] | any>(null);
 
     const { mutateAsync: createProduct, isLoading } = useProductsApi().useCreateProduct();
 
-    const { data: brandsRes, isFetching } = useBrandsApi().useGetBrandsList({ storeCode, page: 0, countPerPage: 100 });
+    const { data: brandsRes, isFetching } = useBrandsApi().useGetBrandsList({
+        storeCode,
+        page: 0,
+        countPerPage: 100,
+        lang: storeData?.defaultLanguage,
+    });
 
     const formik = useFormik({
         initialValues: product,
@@ -74,7 +79,7 @@ const ProductCreate = () => {
                     metaDescription: '',
                     title: '',
                 };
-            }),
+            }) as any,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeData]);

@@ -13,7 +13,7 @@ import Loader from 'components/atoms/Loader/Loader';
 
 const INITIAL_VALUE_DATA = {
     code: '',
-    selectedLanguage: 'ua',
+    selectedLanguage: '',
     descriptions: [],
 };
 

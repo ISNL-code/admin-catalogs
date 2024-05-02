@@ -15,7 +15,7 @@ const INITIAL_BRAND_DATA = {
     code: '',
     store: '',
     order: '1',
-    selectedLanguage: 'ua',
+    selectedLanguage: '',
     descriptions: [],
 };
 

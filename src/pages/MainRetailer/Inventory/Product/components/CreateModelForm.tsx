@@ -52,7 +52,7 @@ const CreateModelForm = ({
                     label={string?.vendor_code}
                     fullWidth
                     error={formik.errors.sku && formik.touched.sku}
-                    helperText={formik.errors.sku}
+                    helperText={string?.[formik.errors.sku]}
                 />
             </Grid>
             <Grid xs={sx ? 12 : 3} p={1} sx={{ display: 'flex', flexWrap: 'nowrap', gap: 1 }}>
@@ -84,7 +84,7 @@ const CreateModelForm = ({
                             </MenuItem>
                         ))}
                     </Select>
-                    <FormHelperText>{formik.errors.variation}</FormHelperText>
+                    <FormHelperText>{string?.[formik.errors.variation]}</FormHelperText>
                 </FormControl>
                 <Button
                     variant="contained"
@@ -119,7 +119,7 @@ const CreateModelForm = ({
                         ),
                     }}
                     error={formik.errors?.inventory?.price?.price && formik.touched?.inventory?.price?.price}
-                    helperText={formik.errors?.inventory?.price?.price}
+                    helperText={string?.[formik.errors?.inventory?.price?.price]}
                 />
             </Grid>
             <Grid p={1} xs={sx ? 6 : 3}>
@@ -134,7 +134,7 @@ const CreateModelForm = ({
                     label={string?.order_priority}
                     fullWidth
                     error={formik.errors.sortOrder && formik.touched.sortOrder}
-                    helperText={formik.errors.sortOrder}
+                    helperText={string?.[formik.errors.sortOrder]}
                 />
             </Grid>
             <Grid p={1} xs={12}>

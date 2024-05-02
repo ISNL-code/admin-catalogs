@@ -62,7 +62,7 @@ const StoreForm = ({
                             label={string?.store_name}
                             fullWidth
                             error={!!(formik.errors.name && formik.touched.name)}
-                            helperText={formik.errors.name}
+                            helperText={string?.[formik.errors.name]}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -70,7 +70,7 @@ const StoreForm = ({
                             InputLabelProps={{ shrink: true }}
                             value={data.code || ''}
                             error={!!(formik.errors.code && formik.touched.code)}
-                            helperText={formik.errors.code}
+                            helperText={string?.[formik.errors.code]}
                             onChange={e => handleChangeStoreData({ code: e.target.value })}
                             size="small"
                             label={string?.store_code}
@@ -241,7 +241,6 @@ const StoreForm = ({
                                 key={el.id}
                                 control={
                                     <Checkbox
-                                        disabled={el.code === 'ua'}
                                         checked={!!data?.supportedLanguages?.some(lang => lang === el.code)}
                                         onChange={e => {
                                             if (e.target.checked) {

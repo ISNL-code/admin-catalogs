@@ -52,7 +52,7 @@ const CategoryForm = ({ data, selectedCategory, formik, setSelectedCategory, set
                     fullWidth
                     disabled={!!selectedCategory?.id}
                     error={formik.errors.code && formik.touched.code}
-                    helperText={formik.errors.code}
+                    helperText={string?.[formik.errors.code]}
                 />
             </Grid>
             <Grid p={1} xs={4}>
@@ -139,7 +139,9 @@ const CategoryForm = ({ data, selectedCategory, formik, setSelectedCategory, set
                                         : false
                                 }
                                 helperText={
-                                    formik?.errors.descriptions ? formik.errors.descriptions[idx]?.description : ''
+                                    formik?.errors.descriptions
+                                        ? string?.[formik.errors.descriptions[idx]?.description]
+                                        : ''
                                 }
                             />
                         </Grid>

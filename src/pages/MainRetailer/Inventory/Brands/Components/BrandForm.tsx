@@ -63,14 +63,14 @@ const BrandForm = ({
                             name="code"
                             onChange={e => {
                                 if (brandId) return;
-                                setBrand({ ...data, code: e.target.value });
+                                setBrand({ ...data, code: e.target.value?.trim() });
                             }}
                             size="small"
                             label={string?.code}
                             fullWidth
                             disabled={!!brandId}
                             error={formik.errors.code && formik.touched.code}
-                            helperText={formik.errors.code}
+                            helperText={string?.[formik.errors.code]}
                         />
                     </Grid>
                     <Grid xs={sx ? 6 : 6} p={1}>
@@ -156,7 +156,9 @@ const BrandForm = ({
                                             : false
                                     }
                                     helperText={
-                                        formik?.errors.descriptions ? formik.errors.descriptions[idx]?.description : ''
+                                        formik?.errors.descriptions
+                                            ? string?.[formik.errors.descriptions[idx]?.description]
+                                            : ''
                                     }
                                 />
                             </Grid>

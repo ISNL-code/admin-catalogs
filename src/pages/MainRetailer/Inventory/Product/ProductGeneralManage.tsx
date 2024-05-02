@@ -45,11 +45,17 @@ const ProductGeneralManage = () => {
     const { data: productDataRes, isFetching: loadProducts } = useProductsApi().useGetProductById({
         storeCode,
         productId,
+        lang: '_all',
     });
 
     const { mutateAsync: updateProduct, isLoading } = useProductsApi().useUpdateProduct();
 
-    const { data: brandsRes, isFetching } = useBrandsApi().useGetBrandsList({ storeCode, page: 0, countPerPage: 100 });
+    const { data: brandsRes, isFetching } = useBrandsApi().useGetBrandsList({
+        storeCode,
+        page: 0,
+        countPerPage: 100,
+        lang: storeData?.defaultLanguage,
+    });
 
     const formik = useFormik({
         initialValues: product,
@@ -99,14 +105,14 @@ const ProductGeneralManage = () => {
                     };
             }),
         }); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [productDataRes]);
+    }, [productDataRes, storeData, loadProducts]);
 
     useEffect(() => {
         if (!brandsRes || isFetching) return;
 
         setBrandsList(brandsRes?.data.manufacturers as BrandsInterface[]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [brandsRes]);
+    }, [brandsRes, storeData, isFetching]);
 
     return (
         <form
@@ -146,6 +152,7 @@ const ProductGeneralManage = () => {
                     },
                 ]}
             />
+
             <ProductGeneralForm data={product} formik={formik} brandsList={brandsList} setProduct={setProduct} />
         </form>
     );

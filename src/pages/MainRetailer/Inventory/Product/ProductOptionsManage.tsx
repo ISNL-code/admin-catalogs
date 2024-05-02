@@ -18,7 +18,7 @@ import { useOptionsApi } from 'api/useOptionsApi';
 
 const ProductOptionsManage = () => {
     const navigate = useNavigate();
-    const { string }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
     const [optionsAttributes, setOptionsAttributes] = useState<OptionsValueInterface[] | any>([]);
     const [productOptionsAttributes, setProductOptionsAttributes] = useState<ProductAttrOptionsInterface[] | any>([]);
@@ -30,6 +30,7 @@ const ProductOptionsManage = () => {
         storeCode,
         page: 0,
         countPerPage: 500,
+        lang: storeData?.defaultLanguage,
     });
     const {
         data: productOptionsRes,
@@ -38,6 +39,7 @@ const ProductOptionsManage = () => {
     } = useOptionsApi().useGetProductOptionsById({
         productId,
         storeCode,
+        lang: storeData?.defaultLanguage,
     });
 
     useEffect(() => {

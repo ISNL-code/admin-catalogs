@@ -4,14 +4,15 @@ import useApi from './useApi';
 export const useOptionsApi = () => {
     const { get, remove, post, put } = useApi();
 
-    const useGetValuesList = ({ storeCode, page, countPerPage }): any => {
+    const useGetValuesList = ({ storeCode, page, countPerPage, lang }): any => {
         return useQuery(
             ['get-values-list'],
 
             () =>
                 get({
-                    url: `v1/private/product/options/values?store=${storeCode}&page=${page}&count=${countPerPage}`,
-                })
+                    url: `v1/private/product/options/values?store=${storeCode}&page=${page}&count=${countPerPage}&=lang${lang}`,
+                }),
+            { enabled: Boolean(lang) }
         );
     };
 
@@ -89,14 +90,15 @@ export const useOptionsApi = () => {
             })
         );
 
-    const useGetProductOptionsById = ({ storeCode, productId }) =>
+    const useGetProductOptionsById = ({ storeCode, productId, lang }) =>
         useQuery(
             ['get-all-productID-options'],
 
             () =>
                 get({
-                    url: `v1/private/product/${productId}/attributes?store=${storeCode}&lang=ua&count=200&page=0`,
-                })
+                    url: `v1/private/product/${productId}/attributes?store=${storeCode}&lang=${lang}&count=200&page=0`,
+                }),
+            { enabled: Boolean(lang) }
         );
 
     const useAddProductOption = () =>

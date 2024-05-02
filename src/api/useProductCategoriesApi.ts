@@ -4,12 +4,13 @@ import useApi from './useApi';
 export const useProductCategoriesApi = () => {
     const { get, post, put, remove } = useApi();
 
-    const useGetAllProductsCategories = ({ storeCode }) => {
+    const useGetAllProductsCategories = ({ storeCode, lang }) => {
         return useQuery(
             //query key
             ['get-all-product-categories'],
             //get function
-            () => get({ url: `/v1/category?lang=ua&store=${storeCode}&count=1000&page=0` })
+            () => get({ url: `/v1/category?lang=${lang}&store=${storeCode}&count=1000&page=0` }),
+            { enabled: Boolean(lang) }
         );
     };
 

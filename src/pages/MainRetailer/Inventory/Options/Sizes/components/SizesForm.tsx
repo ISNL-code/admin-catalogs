@@ -60,7 +60,7 @@ const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                         fullWidth
                         disabled={!!sizeId}
                         error={formik.errors.code && formik.touched.code}
-                        helperText={formik.errors.code}
+                        helperText={string?.[formik.errors.code]}
                     />
                 </Grid>
             </Grid>
@@ -131,7 +131,9 @@ const SizesForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                                           formik.touched.descriptions[idx]?.name
                                         : false
                                 }
-                                helperText={formik?.errors.descriptions ? formik.errors.descriptions[idx]?.name : ''}
+                                helperText={
+                                    formik?.errors.descriptions ? string?.[formik.errors.descriptions[idx]?.name] : ''
+                                }
                             />
                         </Grid>
                     </Grid>

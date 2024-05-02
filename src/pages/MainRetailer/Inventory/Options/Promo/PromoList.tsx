@@ -24,13 +24,13 @@ const PromoList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsIn
         data: dataRes,
         isFetching,
         isFetched,
-    } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500 });
+    } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500, lang: storeData?.defaultLanguage });
 
     useEffect(() => {
         if (!dataRes || isFetching) return;
         setDataList(dataRes.data.optionValues.filter(el => el.descriptions.some(el => el.description === `PROMO`)));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dataRes]);
+    }, [dataRes, isFetching]);
 
     useEffect(() => {
         handleSetTitle(string?.colors);

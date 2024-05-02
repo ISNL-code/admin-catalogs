@@ -1,13 +1,13 @@
 import * as yup from 'yup';
 
 const productFormValidations = yup.object().shape({
-    manufacturer: yup.string().required('Обов`язкове поле'),
-    price: yup.string().required('Обов`язкове поле'),
-    sortOrder: yup.string().required('Обов`язкове поле'),
+    manufacturer: yup.string().required('required_field'),
+    price: yup.string().required('required_field'),
+    sortOrder: yup.string().required('required_field'),
     descriptions: yup.array().of(
         yup.object().shape({
-            description: yup.string().required('Обов`язкове поле'),
-            name: yup.string().required('Обов`язкове поле').max(60, 'Максимально 60 символiв'),
+            description: yup.string().required('required_field'),
+            name: yup.string().required('required_field').max(60, 'max_60_symbols'),
         })
     ),
 });

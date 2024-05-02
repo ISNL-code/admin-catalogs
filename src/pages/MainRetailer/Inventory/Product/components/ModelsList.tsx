@@ -200,7 +200,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                         label={string?.vendor_code}
                         fullWidth
                         value={variant?.sku}
-                        helperText={formik.errors.sku as any}
+                        helperText={string?.[formik.errors.sku as any]}
                         error={(formik.errors.sku && formik.touched.sku) as any}
                     />
                 </Grid>
@@ -268,7 +268,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                             ((formik.errors?.inventory as any)?.price?.price &&
                                 (formik.touched?.inventory as any)?.price?.price) as any
                         }
-                        helperText={(formik.errors?.inventory as any)?.price?.price as any}
+                        helperText={string?.[(formik.errors?.inventory as any)?.price?.price] as any}
                     />
                 </Grid>
                 <Grid p={1} xs={sx ? 6 : 3}>
@@ -287,7 +287,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                         label={string?.order_priority}
                         fullWidth
                         error={(formik.errors.sortOrder && formik.touched.sortOrder) as any}
-                        helperText={formik.errors.sortOrder as any}
+                        helperText={string?.[formik.errors.sortOrder as any]}
                     />
                 </Grid>
 

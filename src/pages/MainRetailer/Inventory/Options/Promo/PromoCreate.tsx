@@ -12,7 +12,7 @@ import PromoForm from './components/PromoForm';
 
 const INITIAL_VALUE_DATA = {
     code: '',
-    selectedLanguage: 'ua',
+    selectedLanguage: '',
     descriptions: [],
 };
 

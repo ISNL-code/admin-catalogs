@@ -7,7 +7,7 @@ import SearchInput from 'components/molecules/Inputs/SearchInput';
 import ProductsCards from 'components/organisms/Lists/ProductsCards';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { ProductInterface } from 'types';
+import { ProductInterface, RetailerContextInterface } from 'types';
 import { useIsMount } from 'hooks/useIsMount';
 import toast from 'react-hot-toast';
 
@@ -25,7 +25,7 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
     const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [sku, setSku] = useState('');
-    const { string, storeData }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const countPerPage = 25;
 
     const { mutateAsync: deleteProduct } = useProductsApi().useDeleteProduct();
@@ -36,13 +36,13 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
         isFetching,
         refetch: updateProductsRes,
         isFetched,
-    } = useProductsApi().useGetProductsList({ storeCode, page, countPerPage });
+    } = useProductsApi().useGetProductsList({ storeCode, page, countPerPage, lang: storeData?.defaultLanguage });
 
     const {
         data: productsBySkuRes,
         refetch: updateFindBySku,
         isFetching: loadMatched,
-    } = useProductsApi().useGetProductBySku({ sku, storeCode, page, countPerPage });
+    } = useProductsApi().useGetProductBySku({ sku, storeCode, page, countPerPage, lang: storeData?.defaultLanguage });
 
     useEffect(() => {
         if (productsBySkuRes && sku) {

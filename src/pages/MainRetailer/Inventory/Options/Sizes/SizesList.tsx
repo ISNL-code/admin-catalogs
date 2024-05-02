@@ -24,7 +24,7 @@ const SizesList = ({ handleSetTitle, handleSetActionButtons }: InventorySizesInt
         data: dataRes,
         isFetching,
         isFetched,
-    } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500 });
+    } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500, lang: storeData?.defaultLanguage });
 
     useEffect(() => {
         if (!dataRes || isFetching) return;
@@ -36,7 +36,7 @@ const SizesList = ({ handleSetTitle, handleSetActionButtons }: InventorySizesInt
                     return a.code.match(regex) - b.code.match(regex);
                 })
         ); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dataRes]);
+    }, [dataRes, isFetching]);
 
     useEffect(() => {
         handleSetTitle(string?.sizes);

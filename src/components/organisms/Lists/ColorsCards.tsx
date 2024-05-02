@@ -7,7 +7,7 @@ import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { OptionsVariationInterface } from 'types';
+import { OptionsVariationInterface, RetailerContextInterface } from 'types';
 import ColorIndicatorButton from 'components/atoms/ColorIndicatorButton/ColorIndicatorButton';
 
 interface CardsInterface {
@@ -19,7 +19,7 @@ interface CardsInterface {
 
 const ColorsCards = ({ data, deleteVariation, deleteColor, setDataList }: CardsInterface) => {
     const { storeCode } = useParams();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
@@ -85,7 +85,7 @@ const ColorsCards = ({ data, deleteVariation, deleteColor, setDataList }: CardsI
                     </Grid>
                     <Grid xs={3.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.name} UA
+                            {string?.name} {storeData?.defaultLanguage.toUpperCase()}
                         </Typography>
                     </Grid>
 
@@ -129,7 +129,7 @@ const ColorsCards = ({ data, deleteVariation, deleteColor, setDataList }: CardsI
                         <Grid xs={sx ? 12 : 3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (
                                 <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                    {string?.name} UA:
+                                    {string?.name} {storeData?.defaultLanguage.toUpperCase()}
                                 </Typography>
                             )}
                             <Typography variant="h5">{item.name}</Typography>

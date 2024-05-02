@@ -12,7 +12,7 @@ import sizeFormValidations from 'helpers/Validations/sizeFormValidations';
 
 const INITIAL_VALUE_DATA = {
     code: '',
-    selectedLanguage: 'ua',
+    selectedLanguage: '',
     descriptions: [],
 };
 

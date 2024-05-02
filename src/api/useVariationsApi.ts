@@ -4,14 +4,15 @@ import useApi from './useApi';
 export const useVariationsApi = () => {
     const { get, remove, post, patch, put } = useApi();
 
-    const useGetListOfVariations = ({ storeCode }) => {
+    const useGetListOfVariations = ({ storeCode, lang }) => {
         return useQuery(
             ['get-list-of-variations'],
 
             () =>
                 get({
-                    url: `v2/private/product/variations?lang=ua&store=${storeCode}&count=500`,
-                })
+                    url: `v2/private/product/variations?lang=${lang}&store=${storeCode}&count=500`,
+                }),
+            { enabled: Boolean(lang) }
         );
     };
 

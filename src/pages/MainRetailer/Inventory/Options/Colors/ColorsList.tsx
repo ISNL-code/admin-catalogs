@@ -6,7 +6,7 @@ import Loader from 'components/atoms/Loader/Loader';
 import ColorsCards from 'components/organisms/Lists/ColorsCards';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { OptionsVariationInterface } from 'types';
+import { OptionsVariationInterface, RetailerContextInterface } from 'types';
 
 interface InventoryColorsInterface {
     handleSetTitle;
@@ -15,13 +15,17 @@ interface InventoryColorsInterface {
 
 const ColorsList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsInterface) => {
     const navigate = useNavigate();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const { storeCode } = useParams();
     const [dataList, setDataList] = useState<OptionsVariationInterface[] | any>(null);
     const { mutateAsync: deleteValue, isLoading: loadDeleteValue } = useOptionsApi().useDeleteValue();
     const { mutateAsync: deleteVariation, isLoading: loadDeleteVariation } = useVariationsApi().useDeleteVariation();
 
-    const { data: dataRes, isFetching, isFetched } = useVariationsApi().useGetListOfVariations({ storeCode });
+    const {
+        data: dataRes,
+        isFetching,
+        isFetched,
+    } = useVariationsApi().useGetListOfVariations({ storeCode, lang: storeData?.defaultLanguage });
 
     useEffect(() => {
         if (!dataRes || isFetching) return;
@@ -31,7 +35,7 @@ const ColorsList = ({ handleSetTitle, handleSetActionButtons }: InventoryColorsI
                 return { ...el.optionValue, colorId: el.optionValue.id, variationId: el.id };
             })
         ); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dataRes]);
+    }, [dataRes, storeData?.defaultLanguage]);
 
     useEffect(() => {
         handleSetTitle(string?.colors);

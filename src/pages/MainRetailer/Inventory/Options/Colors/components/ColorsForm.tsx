@@ -80,7 +80,7 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
                             fullWidth
                             sx={{ mt: 2 }}
                             error={formik.errors.code && formik.touched.code}
-                            helperText={formik.errors.code}
+                            helperText={string?.[formik.errors.code]}
                         />
                     </Box>
 
@@ -176,7 +176,9 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
                                             : false
                                     }
                                     helperText={
-                                        formik?.errors.descriptions ? formik.errors.descriptions[idx]?.name : ''
+                                        formik?.errors.descriptions
+                                            ? string?.[formik.errors.descriptions[idx]?.name]
+                                            : ''
                                     }
                                 />
                             </Grid>

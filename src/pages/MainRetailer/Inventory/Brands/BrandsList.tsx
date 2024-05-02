@@ -7,7 +7,7 @@ import BrandsCards from 'components/organisms/Lists/BrandsCards';
 import { useIsMount } from 'hooks/useIsMount';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { BrandsInterface } from 'types';
+import { BrandsInterface, RetailerContextInterface } from 'types';
 
 interface InventoryBrandsInterface {
     handleSetTitle;
@@ -17,7 +17,7 @@ interface InventoryBrandsInterface {
 const BrandsList = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsInterface) => {
     const mount = useIsMount();
     const navigate = useNavigate();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const { storeCode } = useParams();
     const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -32,7 +32,7 @@ const BrandsList = ({ handleSetTitle, handleSetActionButtons }: InventoryBrandsI
         isFetching,
         refetch: updateBrandsRes,
         isFetched,
-    } = useBrandsApi().useGetBrandsList({ storeCode, page, countPerPage });
+    } = useBrandsApi().useGetBrandsList({ storeCode, page, countPerPage, lang: storeData?.defaultLanguage });
 
     useEffect(() => {
         if (!brandsRes || isFetching) return;

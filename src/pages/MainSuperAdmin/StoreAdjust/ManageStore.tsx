@@ -62,7 +62,7 @@ const ManageStore = () => {
                             data: {
                                 code: `SIZE`,
                                 type: 'select',
-                                selectedLanguage: 'ua',
+                                selectedLanguage: '',
                                 descriptions: storeData.supportedLanguages.map(el => {
                                     return { language: el, name: `SIZE` };
                                 }),
@@ -75,7 +75,7 @@ const ManageStore = () => {
                                 id: options.find(el => el.code === `SIZE`)?.id,
                                 code: `SIZE`,
                                 type: 'select',
-                                selectedLanguage: 'ua',
+                                selectedLanguage: '',
                                 descriptions: storeData.supportedLanguages.map(el => {
                                     return { language: el, name: `SIZE` };
                                 }),
@@ -89,7 +89,7 @@ const ManageStore = () => {
                             data: {
                                 code: `COLOR`,
                                 type: 'select',
-                                selectedLanguage: 'ua',
+                                selectedLanguage: '',
                                 descriptions: storeData.supportedLanguages.map(el => {
                                     return { language: el, name: `COLOR` };
                                 }),
@@ -102,7 +102,7 @@ const ManageStore = () => {
                                 id: options.find(el => el.code === `COLOR`)?.id,
                                 code: `COLOR`,
                                 type: 'select',
-                                selectedLanguage: 'ua',
+                                selectedLanguage: '',
                                 descriptions: storeData.supportedLanguages.map(el => {
                                     return { language: el, name: `COLOR` };
                                 }),
@@ -116,7 +116,7 @@ const ManageStore = () => {
                             data: {
                                 code: `PROMO`,
                                 type: 'select',
-                                selectedLanguage: 'ua',
+                                selectedLanguage: '',
                                 descriptions: storeData.supportedLanguages.map(el => {
                                     return { language: el, name: `PROMO` };
                                 }),
@@ -129,7 +129,7 @@ const ManageStore = () => {
                                 id: options.find(el => el.code === `PROMO`)?.id,
                                 code: `PROMO`,
                                 type: 'select',
-                                selectedLanguage: 'ua',
+                                selectedLanguage: '',
                                 descriptions: storeData.supportedLanguages.map(el => {
                                     return { language: el, name: `PROMO` };
                                 }),

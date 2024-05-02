@@ -247,7 +247,6 @@ const StoreInformation = ({
                                 key={el.id}
                                 control={
                                     <Checkbox
-                                        disabled={el.code === 'ua'}
                                         checked={!!data?.supportedLanguages.some(lang => lang === el.code)}
                                         onChange={e => {
                                             if (e.target.checked) {

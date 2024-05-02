@@ -38,7 +38,7 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
         if (!storeDataRes || isFetching) return;
         setStoreData({ ...storeDataRes.data, ...STORES_DATA.find(({ code }) => code === storeDataRes.data.code) });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [storeDataRes]);
+    }, [storeDataRes, isFetching]);
 
     useEffect(() => {
         if (!storeCode || storeCode !== userProfile.merchant) navigate(`store-manager/${userProfile.merchant}/main`);

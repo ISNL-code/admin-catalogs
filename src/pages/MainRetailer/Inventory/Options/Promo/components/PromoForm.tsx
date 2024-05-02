@@ -60,7 +60,7 @@ const PromoForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                         fullWidth
                         disabled={!!promoId}
                         error={formik.errors.code && formik.touched.code}
-                        helperText={formik.errors.code}
+                        helperText={string?.[formik.errors.code]}
                     />
                 </Grid>
             </Grid>
@@ -129,7 +129,9 @@ const PromoForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                                     ? formik.errors.descriptions[idx]?.name && formik.touched.descriptions[idx]?.name
                                     : false
                             }
-                            helperText={formik?.errors.descriptions ? formik.errors.descriptions[idx]?.name : ''}
+                            helperText={
+                                formik?.errors.descriptions ? string?.[formik.errors.descriptions[idx]?.name] : ''
+                            }
                         />
                     </Grid>
                 </Grid>

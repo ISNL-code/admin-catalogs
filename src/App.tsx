@@ -71,7 +71,7 @@ const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
 
 const App = () => {
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-    const lang = { code: 'ua', label: 'Ukraine' };
+    const [lang, setLang] = useState({ code: 'ua' });
     const [auth, setAuth] = useState<boolean>(!!token || false);
     const [userProfile, setUserProfile] = useState<UserProfileInterface | null>(null);
     const { refetch: updateUserData, isFetching } = useUserApi().useGetUserData({ auth });
@@ -92,6 +92,15 @@ const App = () => {
         }
         if (!auth) setUserProfile(null); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth]);
+
+    const handleSetUserLanguage = code => {
+        setLang({ code });
+    };
+
+    useEffect(() => {
+        if (!userProfile) return;
+        handleSetUserLanguage(userProfile?.defaultLanguage);
+    }, [userProfile]);
 
     if (isFetching) return <Loader />;
 

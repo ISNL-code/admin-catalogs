@@ -27,7 +27,7 @@ const INIT_CATEGORY_VAL = {
     visible: true,
     code: '',
     sortOrder: 1,
-    selectedLanguage: 'ua',
+    selectedLanguage: '',
     descriptions: [],
 };
 
@@ -43,7 +43,7 @@ const CategoriesListManage = ({ handleSetTitle, handleSetActionButtons }: Invent
         data: categoriesListRes,
         isFetching: loadCategoriesList,
         refetch: updateCategoryList,
-    } = useProductCategoriesApi().useGetAllProductsCategories({ storeCode });
+    } = useProductCategoriesApi().useGetAllProductsCategories({ storeCode, lang: storeData?.defaultLanguage });
 
     const { mutateAsync: createCategory, isLoading: loadAddCategory } =
         useProductCategoriesApi().useAddCategoryToShop();
@@ -158,7 +158,7 @@ const CategoriesListManage = ({ handleSetTitle, handleSetActionButtons }: Invent
                     visible: category.visible,
                     code: category.code,
                     sortOrder: category.sortOrder,
-                    selectedLanguage: 'ua',
+                    selectedLanguage: '',
                     descriptions: category.descriptions,
                 });
 

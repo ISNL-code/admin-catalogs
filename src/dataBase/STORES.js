@@ -721,16 +721,6 @@ export const STORES_DATA = [
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 20 },
         descriptions: [
             {
-                language: 'ua',
-                name: 'Магазин жiночого одягу',
-                description: 'Магазин жiночого одягу',
-                friendlyUrl: 'Магазин жiночого одягу',
-                keyWords: 'Магазин жiночого одягу',
-                highlights: 'Магазин жiночого одягу',
-                metaDescription: 'Магазин жiночого одягу',
-                title: 'Магазин жiночого одягу',
-            },
-            {
                 language: 'en',
                 name: 'Store of Women`s Clothes',
                 description: 'Store of Women`s Clothes',
@@ -773,7 +763,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: false,
         },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 5, photos: 5, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 5, photos: 10, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {

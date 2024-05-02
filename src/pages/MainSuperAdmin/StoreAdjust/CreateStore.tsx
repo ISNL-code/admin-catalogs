@@ -36,13 +36,13 @@ const INITIAL_STORE_DATA = {
     address: {
         searchControl: '',
         stateProvince: '',
-        country: 'UA',
+        country: '',
         address: '',
         postalCode: '',
         city: '',
     },
-    supportedLanguages: ['ua'],
-    defaultLanguage: 'ua',
+    supportedLanguages: [''],
+    defaultLanguage: '',
     currency: 'USD',
     currencyFormatNational: false, //not in use
     weight: 'KG', //not in use
@@ -89,7 +89,7 @@ const CreateStore = () => {
                                         data: {
                                             code: `SIZE`,
                                             type: 'select',
-                                            selectedLanguage: 'ua',
+                                            selectedLanguage: '',
                                             descriptions: storeData.supportedLanguages.map(el => {
                                                 return { language: el, name: `SIZE` };
                                             }),
@@ -101,7 +101,7 @@ const CreateStore = () => {
                                         data: {
                                             code: `COLOR`,
                                             type: 'select',
-                                            selectedLanguage: 'ua',
+                                            selectedLanguage: '',
                                             descriptions: storeData.supportedLanguages.map(el => {
                                                 return { language: el, name: `COLOR` };
                                             }),
@@ -113,7 +113,7 @@ const CreateStore = () => {
                                         data: {
                                             code: `PROMO`,
                                             type: 'select',
-                                            selectedLanguage: 'ua',
+                                            selectedLanguage: '',
                                             descriptions: storeData.supportedLanguages.map(el => {
                                                 return { language: el, name: `PROMO` };
                                             }),
@@ -185,7 +185,7 @@ const CreateStore = () => {
                             label={string?.store_name}
                             fullWidth
                             error={!!(formik.errors.name && formik.touched.name)}
-                            helperText={formik.errors.name}
+                            helperText={string?.[formik.errors.name as string]}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -197,7 +197,7 @@ const CreateStore = () => {
                             label={string?.store_code}
                             fullWidth
                             error={!!(formik.errors.code && formik.touched.code)}
-                            helperText={formik.errors.code}
+                            helperText={string?.[formik.errors.code as any]}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -365,7 +365,6 @@ const CreateStore = () => {
                                 key={el.id}
                                 control={
                                     <Checkbox
-                                        disabled={el.code === 'ua'}
                                         checked={!!storeData.supportedLanguages.some(lang => lang === el.code)}
                                         onChange={e => {
                                             if (e.target.checked) {

@@ -16,6 +16,7 @@ const CategoriesForm = () => {
 
     const { data: categoryRes } = useProductCategoriesApi().useGetAllProductsCategories({
         storeCode,
+        lang: storeData?.defaultLanguage,
     });
     const { data: selectedCategoriesRes } = useProductCategoriesApi().useGetSelectedCategories({
         productId,

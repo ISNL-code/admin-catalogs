@@ -11,7 +11,7 @@ import {
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
 import Grid from '@mui/material/Unstable_Grid2';
-import { RetailerStoreInterface } from 'types';
+import { MainContextInterface, RetailerStoreInterface } from 'types';
 import { LANGUAGES } from 'constants/constants';
 import { useEffect, useState } from 'react';
 import { useUserApi } from 'api/useUserApi';
@@ -28,7 +28,7 @@ const EditUser = () => {
     const navigate = useNavigate();
     const { storeCode, userId } = useParams();
     const { sx } = useDevice();
-    const { string }: any = useOutletContext();
+    const { string }: MainContextInterface = useOutletContext();
     const [usersData, setUsersData] = useState<RetailerStoreInterface | any>(null);
     const [userNameInit, setUserNameInit] = useState('');
 
@@ -37,6 +37,7 @@ const EditUser = () => {
     const { data: userDataRes, isFetching } = useUserApi().useGetUsersById({
         storeCode: storeCode,
         userId: userId,
+        lang: usersData?.defaultLanguage,
     });
 
     const formik = useFormik({
@@ -80,12 +81,12 @@ const EditUser = () => {
         });
         setUserNameInit(user.firstName);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userDataRes, userId]);
+    }, [userDataRes, userId, isFetching]);
 
     const handleChangeUserData = newData => {
         setUsersData({ ...usersData, ...newData });
     };
-    console.log(usersData);
+
     return (
         <form
             onSubmit={e => {
@@ -192,7 +193,7 @@ const EditUser = () => {
                             label={string?.first_name}
                             fullWidth
                             error={!!(formik.errors.firstName && formik.touched.firstName)}
-                            helperText={!!formik.errors.firstName}
+                            helperText={string?.[formik.errors.firstName as any]}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -204,7 +205,7 @@ const EditUser = () => {
                             label={string?.last_name}
                             fullWidth
                             error={!!(formik.errors.lastName && formik.touched.lastName)}
-                            helperText={!!formik.errors.lastName}
+                            helperText={string?.[formik.errors.lastName as string]}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -216,7 +217,7 @@ const EditUser = () => {
                             label={string?.email}
                             fullWidth
                             error={!!(formik.errors.emailAddress && formik.touched.emailAddress)}
-                            helperText={!!formik.errors.emailAddress}
+                            helperText={string?.[formik.errors.emailAddress as string]}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
@@ -232,25 +233,27 @@ const EditUser = () => {
                         />
                     </Grid>
 
-                    <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
-                        <FormControl fullWidth size="small">
-                            <InputLabel error={!usersData?.defaultLanguage}>
-                                {string?.default_language + '*'}
-                            </InputLabel>
-                            <Select
-                                value={usersData?.defaultLanguage}
-                                error={!usersData?.defaultLanguage}
-                                onChange={e => handleChangeUserData({ defaultLanguage: e.target.value })}
-                                label={string?.default_language + '*'}
-                            >
-                                {LANGUAGES.map(el => (
-                                    <MenuItem key={el?.id} value={el?.code}>
-                                        {el?.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
+                    {usersData?.defaultLanguage && (
+                        <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
+                            <FormControl fullWidth size="small">
+                                <InputLabel error={!usersData?.defaultLanguage}>
+                                    {string?.default_language + '*'}
+                                </InputLabel>
+                                <Select
+                                    value={usersData?.defaultLanguage}
+                                    error={!usersData?.defaultLanguage}
+                                    onChange={e => handleChangeUserData({ defaultLanguage: e.target.value })}
+                                    label={string?.default_language + '*'}
+                                >
+                                    {LANGUAGES.map(el => (
+                                        <MenuItem key={el?.id} value={el?.code}>
+                                            {el?.name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    )}
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
                         <TextField
                             InputLabelProps={{ shrink: true }}

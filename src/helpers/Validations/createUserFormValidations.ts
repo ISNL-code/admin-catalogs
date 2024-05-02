@@ -1,16 +1,16 @@
 import * as yup from 'yup';
 
 const createUserFormValidations = yup.object().shape({
-    firstName: yup.string().required('Обов`язкове поле'),
-    lastName: yup.string().required('Обов`язкове поле'),
-    emailAddress: yup.string().email('Введiть коректну почту').required('Обов`язкове поле'),
+    firstName: yup.string().required('required_field'),
+    lastName: yup.string().required('required_field'),
+    emailAddress: yup.string().email('enter_valid_email').required('required_field'),
     password: yup
         .string()
-        .required('Обов`язкове поле')
-        .min(6, 'Мiнiмум 6 символiв')
-        .max(12, 'Максимум 12 символiв')
-        .matches(/[a-zA-Z]/, 'Тiльки латинськi букви')
-        .test('passwords-match', 'Мiнiмум 1 цифра 1 велика буква', function (value) {
+        .required('required_field')
+        .min(6, 'min_6_symbols')
+        .max(12, 'max_12_symbols')
+        .matches(/[a-zA-Z]/, 'code_latin_symbols')
+        .test('passwords-match', 'min_1_number_uppercase', function (value) {
             let isStrong = true;
 
             if (!/[a-z]/.test(String(value))) {
@@ -27,7 +27,7 @@ const createUserFormValidations = yup.object().shape({
 
             return isStrong;
         }),
-    repeatPassword: yup.string().test('passwords-match', 'Паролi не збiгаються', function (value) {
+    repeatPassword: yup.string().test('passwords-match', 'passwords_do_not_match', function (value) {
         return this.parent.password === value;
     }),
 });

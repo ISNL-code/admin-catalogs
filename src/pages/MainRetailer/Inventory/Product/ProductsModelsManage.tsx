@@ -69,6 +69,7 @@ const ProductModelsManage = () => {
     });
     const { data: colorsListRes, isFetching: loadColorsList } = useVariationsApi().useGetListOfVariations({
         storeCode,
+        lang: storeData?.defaultLanguage,
     });
     const { mutateAsync: createModel } = useProductsApi().useCreateModelByProductID();
     const { mutateAsync: createVariationGroup } = useVariationsApi().useCreateVariationGroup();

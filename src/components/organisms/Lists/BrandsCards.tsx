@@ -7,7 +7,7 @@ import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { BrandsInterface } from 'types';
+import { BrandsInterface, RetailerContextInterface } from 'types';
 
 interface BrandsCardsInterface {
     data: BrandsInterface[] | null;
@@ -18,7 +18,7 @@ interface BrandsCardsInterface {
 
 const BrandsCards = ({ data, setTotalCount, deleteBrand, setBrandsList }: BrandsCardsInterface) => {
     const { storeCode } = useParams();
-    const { string }: any = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
@@ -71,7 +71,7 @@ const BrandsCards = ({ data, setTotalCount, deleteBrand, setBrandsList }: Brands
                     </Grid>
                     <Grid xs={4} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.name} UA
+                            {string?.name} {storeData?.defaultLanguage.toUpperCase()}
                         </Typography>
                     </Grid>
 
@@ -112,7 +112,7 @@ const BrandsCards = ({ data, setTotalCount, deleteBrand, setBrandsList }: Brands
                         <Grid xs={sx ? 12 : 4} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
                             {sx && (
                                 <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                    {string?.name} UA:
+                                    {string?.name} {storeData?.defaultLanguage.toUpperCase()}
                                 </Typography>
                             )}
                             <Typography variant="h5">{item.description.name}</Typography>

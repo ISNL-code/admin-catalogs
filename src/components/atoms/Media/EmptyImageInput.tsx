@@ -14,9 +14,17 @@ interface ImageInterface {
     title: string;
     maxWidth?: string;
     addAction?;
+    imageQuota: number;
 }
 
-const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addAction = () => {} }: ImageInterface) => {
+const EmptyImageInput = ({
+    width = 1,
+    height = 1,
+    title,
+    maxWidth = '100%',
+    addAction = () => {},
+    imageQuota,
+}: ImageInterface) => {
     const { string }: any = useOutletContext();
     const { xxs, xs, s, sm, sx, slx, m, mx, ls, l } = useDevice();
     const [imgHeight, setImgHeight] = useState<number>(0);
@@ -69,24 +77,30 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
             <Dropzone
                 noClick
                 onDrop={(acceptedFiles: any) => {
-                    if (
-                        ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(
-                            acceptedFiles[0].type
+                    if (acceptedFiles?.length > imageQuota) {
+                        toast.error(string?.max_images + ' ' + imageQuota);
+                    } else if (
+                        acceptedFiles?.every((acceptedFile: any) =>
+                            ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(
+                                acceptedFile.type
+                            )
                         )
                     ) {
-                        async function handleImageUpload() {
-                            const imageFile = acceptedFiles[0];
-                            const options = {
-                                maxSizeMB: 0.075,
-                            };
-                            try {
-                                const compressedFile = await imageCompression(imageFile, options);
-                                addAction(compressedFile);
-                            } catch (error) {
-                                console.log(error);
+                        acceptedFiles?.forEach((acceptedFile: any) => {
+                            async function handleImageUpload() {
+                                const imageFile = acceptedFile;
+                                const options = {
+                                    maxSizeMB: 0.075,
+                                };
+                                try {
+                                    const compressedFile = await imageCompression(imageFile, options);
+                                    addAction(compressedFile);
+                                } catch (error) {
+                                    console.log(error);
+                                }
                             }
-                        }
-                        handleImageUpload();
+                            handleImageUpload();
+                        });
                     } else {
                         toast.error(string?.wrong_file_format);
                     }
@@ -152,6 +166,7 @@ const EmptyImageInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                             >
                                 <Typography>{title}</Typography>
                                 <AddPhotoAlternateIcon fontSize="large" sx={{ my: 0.5 }} />
+                                <Typography>Add or Drop Images</Typography>
                                 <Typography>Formats:</Typography>
                                 <Typography sx={{ fontSize: 12, textTransform: 'lowercase' }}>
                                     .jpg .jpeg .png .webp .avif

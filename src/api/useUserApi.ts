@@ -32,13 +32,13 @@ export const useUserApi = () => {
         );
     };
 
-    const useGetUsersById = ({ storeCode, userId }) => {
+    const useGetUsersById = ({ storeCode, userId, lang }) => {
         return useQuery(
             ['get-users-by-id'],
 
             () =>
                 get({
-                    url: `v1/private/users/${userId}?store=${storeCode}`,
+                    url: `v1/private/users/${userId}?store=${storeCode}&lang=${lang}`,
                 }),
             { enabled: !!userId, refetchOnMount: 'always' }
         );

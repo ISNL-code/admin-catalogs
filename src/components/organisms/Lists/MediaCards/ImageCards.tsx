@@ -26,8 +26,8 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
     const [video, setVideo] = useState<any>([]);
     const [videoSlots, setVideoSlots] = useState<any>([]);
 
-    const imageQuota = storeData?.dataBaseStoreSettings.photos;
-    const videoQuota = storeData?.additionalStoreSettings?.video ? storeData?.dataBaseStoreSettings.videos : 0;
+    const imageQuota: number = storeData?.dataBaseStoreSettings.photos;
+    const videoQuota: number = storeData?.additionalStoreSettings?.video ? storeData?.dataBaseStoreSettings.videos : 0;
     const imageWidth = storeData?.productImagesOptions.width;
     const imageHeight = storeData?.productImagesOptions.height;
 
@@ -259,6 +259,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                     }}
                                 >
                                     <EmptyImageInput
+                                        imageQuota={imageQuota}
                                         height={imageHeight}
                                         width={imageWidth}
                                         title={`${string?.image} ${slot}`}

@@ -8,9 +8,10 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { UserListInterface } from 'types';
 
 interface UsersCardsInterface {
-    data;
+    data: UserListInterface[];
     updateUsersListData;
     deleteUser;
     canEdit?: boolean;
@@ -113,6 +114,16 @@ const UsersCards = ({ data, updateUsersListData, deleteUser, canEdit }: UsersCar
                                     </Typography>
                                     <Typography variant="h5">
                                         {item.options?.manager ? string?.yes : string?.no}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 0.5, alignItems: 'center' }}>
+                                    <Typography sx={{ width: '30%' }} variant="body1">
+                                        {string?.language}:
+                                    </Typography>
+                                    <Typography variant="h5">
+                                        <Typography variant="h5">
+                                            {item?.defaultLanguage?.toUpperCase() || '---'}
+                                        </Typography>
                                     </Typography>
                                 </Box>
                             </Box>

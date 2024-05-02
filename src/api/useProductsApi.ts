@@ -4,14 +4,15 @@ import useApi from './useApi';
 export const useProductsApi = () => {
     const { get, remove, patch, post, put } = useApi();
 
-    const useGetProductsList = ({ storeCode, page, countPerPage }): any => {
+    const useGetProductsList = ({ storeCode, page, countPerPage, lang }): any => {
         return useQuery(
             ['get-products-list'],
 
             () =>
                 get({
-                    url: `v2/products?store=${storeCode}&lang=ua&count=${countPerPage}&origin=admin&page=${page}`,
-                })
+                    url: `v2/products?store=${storeCode}&lang=${lang}&count=${countPerPage}&origin=admin&page=${page}`,
+                }),
+            { enabled: Boolean(lang) }
         );
     };
 
@@ -53,25 +54,25 @@ export const useProductsApi = () => {
             })
         );
 
-    const useGetProductById = ({ productId, storeCode }) => {
+    const useGetProductById = ({ productId, storeCode, lang = '_all' }) => {
         return useQuery(
             ['get-private-product-by-id'],
 
             () =>
                 get({
-                    url: `/v2/private/product/${productId}?lang=_all&&store=${storeCode}`,
+                    url: `/v2/private/product/${productId}?lang=${lang}&&store=${storeCode}`,
                 }),
             { enabled: !!productId }
         );
     };
 
-    const useGetProductBySku = ({ sku, storeCode, page, countPerPage }) => {
+    const useGetProductBySku = ({ sku, storeCode, page, countPerPage, lang }) => {
         return useQuery(
             ['get-product-by-sku'],
 
             () =>
                 get({
-                    url: `v2/products?variantSku=${sku}&count=${countPerPage}&store=${storeCode}&page=${page}&lang=ua`,
+                    url: `v2/products?variantSku=${sku}&count=${countPerPage}&store=${storeCode}&page=${page}&lang=${lang}`,
                 }),
             { enabled: false }
         );

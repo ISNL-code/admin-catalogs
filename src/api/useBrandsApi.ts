@@ -4,14 +4,15 @@ import useApi from './useApi';
 export const useBrandsApi = () => {
     const { get, remove, post, put } = useApi();
 
-    const useGetBrandsList = ({ storeCode, page, countPerPage }): any => {
+    const useGetBrandsList = ({ storeCode, page, countPerPage, lang }): any => {
         return useQuery(
             ['get-brands-list'],
 
             () =>
                 get({
-                    url: `v1/private/manufacturers/?lang=ua&store=${storeCode}&count=${countPerPage}&page=${page}`,
-                })
+                    url: `v1/private/manufacturers/?lang=${lang}&store=${storeCode}&count=${countPerPage}&page=${page}`,
+                }),
+            { enabled: Boolean(lang) }
         );
     };
 
