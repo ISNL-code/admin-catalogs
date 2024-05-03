@@ -1,26 +1,26 @@
 {
-    "short_name": "Catalog",
-    "name": "Create Catalog Sample",
+    "short_name": "Sales Nest Admin",
+    "name": "Create SN Admin",
     "icons": [
         {
-            "src": "logo.png",
+            "src": "sn_logo.jpg",
             "sizes": "64x64 32x32 24x24 16x16",
             "type": "image/x-icon"
         },
         {
-            "src": "logo_mask.png",
+            "src": "sn_logo_mask.png",
             "type": "image/png",
             "sizes": "192x192",
             "purpose": "maskable"
         },
         {
-            "src": "logo.png",
+            "src": "sn_logo.jpg",
             "type": "image/png",
             "sizes": "192x192",
             "purpose": "any"
         },
         {
-            "src": "logo.png",
+            "src": "sn_logo.jpg",
             "type": "image/png",
             "sizes": "512x512"
         }
