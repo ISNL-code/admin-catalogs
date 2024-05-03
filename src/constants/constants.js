@@ -1,5 +1,5 @@
-export const ACCESS_TOKEN_KEY = 'alb-test-token';
-export const WEB_URL = 'https://catalogtest.netlify.app';
+export const ACCESS_TOKEN_KEY = 'sn_admin-token';
+export const WEB_URL = 'https://salses-nest-admin.netlify.app';
 export const BASE_URL = 'https://kremen-belts.com/api';
 export const COUNTRIES = [
     {

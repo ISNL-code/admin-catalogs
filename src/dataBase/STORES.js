@@ -1,6 +1,6 @@
 export const STORES_DATA = [
     {
-        code: 'SKIPPER', // skipper ремни черновцы
+        code: 'SKIPPER', // skipper ремни черновцы на удаление
         webUrl: 'https://skipper-belts.netlify.app',
         appStoreUrl: '',
         playMarketUrl: '',
@@ -86,7 +86,7 @@ export const STORES_DATA = [
         ],
     },
     {
-        code: 'DEFAULT', // kremen-belts
+        code: 'DEFAULT', // kremen-belts main
         webUrl: 'https://kremen-belts.netlify.app',
         appStoreUrl: '',
         playMarketUrl: '',
@@ -345,7 +345,7 @@ export const STORES_DATA = [
         ],
     },
     {
-        code: 'ArcticStoryFurs',
+        code: 'ArcticStoryFurs', //на удаление
         appStoreUrl: '',
         playMarketUrl: '',
         webUrl: 'https://arctic-story-furs.netlify.app',
@@ -442,94 +442,7 @@ export const STORES_DATA = [
         ],
     },
     {
-        code: 'ALBERTO_BINI_SALES',
-        appStoreUrl: '',
-        playMarketUrl: '',
-        webUrl: 'https://alberto-bini-sales.netlify.app',
-        mainImage: require('./images/alb.jpeg'),
-        productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 20 },
-        descriptions: [
-            {
-                language: 'ua',
-                name: 'Магазин жiночого одягу',
-                description: 'Магазин жiночого одягу',
-                friendlyUrl: 'Магазин жiночого одягу',
-                keyWords: 'Магазин жiночого одягу',
-                highlights: 'Магазин жiночого одягу',
-                metaDescription: 'Магазин жiночого одягу',
-                title: 'Магазин жiночого одягу',
-            },
-            {
-                language: 'en',
-                name: 'Store of Women`s Clothes',
-                description: 'Store of Women`s Clothes',
-                friendlyUrl: 'Store of Women`s Clothes',
-                keyWords: 'Store of Women`s Clothes',
-                highlights: 'Store of Women`s Clothes',
-                metaDescription: 'Store of Women`s Clothes',
-                title: 'Store of Women`s Clothes',
-            },
-            {
-                language: 'ru',
-                name: 'Магазин Женской Одежды',
-                description: 'Магазин Женской Одежды',
-                friendlyUrl: 'Магазин Женской Одежды',
-                keyWords: 'Магазин Женской Одежды',
-                highlights: 'Магазин Женской Одежды',
-                metaDescription: 'Магазин Женской Одежды',
-                title: 'Магазин Женской Одежды',
-            },
-        ],
-        mainStoreSettings: {
-            skuSearch: true,
-            colors: true,
-            prices: true,
-            sizes: true,
-            contacts: true,
-            categories: true,
-            browserSearch: true,
-            productShare: true,
-        },
-        additionalStoreSettings: {
-            cart: true,
-            favorites: true,
-            promo: true,
-            video: false,
-            tableSizes: true,
-            callback: true,
-            platformAvailable: true,
-            appleStore: false,
-            playMarket: false,
-            analytics: false,
-        },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 5, photos: 5, videos: 1 },
-        securityStoreSettings: { private: false, securityKey: null },
-        storeProductTypes: [
-            {
-                code: 'Outerwear',
-            },
-            {
-                code: 'Women clothes',
-            },
-        ],
-        managers: [
-            {
-                firstName: 'Elena',
-                lastName: '',
-                emailAddress: 'lena@admin.com',
-                options: { manager: true },
-                contacts: {
-                    emailAddress: 'lena@admin.com',
-                    phone: '+380983080085',
-                    viber: '+380983080085',
-                    whatsapp: '+380983080085',
-                    telegram: 'Albertobiniopt',
-                },
-            },
-        ],
-    },
-    {
-        code: 'ALBERTO_BINI',
+        code: 'ALBERTO_BINI', //alberto bini main
         appStoreUrl: '',
         playMarketUrl: '',
         webUrl: 'https://alberto-bini.netlify.app',
@@ -616,104 +529,7 @@ export const STORES_DATA = [
         ],
     },
     {
-        code: 'ArcticStoryFurs',
-        appStoreUrl: '',
-        playMarketUrl: '',
-        webUrl: 'https://arctic-story-furs.netlify.app',
-        mainImage: require('./images/ASF.jpeg'),
-        productImagesOptions: { width: 6, height: 9, cropX: 0, cropY: 15 },
-        descriptions: [
-            {
-                language: 'ua',
-                name: 'Arctic Story Furs',
-                description: 'Магазин жiночого одягу',
-                friendlyUrl: 'Магазин жiночого одягу',
-                keyWords: 'Магазин жiночого одягу',
-                highlights: 'Магазин жiночого одягу',
-                metaDescription: 'Магазин жiночого одягу',
-                title: 'Магазин жiночого одягу',
-            },
-            {
-                language: 'pl',
-                name: 'Arctic Story Furs',
-                description: 'Sklep z odzieżą damską',
-                friendlyUrl: 'Sklep z odzieżą damską',
-                keyWords: 'Sklep z odzieżą damską',
-                highlights: 'Sklep z odzieżą damską',
-                metaDescription: 'Sklep z odzieżą damską',
-                title: 'Sklep z odzieżą damską',
-            },
-            {
-                language: 'en',
-                name: 'Arctic Story Furs',
-                description: 'Store of Women`s Clothes',
-                friendlyUrl: 'Store of Women`s Clothes',
-                keyWords: 'Store of Women`s Clothes',
-                highlights: 'Store of Women`s Clothes',
-                metaDescription: 'Store of Women`s Clothes',
-                title: 'Store of Women`s Clothes',
-            },
-            {
-                language: 'ru',
-                name: 'Arctic Story Furs',
-                description: 'Магазин Женской Одежды',
-                friendlyUrl: 'Магазин Женской Одежды',
-                keyWords: 'Магазин Женской Одежды',
-                highlights: 'Магазин Женской Одежды',
-                metaDescription: 'Магазин Женской Одежды',
-                title: 'Магазин Женской Одежды',
-            },
-        ],
-        mainStoreSettings: {
-            skuSearch: true,
-            colors: true,
-            prices: true,
-            sizes: true,
-            contacts: true,
-            categories: true,
-            browserSearch: true,
-            productShare: true,
-        },
-        additionalStoreSettings: {
-            cart: true,
-            favorites: true,
-            promo: true,
-            video: false,
-            tableSizes: false,
-            callback: true,
-            platformAvailable: true,
-            appleStore: false,
-            playMarket: false,
-            analytics: true,
-        },
-        dataBaseStoreSettings: { users: 2, products: 200, productModels: 10, photos: 10, videos: 1 },
-        securityStoreSettings: { private: false, securityKey: null },
-        storeProductTypes: [
-            {
-                code: 'Outerwear',
-            },
-            {
-                code: 'Women clothes',
-            },
-        ],
-        managers: [
-            {
-                firstName: 'Сергей',
-                lastName: 'Коптюх',
-                emailAddress: 'koptiukh2015@gmail.com',
-                options: { manager: true },
-                contacts: {
-                    emailAddress: 'koptiukh2015@gmail.com',
-                    phone: '+380665607580',
-                    viber: '+380665607580',
-                    whatsapp: '+380665607580',
-                    telegram: 'koptiukhsergey',
-                },
-            },
-        ],
-    },
-    {
-        code: 'alberto_bini_europe',
+        code: 'alberto_bini_europe', // на рекламу европа казахстан 'https://albertobini-kz.com'
         appStoreUrl: '',
         playMarketUrl: '',
         webUrl: 'https://albertobini-brandeurope.com',

@@ -129,7 +129,7 @@ const ProductsCards = ({
                                         <Fragment key={el.id}>
                                             <Typography variant="h5">{el.sku}</Typography>
                                             <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                                {item.variants?.length - idx === 1 ? '' : '||'}
+                                                {item.variants?.length - idx === 1 ? '' : '//'}
                                             </Typography>
                                         </Fragment>
                                     ))}
