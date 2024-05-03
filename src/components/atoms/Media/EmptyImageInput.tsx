@@ -140,7 +140,7 @@ const EmptyImageInput = ({
                                             setLoading(true);
                                             const imageFile = event.target.files[0];
                                             const options = {
-                                                maxSizeMB: 0.075,
+                                                maxSizeMB: 0.15,
                                             };
                                             try {
                                                 const compressedFile = await imageCompression(imageFile, options);

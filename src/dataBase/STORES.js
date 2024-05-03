@@ -763,7 +763,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: false,
         },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 5, photos: 10, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 10, photos: 10, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {
@@ -775,16 +775,16 @@ export const STORES_DATA = [
         ],
         managers: [
             {
-                firstName: 'Elena',
+                firstName: 'Alberto Bini Manager',
                 lastName: '',
-                emailAddress: 'lena@admin.com',
+                emailAddress: 'salesnest.info@gmail.com',
                 options: { manager: true },
                 contacts: {
-                    emailAddress: 'lena@admin.com',
+                    emailAddress: 'salesnest.info@gmail.com',
                     phone: '+380983080085',
                     viber: '+380983080085',
                     whatsapp: '+380983080085',
-                    telegram: 'Albertobiniopt',
+                    telegram: 'SNBusinessApp',
                 },
             },
         ],
