@@ -83,7 +83,10 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                                 defaultSelection: values.defaultSelection,
                                 sortOrder: values.sortOrder,
                                 variation: values.variation,
-                                inventory: { price: { price: values.inventory.price.price.replaceAll(',', '') } },
+                                inventory: {
+                                    price: { price: values.inventory.price.price.replaceAll(',', '') },
+                                    quantity: 100000,
+                                },
                             },
                         })
                             .then(_res => toast.success(string?.updated))

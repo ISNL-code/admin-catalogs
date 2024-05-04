@@ -451,6 +451,7 @@ export interface ManageProductInterface {
     canBePurchased: boolean;
     timeBound: boolean;
     price: string;
+    available: boolean;
     quantity: number;
     sortOrder: string;
     productSpecifications: {

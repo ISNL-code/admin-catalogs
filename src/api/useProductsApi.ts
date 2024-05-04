@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from './useApi';
 
 export const useProductsApi = () => {
-    const { get, remove, patch, post, put } = useApi();
+    const { get, remove, patch, post } = useApi();
 
     const useGetProductsList = ({ storeCode, page, countPerPage, lang }): any => {
         return useQuery(
@@ -22,7 +22,7 @@ export const useProductsApi = () => {
                 url: `v1/private/product/${id}?store=${storeCode}`,
                 body: {
                     available: complete,
-                    quantity: 1000020,
+                    quantity: 1000000,
                 },
             })
         );
@@ -33,16 +33,18 @@ export const useProductsApi = () => {
                 url: `v2/private/product?store=${storeCode}`,
                 body: {
                     ...data,
+                    quantity: 1000000,
                 },
             });
         });
 
     const useUpdateProduct = () =>
         useMutation(({ storeCode, data }: any) =>
-            put({
-                url: `v2/private/product/${data.id}?store=${storeCode}`,
+            patch({
+                url: `v1/private/product/${data.id}?store=${storeCode}`,
                 body: {
                     ...data,
+                    quantity: 1000000,
                 },
             })
         );

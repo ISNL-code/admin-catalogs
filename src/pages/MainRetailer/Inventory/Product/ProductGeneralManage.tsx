@@ -73,13 +73,15 @@ const ProductGeneralManage = () => {
     });
 
     useEffect(() => {
-        formik.setValues(product); // eslint-disable-next-line react-hooks/exhaustive-deps
+        formik.setValues(product);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [product]);
 
     useEffect(() => {
         if (!productDataRes || loadProducts) return;
 
         const product = productDataRes.data;
+        console.log(product);
         setProduct({
             id: product.id,
             sku: product.sku,
@@ -91,7 +93,7 @@ const ProductGeneralManage = () => {
             canBePurchased: product.canBePurchased,
             timeBound: false,
             price: product.inventory.price,
-            quantity: product.inventory.quantity,
+            quantity: 1000000,
             sortOrder: product.sortOrder,
             productSpecifications: product.productSpecifications,
             descriptions: storeData?.supportedLanguages.map(({ code }) => {
@@ -104,6 +106,7 @@ const ProductGeneralManage = () => {
                         description: '',
                     };
             }),
+            available: product.inventory.available,
         }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productDataRes, storeData, loadProducts]);
 

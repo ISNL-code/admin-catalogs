@@ -9,6 +9,7 @@ import DeleteModal from 'components/organisms/Modals/DeleteModal';
 import { Fragment, useState } from 'react';
 import toast from 'react-hot-toast';
 import { ProductInterface } from 'types';
+import { Colors } from 'colors';
 
 interface ProductsCardsInterface {
     data: ProductInterface[] | null;
@@ -88,6 +89,7 @@ const ProductsCards = ({
             <Grid container xs={12}>
                 {data?.map((item, idx) => {
                     const disabled = !item?.variants?.length;
+
                     return (
                         <Grid
                             container
@@ -125,14 +127,27 @@ const ProductsCards = ({
                                     </Typography>
                                 )}
                                 <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
-                                    {item.variants?.map((el, idx) => (
-                                        <Fragment key={el.id}>
-                                            <Typography variant="h5">{el.sku}</Typography>
-                                            <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                                {item.variants?.length - idx === 1 ? '' : '//'}
-                                            </Typography>
-                                        </Fragment>
-                                    ))}
+                                    {item.variants?.map((el, idx) => {
+                                        const availableQuantity = el?.inventory[0]?.quantity;
+
+                                        return (
+                                            <Fragment key={el.id}>
+                                                <Typography
+                                                    variant="h5"
+                                                    sx={{
+                                                        backgroundColor: availableQuantity
+                                                            ? Colors?.GREEN_300
+                                                            : Colors?.RED_300,
+                                                    }}
+                                                >
+                                                    {el.sku}
+                                                </Typography>
+                                                <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                                                    {item.variants?.length - idx === 1 ? '' : '//'}
+                                                </Typography>
+                                            </Fragment>
+                                        );
+                                    })}
                                 </Box>
                             </Grid>
                             <Grid xs={sx ? 12 : 2} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}>
