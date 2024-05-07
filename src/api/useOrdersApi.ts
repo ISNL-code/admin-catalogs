@@ -15,32 +15,32 @@ export const useOrdersApi = () => {
         );
     };
 
-    const useGetOrderById = ({ orderId }) => {
+    const useGetOrderById = ({ orderId, storeCode }) => {
         return useQuery(
             ['get-private-order-by-id'],
 
             () =>
                 get({
-                    url: `v1/private/orders/${orderId}`,
+                    url: `v1/private/orders/${orderId}?store=${storeCode}`,
                 })
         );
     };
 
     const useUpdateOrderStatus = () =>
-        useMutation(({ orderId, data }: any) => {
+        useMutation(({ orderId, data, storeCode }: any) => {
             return post({
-                url: `v1/private/orders/${orderId}/history`,
+                url: `v1/private/orders/${orderId}/history?store=${storeCode}`,
                 body: { ...data },
             });
         });
 
-    const useGetOrderHistory = ({ orderId }) => {
+    const useGetOrderHistory = ({ orderId, storeCode }) => {
         return useQuery(
             ['get-order-history'],
 
             () =>
                 get({
-                    url: `v1/private/orders/${orderId}/history`,
+                    url: `v1/private/orders/${orderId}/history?store=${storeCode}`,
                 })
         );
     };

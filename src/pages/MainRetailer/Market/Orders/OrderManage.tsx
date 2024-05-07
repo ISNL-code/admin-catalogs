@@ -25,13 +25,13 @@ const OrderManage = () => {
         data: getOrderRes,
         isFetching: loadingOrder,
         refetch: updateOrder,
-    } = useOrdersApi().useGetOrderById({ orderId });
+    } = useOrdersApi().useGetOrderById({ orderId, storeCode });
 
     const {
         data: getOrderHistoryRes,
         isLoading: loadHistory,
         refetch: updateOrderHistory,
-    } = useOrdersApi().useGetOrderHistory({ orderId });
+    } = useOrdersApi().useGetOrderHistory({ orderId, storeCode });
 
     useEffect(() => {
         if (!getOrderHistoryRes || loadHistory) return;

@@ -1,7 +1,7 @@
 import OrderDetailCard from 'components/organisms/Lists/OrderDetailCard';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Box, Button, Typography } from '@mui/material';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { useDevice } from 'hooks/useDevice';
 import { useGetStatusParams } from 'hooks/useGetStatusParams';
 import { useState } from 'react';
@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import moment from 'moment';
 
 const Order = ({ orderData, userFormData, productsData, updateOrderHistory, updateStatus, updateOrder }) => {
+    const { storeCode } = useParams();
     const { handleGetStatusParams } = useGetStatusParams();
     const { sx } = useDevice();
     const { string }: any = useOutletContext();
@@ -32,6 +33,7 @@ const Order = ({ orderData, userFormData, productsData, updateOrderHistory, upda
                                 comments: comment,
                                 date: moment(new Date()).format('YYYY-MM-DD'),
                             },
+                            storeCode,
                         })
                             .then(() => {
                                 updateOrderHistory();
