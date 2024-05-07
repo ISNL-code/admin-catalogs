@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from '@mui/material';
-import { useDevice } from 'hooks/useDevice';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import imageCompression from 'browser-image-compression';
 import { useEffect, useRef, useState } from 'react';
@@ -13,7 +12,7 @@ interface ImageInterface {
     height: number;
     title: string;
     maxWidth?: string;
-    addAction?;
+    addAction?: (file: Blob) => void;
     imageQuota: number;
 }
 
@@ -26,86 +25,51 @@ const EmptyImageInput = ({
     imageQuota,
 }: ImageInterface) => {
     const { string }: any = useOutletContext();
-    const { xxs, xs, s, sm, sx, slx, m, mx, ls, l } = useDevice();
     const [imgHeight, setImgHeight] = useState<number>(0);
-    const [screenWidth, setScreenWidth] = useState(0);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(false);
+    const ref = useRef<HTMLDivElement>(null);
 
-    const ref = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        setImgHeight(ref?.current?.clientWidth ? (ref?.current?.clientWidth / width) * height : 0);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const updateDimensions = () => {
+        const clientWidth = ref.current?.clientWidth ?? 0;
+        setImgHeight((clientWidth / width) * height);
+    };
 
     useEffect(() => {
-        window.addEventListener('orientationchange', event => {
-            const w = event.target as Window;
-            setScreenWidth(w.innerWidth);
-        });
-        window.addEventListener('resize', (event: UIEvent) => {
-            const w = event.target as Window;
-            setScreenWidth(w.innerWidth);
-        }); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        window.innerWidth,
+        updateDimensions();
+        const handleResize = () => updateDimensions();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [width, height]); // eslint-disable-line
 
-        xxs,
-        xs,
-        s,
-        sm,
-        sx,
-        slx,
-        m,
-        mx,
-        ls,
-        l,
-        ref?.current?.clientWidth,
-        ref?.current?.clientHeight,
-    ]);
+    const handleDrop = async (acceptedFiles: File[]) => {
+        if (acceptedFiles.length > imageQuota) {
+            toast.error(`${string?.max_images} ${imageQuota}`);
+            return;
+        }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setImgHeight(ref?.current?.clientWidth ? (ref?.current?.clientWidth / width) * height : 0);
-            setLoading(false);
-        }, 250); // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [screenWidth, loading, xxs, xs, s, sm, sx, slx, m, mx, ls, l]);
+        const validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+        if (!acceptedFiles.every(file => validTypes.includes(file.type))) {
+            toast.error(string?.wrong_file_format);
+            return;
+        }
+
+        for (const file of acceptedFiles) {
+            try {
+                setLoading(true);
+                const compressedFile = await imageCompression(file, { maxSizeMB: 0.075 });
+                addAction(compressedFile);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
 
     return (
         <>
             {loading && <Loader />}
-            <Dropzone
-                noClick
-                onDrop={(acceptedFiles: any) => {
-                    if (acceptedFiles?.length > imageQuota) {
-                        toast.error(string?.max_images + ' ' + imageQuota);
-                    } else if (
-                        acceptedFiles?.every((acceptedFile: any) =>
-                            ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(
-                                acceptedFile.type
-                            )
-                        )
-                    ) {
-                        acceptedFiles?.forEach((acceptedFile: any) => {
-                            async function handleImageUpload() {
-                                const imageFile = acceptedFile;
-                                const options = {
-                                    maxSizeMB: 0.075,
-                                };
-                                try {
-                                    const compressedFile = await imageCompression(imageFile, options);
-                                    addAction(compressedFile);
-                                } catch (error) {
-                                    console.log(error);
-                                }
-                            }
-                            handleImageUpload();
-                        });
-                    } else {
-                        toast.error(string?.wrong_file_format);
-                    }
-                }}
-            >
+            <Dropzone noClick onDrop={handleDrop}>
                 {({ getRootProps, getInputProps }) => (
                     <Button variant="text" component="label" sx={{ width: '100%', height: '100%' }}>
                         <Box
@@ -123,49 +87,17 @@ const EmptyImageInput = ({
                                 backgroundColor: '#ffffff',
                             }}
                         >
-                            <input
-                                {...getInputProps()}
-                                hidden
-                                style={{ width: '100%', height: '100%' }}
-                                accept="image/*"
-                                multiple
-                                type="file"
-                                onChange={(event: any) => {
-                                    if (
-                                        ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(
-                                            event.target.files[0]?.type
-                                        )
-                                    ) {
-                                        async function handleImageUpload() {
-                                            setLoading(true);
-                                            const imageFile = event.target.files[0];
-                                            const options = {
-                                                maxSizeMB: 0.15,
-                                            };
-                                            try {
-                                                const compressedFile = await imageCompression(imageFile, options);
-                                                addAction(compressedFile).finally(() => setLoading(false));
-                                            } catch (error) {
-                                                console.log(error);
-                                            }
-                                        }
-                                        handleImageUpload();
-                                    } else {
-                                        toast.error(string?.wrong_file_format);
-                                    }
-                                }}
-                            />
+                            <input {...getInputProps()} hidden accept="image/*" multiple type="file" />
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
                                     flexDirection: 'column',
+                                    alignItems: 'center',
                                     gap: 0.5,
                                 }}
                             >
                                 <Typography>{title}</Typography>
-                                <AddPhotoAlternateIcon fontSize="large" sx={{ my: 0.5 }} />
+                                <AddPhotoAlternateIcon fontSize="large" />
                                 <Typography>Add or Drop Images</Typography>
                                 <Typography>Formats:</Typography>
                                 <Typography sx={{ fontSize: 12, textTransform: 'lowercase' }}>

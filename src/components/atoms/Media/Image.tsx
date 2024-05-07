@@ -1,98 +1,105 @@
-import { Box, IconButton } from '@mui/material';
-import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
-import { useDevice } from 'hooks/useDevice';
+import { Box, IconButton, CircularProgress } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useEffect, useRef, useState, memo, useCallback } from 'react';
+import { debounce } from 'lodash';
+import { Colors } from 'colors';
 
-import { useEffect, useRef, useState } from 'react';
-
-interface ImageInterface {
+interface ImageProps {
     width: number;
     height: number;
     imgUrl: string;
     maxWidth?: string;
     isDrag?: boolean;
     isRemovable?: boolean;
-    deleteAction?;
+    deleteAction?: () => void;
 }
 
-const Image = ({
-    width = 1,
-    height = 1,
-    imgUrl,
-    maxWidth = '100%',
-    isDrag = false,
-    isRemovable = false,
-    deleteAction = () => {},
-}: ImageInterface) => {
-    const { xxs, xs, s, sm, sx, slx, m, mx, ls, l } = useDevice();
-    const [imgHeight, setImgHeight] = useState<number>(0);
-    const [screenWidth, setScreenWidth] = useState(0);
-    const [loading, setLoading] = useState(true);
+const Image: React.FC<ImageProps> = memo(
+    ({ width, height, imgUrl, maxWidth = '100%', isDrag = false, isRemovable = false, deleteAction = () => {} }) => {
+        const [imgHeight, setImgHeight] = useState<number>(0);
+        const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false); // State to track image loading
+        const ref = useRef<HTMLDivElement>(null);
+        const imageLoader = useRef<HTMLImageElement>(document.createElement('img'));
 
-    const ref = useRef<HTMLInputElement>(null);
+        const updateImageSize = useCallback(() => {
+            if (ref.current) {
+                const newHeight = (ref.current.clientWidth / width) * height;
+                setImgHeight(newHeight);
+            }
+        }, [width, height]);
 
-    useEffect(() => {
-        setImgHeight(ref?.current?.clientWidth ? (ref?.current?.clientWidth / width) * height : 0);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        useEffect(() => {
+            updateImageSize(); // Initial setup without delay
+            const debouncedResize = debounce(updateImageSize, 250);
 
-    useEffect(() => {
-        window.addEventListener('orientationchange', event => {
-            const w = event.target as Window;
-            setScreenWidth(w.innerWidth);
-        });
-        window.addEventListener('resize', (event: UIEvent) => {
-            const w = event.target as Window;
-            setScreenWidth(w.innerWidth);
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-        window.innerWidth,
+            window.addEventListener('resize', debouncedResize);
+            return () => window.removeEventListener('resize', debouncedResize);
+        }, [updateImageSize]);
 
-        xxs,
-        xs,
-        s,
-        sm,
-        sx,
-        slx,
-        m,
-        mx,
-        ls,
-        l,
-        ref?.current?.clientWidth,
-        ref?.current?.clientHeight,
-    ]);
+        useEffect(() => {
+            const image = imageLoader.current;
+            image.src = imgUrl;
+            image.onload = () => setIsImageLoaded(true);
+            image.onerror = () => setIsImageLoaded(true); // Handle error case
+        }, [imgUrl]); // eslint-disable-line
 
-    useEffect(() => {
-        setTimeout(() => {
-            setImgHeight(ref?.current?.clientWidth ? (ref?.current?.clientWidth / width) * height : 0);
-            setLoading(false);
-        }, 250);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [screenWidth, loading, xxs, xs, s, sm, sx, slx, m, mx, ls, l]);
+        const stableDeleteAction = useCallback(deleteAction, []); // eslint-disable-line
 
-    return (
-        <Box
-            ref={ref}
-            sx={{
-                width: '100%',
-                height: imgHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-                cursor: isDrag ? 'grab' : '',
-                maxWidth: maxWidth,
-                position: 'relative',
-            }}
-        >
-            {isRemovable && (
-                <IconButton sx={{ position: 'absolute', top: 1, right: 1 }} onClick={deleteAction}>
-                    <CancelPresentationIcon />
-                </IconButton>
-            )}
-            <img src={imgUrl} style={{ width: '100%' }} alt="img" />
-        </Box>
-    );
-};
+        return (
+            <Box
+                ref={ref}
+                sx={{
+                    width: '100%',
+                    height: imgHeight,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    cursor: isDrag ? 'grab' : undefined,
+                    maxWidth,
+                    position: 'relative',
+                    backgroundColor: isImageLoaded ? undefined : 'transparent',
+                }}
+            >
+                {isImageLoaded && ( // Render image only when loaded
+                    <>
+                        {isRemovable && (
+                            <IconButton
+                                sx={{
+                                    position: 'absolute',
+                                    top: 4,
+                                    right: 4,
+                                    background: Colors?.WHITE,
+                                    border: '2px solid',
+                                    borderColor: Colors?.GRAY,
+                                    '&:hover': { background: Colors?.GRAY_300 },
+                                    width: 26,
+                                    height: 26,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                                onClick={stableDeleteAction}
+                            >
+                                <CloseIcon sx={{ fontSize: 18 }} />
+                            </IconButton>
+                        )}
+
+                        <img src={imgUrl} style={{ width: '100%', height: 'auto' }} alt="displayed" />
+                    </>
+                )}
+
+                {!isImageLoaded && ( // Render loading indicator while image is loading
+                    <CircularProgress
+                        sx={{
+                            position: 'absolute',
+                            color: Colors?.GRAY,
+                        }}
+                    />
+                )}
+            </Box>
+        );
+    }
+);
 
 export default Image;
