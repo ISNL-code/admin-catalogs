@@ -20,61 +20,17 @@ export const PHONE_CODES = [
 ];
 
 export const LANGUAGES = [
-    {
-        id: 1,
-        code: 'ua',
-        name: 'Українcька',
-    },
-    {
-        id: 2,
-        code: 'ru',
-        name: 'Російський',
-    },
-    {
-        id: 3,
-        code: 'pl',
-        name: 'Польська',
-    },
-    {
-        id: 4,
-        code: 'cz',
-        name: 'Чешська',
-    },
-    {
-        id: 5,
-        code: 'en',
-        name: 'Англiйська',
-    },
-    {
-        id: 6,
-        code: 'es',
-        name: 'Iспанська',
-    },
-    {
-        id: 7,
-        code: 'fr',
-        name: 'Французька',
-    },
-    {
-        id: 8,
-        code: 'kz',
-        name: 'Казахська',
-    },
-    {
-        id: 9,
-        code: 'it',
-        name: 'Iталiйська',
-    },
-    {
-        id: 10,
-        code: 'tk',
-        name: 'Турецька',
-    },
-    {
-        id: 11,
-        code: 'de',
-        name: 'Нiмецька',
-    },
+    { code: 'ua', id: 4 },
+    { code: 'en', id: 1 },
+    { code: 'fr', id: 2 },
+    { code: 'es', id: 3 },
+    { code: 'ru', id: 5 },
+    { code: 'pl', id: 6 },
+    { code: 'cz', id: 7 },
+    { code: 'kz', id: 8 },
+    { code: 'it', id: 9 },
+    { code: 'tk', id: 10 },
+    { code: 'de', id: 11 },
 ];
 
 export const CURRENCY = [
