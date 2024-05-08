@@ -60,6 +60,21 @@ export const LANGUAGES = [
         code: 'kz',
         name: 'Казахська',
     },
+    {
+        id: 9,
+        code: 'it',
+        name: 'Iталiйська',
+    },
+    {
+        id: 10,
+        code: 'tk',
+        name: 'Турецька',
+    },
+    {
+        id: 11,
+        code: 'de',
+        name: 'Нiмецька',
+    },
 ];
 
 export const CURRENCY = [
