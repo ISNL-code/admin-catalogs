@@ -41,8 +41,8 @@ const INITIAL_STORE_DATA = {
         postalCode: '',
         city: '',
     },
-    supportedLanguages: [''],
-    defaultLanguage: '',
+    supportedLanguages: [],
+    defaultLanguage: 'en',
     currency: 'USD',
     currencyFormatNational: false, //not in use
     weight: 'KG', //not in use

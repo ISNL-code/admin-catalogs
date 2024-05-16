@@ -223,7 +223,7 @@ const StoreForm = ({
                                 label={string?.default_language + '*'}
                             >
                                 {LANGUAGES.map(el => (
-                                    <MenuItem key={el?.id} value={el?.code}>
+                                    <MenuItem key={el?.code} value={el?.code}>
                                         {el?.name}
                                     </MenuItem>
                                 ))}

@@ -20,17 +20,17 @@ export const PHONE_CODES = [
 ];
 
 export const LANGUAGES = [
-    { code: 'ua', id: 4 },
-    { code: 'en', id: 1 },
-    { code: 'fr', id: 2 },
-    { code: 'es', id: 3 },
-    { code: 'ru', id: 5 },
-    { code: 'pl', id: 6 },
-    { code: 'cz', id: 7 },
-    { code: 'kz', id: 8 },
-    { code: 'it', id: 9 },
-    { code: 'tk', id: 10 },
-    { code: 'de', id: 11 },
+    { code: 'en', id: 1, name: 'English' },
+    { code: 'fr', id: 2, name: 'French' },
+    { code: 'es', id: 3, name: 'Spain' },
+    { code: 'ua', id: 4, name: 'Ukrainian' },
+    { code: 'ru', id: 5, name: 'Russian' },
+    { code: 'pl', id: 6, name: 'Polish' },
+    { code: 'cz', id: 7, name: 'Czech' },
+    { code: 'kz', id: 8, name: 'Kazakh' },
+    { code: 'it', id: 9, name: 'Italian' },
+    { code: 'tk', id: 10, name: 'Turkish' },
+    { code: 'de', id: 11, name: 'Deutsche' },
 ];
 
 export const CURRENCY = [
