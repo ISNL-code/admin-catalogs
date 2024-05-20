@@ -31,6 +31,7 @@ export const LANGUAGES = [
     { code: 'it', id: 9, name: 'Italian' },
     { code: 'tk', id: 10, name: 'Turkish' },
     { code: 'de', id: 11, name: 'Deutsche' },
+    { code: 'fi', id: 11, name: 'Fin' },
 ];
 
 export const CURRENCY = [
