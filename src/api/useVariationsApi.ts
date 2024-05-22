@@ -94,15 +94,7 @@ export const useVariationsApi = () => {
 
     const useAddTableSizeImageMedia = () =>
         useMutation(({ productId, mediaFile, storeCode }: { productId: string; mediaFile: any; storeCode: string }) => {
-            const file = new File(
-                [mediaFile],
-                mediaFile.name
-                    .replaceAll(' ', '')
-                    .replaceAll('(', '-')
-                    .replaceAll(':', '-')
-                    .replaceAll(')', '-')
-                    .replaceAll('+', '-')
-            );
+            const file = new File([mediaFile], mediaFile.name.replaceAll(' ', ''));
             const formData = new FormData();
             formData.append('file', file);
 
