@@ -42,15 +42,16 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
         productId,
     });
 
+    const { mutateAsync: setImageOrder } = useVariationsApi().useSetImageOrder();
+    const { mutateAsync: deleteMediaFile, isLoading: loadDelete } = useVariationsApi().useDeleteVariantMedia();
+    const { mutateAsync: addMedia, isLoading: loadMediaFile } = useVariationsApi().useAddVariantMedia();
+    const { mutateAsync: deleteVariant, isLoading: loadDeleteVar } = useVariationsApi().useDeleteProductVariant();
+    const { mutateAsync: updateVariant, isLoading: loadUpdate } = useVariationsApi().useUpdateProductVariant();
+
     const { data: variationGroupRes } = useVariationsApi().useGetVariationGroupByProductID({
         productId,
         storeCode,
     });
-    const { mutateAsync: setImageOrder } = useVariationsApi().useSetImageOrder();
-    const { mutateAsync: deleteMediaFile, isLoading: loadDelete } = useVariationsApi().useDeleteVariantMedia();
-    const { mutateAsync: deleteVariant, isLoading: loadDeleteVar } = useVariationsApi().useDeleteProductVariant();
-    const { mutateAsync: updateVariant, isLoading: loadUpdate } = useVariationsApi().useUpdateProductVariant();
-    const { mutateAsync: addMedia, isLoading: loadMediaFile } = useVariationsApi().useAddVariantMedia();
 
     useEffect(() => {
         if (!variationGroupRes) return;

@@ -54,38 +54,7 @@ export const useVariationsApi = () => {
         );
     };
 
-    const useSetImageOrder = () =>
-        useMutation(({ variationGroupId, imageId, order, storeCode }: any) =>
-            patch({
-                url: `/v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?order=${order}&store=${storeCode}`,
-                body: {},
-            })
-        );
-
-    const useDeleteVariantMedia = () =>
-        useMutation(({ variationGroupId, imageId, storeCode }: any) =>
-            remove({
-                url: `v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?store=${storeCode}`,
-            })
-        );
-
-    const useDeleteProductVariant = () =>
-        useMutation(({ productId, variantId, storeCode }: any) =>
-            remove({
-                url: `v2/private/product/${productId}/variant/${variantId}?store=${storeCode}`,
-            })
-        );
-
-    const useUpdateProductVariant = () =>
-        useMutation(({ data, productId, storeCode }: any) =>
-            put({
-                url: `v2/private/product/${productId}/variant/${data.id}?store=${storeCode}`,
-                body: {
-                    ...data,
-                },
-            })
-        );
-
+    // Adding Image To Product Model Variant (e.g Model with ID ....00001, Color Black Model Image Add) Where variationGroupId is ID of Black color group
     const useAddVariantMedia = () =>
         useMutation(({ variationGroupId, mediaFile, storeCode }: any) => {
             const file = new File(
@@ -106,6 +75,67 @@ export const useVariationsApi = () => {
             });
         });
 
+    // Ordering Image position for catalog view of Product Model Variant
+    const useSetImageOrder = () =>
+        useMutation(({ variationGroupId, imageId, order, storeCode }: any) =>
+            patch({
+                url: `/v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?order=${order}&store=${storeCode}`,
+                body: {},
+            })
+        );
+
+    // Deleting Image of Product Model Variant (e.g Model with ID ....00001, Color Black Model Image Deleted) Where variationGroupId is ID of Black color group
+    const useDeleteVariantMedia = () =>
+        useMutation(({ variationGroupId, imageId, storeCode }: any) =>
+            remove({
+                url: `v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?store=${storeCode}`,
+            })
+        );
+
+    const useAddTableSizeImageMedia = () =>
+        useMutation(({ productId, mediaFile, storeCode }: { productId: string; mediaFile: any; storeCode: string }) => {
+            const file = new File(
+                [mediaFile],
+                mediaFile.name
+                    .replaceAll(' ', '')
+                    .replaceAll('(', '-')
+                    .replaceAll(':', '-')
+                    .replaceAll(')', '-')
+                    .replaceAll('+', '-')
+            );
+            const formData = new FormData();
+            formData.append('file', file);
+
+            return post({
+                url: `${productId}?store=${storeCode}`,
+                body: formData,
+            });
+        });
+
+    const useDeleteTableSizeMedia = () =>
+        useMutation(({ productId, imageId, storeCode }: { productId: string; imageId: string; storeCode: string }) =>
+            remove({
+                url: `${productId}/${imageId}?store=${storeCode}`,
+            })
+        );
+
+    const useDeleteProductVariant = () =>
+        useMutation(({ productId, variantId, storeCode }: any) =>
+            remove({
+                url: `v2/private/product/${productId}/variant/${variantId}?store=${storeCode}`,
+            })
+        );
+
+    const useUpdateProductVariant = () =>
+        useMutation(({ data, productId, storeCode }: any) =>
+            put({
+                url: `v2/private/product/${productId}/variant/${data.id}?store=${storeCode}`,
+                body: {
+                    ...data,
+                },
+            })
+        );
+
     return {
         useGetListOfVariations,
         useCreateVariation,
@@ -117,5 +147,7 @@ export const useVariationsApi = () => {
         useDeleteProductVariant,
         useAddVariantMedia,
         useUpdateProductVariant,
+        useDeleteTableSizeMedia,
+        useAddTableSizeImageMedia,
     };
 };

@@ -14,6 +14,7 @@ interface ImageInterface {
     maxWidth?: string;
     addAction?: (file: Blob) => void;
     imageQuota: number;
+    fileName?: string;
 }
 
 const EmptyImageInput = ({
@@ -23,6 +24,7 @@ const EmptyImageInput = ({
     maxWidth = '100%',
     addAction = () => {},
     imageQuota,
+    fileName,
 }: ImageInterface) => {
     const { string }: any = useOutletContext();
     const [imgHeight, setImgHeight] = useState<number>(0);
@@ -98,7 +100,9 @@ const EmptyImageInput = ({
                             >
                                 <Typography>{title}</Typography>
                                 <AddPhotoAlternateIcon fontSize="large" />
-                                <Typography>Add or Drop Images</Typography>
+                                <Typography>
+                                    Add or Drop {fileName} {imageQuota > 1 ? 'Images' : 'Image'}
+                                </Typography>
                                 <Typography>Formats:</Typography>
                                 <Typography sx={{ fontSize: 12, textTransform: 'lowercase' }}>
                                     .jpg .jpeg .png .webp .avif
