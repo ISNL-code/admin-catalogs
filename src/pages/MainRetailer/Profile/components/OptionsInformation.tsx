@@ -99,6 +99,7 @@ const OptionsInformation = ({
                                         {string?.replace}
                                         <Box sx={{ visibility: 'hidden', width: 0, height: 0 }}>
                                             <EmptyImageInput
+                                                imageQuota={1}
                                                 width={1}
                                                 height={1}
                                                 title=""
@@ -131,6 +132,7 @@ const OptionsInformation = ({
                             </>
                         ) : (
                             <EmptyImageInput
+                                imageQuota={1}
                                 width={1}
                                 height={1}
                                 title=""
@@ -176,7 +178,7 @@ const OptionsInformation = ({
                                     <Box>
                                         {string?.replace}
                                         <Box sx={{ visibility: 'hidden', width: 0, height: 0 }}>
-                                            <EmptyImageInput width={1} height={1} title="" />
+                                            <EmptyImageInput width={1} height={1} title="" imageQuota={1} />
                                         </Box>
                                     </Box>
                                 </Button>
@@ -199,7 +201,7 @@ const OptionsInformation = ({
                                 </Box>
                             </>
                         ) : (
-                            <EmptyImageInput width={1} height={1} title="" />
+                            <EmptyImageInput width={1} height={1} title="" imageQuota={1} />
                         )}
                     </Box>
                 </Grid>

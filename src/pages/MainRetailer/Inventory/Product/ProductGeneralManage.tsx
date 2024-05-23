@@ -81,7 +81,7 @@ const ProductGeneralManage = () => {
         if (!productDataRes || loadProducts) return;
 
         const product = productDataRes.data;
-        console.log(product);
+
         setProduct({
             id: product.id,
             sku: product.sku,

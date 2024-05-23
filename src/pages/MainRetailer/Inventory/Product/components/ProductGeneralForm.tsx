@@ -2,11 +2,14 @@ import {
     Box,
     Button,
     FormControl,
+    FormControlLabel,
     FormHelperText,
     InputAdornment,
     InputLabel,
     MenuItem,
     OutlinedInput,
+    Radio,
+    RadioGroup,
     Select,
     TextField,
     Typography,
@@ -17,6 +20,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { BrandsInterface, MainContextInterface, ManageProductInterface, RetailerContextInterface } from 'types';
 import AddIcon from '@mui/icons-material/Add';
 import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
+import { useState } from 'react';
+import useTranslate from 'hooks/useTranslate';
 
 const ProductGeneral = ({
     data,
@@ -29,10 +34,12 @@ const ProductGeneral = ({
     brandsList: BrandsInterface[];
     setProduct: any;
 }) => {
+    const { translateText } = useTranslate();
     const navigate = useNavigate();
     const { storeCode } = useParams();
     const { sx } = useDevice();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const [rootLanguage, setRootLanguage] = useState(data?.descriptions[0]?.language);
 
     return (
         <>
@@ -126,123 +133,147 @@ const ProductGeneral = ({
                         />
                     </Grid>
                 </Grid>
-
-                {data?.descriptions &&
-                    data?.descriptions?.map(({ language, name, description }, idx) => (
-                        <Grid
-                            container
-                            xs={12}
-                            key={idx}
-                            sx={{
-                                gap: 2,
-                                background:
-                                    idx % 2 !== 0
-                                        ? `repeating-linear-gradient(
+                <FormControl>
+                    <RadioGroup
+                        row
+                        aria-labelledby="lang-radio-groupe"
+                        name="lang-group"
+                        value={rootLanguage}
+                        onChange={e => {
+                            setRootLanguage(e.target.value);
+                        }}
+                    >
+                        {data?.descriptions &&
+                            data?.descriptions?.map(({ language, name, description }, idx) => (
+                                <Grid
+                                    container
+                                    xs={12}
+                                    key={idx}
+                                    sx={{
+                                        gap: 2,
+                                        background:
+                                            idx % 2 !== 0
+                                                ? `repeating-linear-gradient(
                                        45deg,
                                         #f3f3f378,
                                         #f3f3f378 5px,
                                         #fff 5px,
                                         #fff 10px
                                       )`
-                                        : `repeating-linear-gradient(
+                                                : `repeating-linear-gradient(
                                 135deg,
                                 #f3f3f378,
                                 #f3f3f378 5px,
                                 #fff 5px,
                                 #fff 10px
                               )`,
-                                p: 2,
-                                border: '1px solid',
+                                        p: 2,
+                                        border: '1px solid',
 
-                                borderColor:
-                                    formik?.errors.descriptions &&
-                                    formik.touched.descriptions &&
-                                    formik.errors.descriptions[idx]?.name &&
-                                    formik.touched.descriptions[idx]?.name
-                                        ? '#d32f2f'
-                                        : '#ccc',
-                            }}
-                        >
-                            <Grid xs={12} mb={-1}>
-                                <Typography variant="h3">{language?.toUpperCase()}</Typography>
-                            </Grid>
-                            <Grid xs={12}>
-                                <TextField
-                                    InputLabelProps={{ shrink: true }}
-                                    value={name}
-                                    onChange={e => {
-                                        setProduct({
-                                            ...data,
-                                            descriptions: data.descriptions?.map(el => {
-                                                if (el.language === language) {
-                                                    return {
-                                                        ...el,
-                                                        name: e.target.value,
-                                                        friendlyUrl: e.target.value,
-                                                        keyWords: e.target.value,
-                                                        highlights: e.target.value,
-                                                        metaDescription: e.target.value,
-                                                        title: e.target.value,
-                                                    };
-                                                }
-                                                return { ...el };
-                                            }),
-                                        });
+                                        borderColor:
+                                            formik?.errors.descriptions &&
+                                            formik.touched.descriptions &&
+                                            formik.errors.descriptions[idx]?.name &&
+                                            formik.touched.descriptions[idx]?.name
+                                                ? '#d32f2f'
+                                                : '#ccc',
                                     }}
-                                    size="small"
-                                    label={string?.name}
-                                    fullWidth
-                                    error={
-                                        formik?.errors.descriptions && formik.touched.descriptions
-                                            ? formik.errors.descriptions[idx]?.name &&
-                                              formik.touched.descriptions[idx]?.name
-                                            : false
-                                    }
-                                    helperText={
-                                        formik?.errors.descriptions
-                                            ? string?.[formik.errors.descriptions[idx]?.name]
-                                            : ''
-                                    }
-                                />
-                            </Grid>
-                            <Grid xs={12}>
-                                <TextField
-                                    InputLabelProps={{ shrink: true }}
-                                    value={description}
-                                    onChange={e => {
-                                        setProduct({
-                                            ...data,
-                                            descriptions: data.descriptions?.map(el => {
-                                                if (el.language === language) {
-                                                    return {
-                                                        ...el,
-                                                        description: e.target.value,
-                                                    };
-                                                }
-                                                return { ...el };
-                                            }),
-                                        });
-                                    }}
-                                    size="small"
-                                    label={string?.description}
-                                    fullWidth
-                                    multiline
-                                    minRows={1}
-                                    error={
-                                        formik?.errors.descriptions && formik.touched.descriptions
-                                            ? formik.errors.descriptions[idx]?.description &&
-                                              formik.touched.descriptions[idx]?.description
-                                            : false
-                                    }
-                                    helperText={
-                                        formik?.errors.descriptions
-                                            ? string?.[formik.errors.descriptions[idx]?.description]
-                                            : ''
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
-                    ))}
+                                >
+                                    <Grid xs={12} mb={-1} sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <FormControlLabel value={language} control={<Radio size="small" />} label="" />
+                                        <Typography variant="h3">{language?.toUpperCase()}</Typography>
+
+                                        <Button
+                                            variant="outlined"
+                                            disabled={language === rootLanguage}
+                                            sx={{ ml: 'auto' }}
+                                            onClick={() => {
+                                                const text = translateText('Hello', 'ru');
+                                                console.log(text);
+                                            }}
+                                        >
+                                            Translate
+                                        </Button>
+                                    </Grid>
+                                    <Grid xs={12}>
+                                        <TextField
+                                            InputLabelProps={{ shrink: true }}
+                                            value={name}
+                                            onChange={e => {
+                                                setProduct({
+                                                    ...data,
+                                                    descriptions: data.descriptions?.map(el => {
+                                                        if (el.language === language) {
+                                                            return {
+                                                                ...el,
+                                                                name: e.target.value,
+                                                                friendlyUrl: e.target.value,
+                                                                keyWords: e.target.value,
+                                                                highlights: e.target.value,
+                                                                metaDescription: e.target.value,
+                                                                title: e.target.value,
+                                                            };
+                                                        }
+                                                        return { ...el };
+                                                    }),
+                                                });
+                                            }}
+                                            size="small"
+                                            label={string?.name}
+                                            fullWidth
+                                            error={
+                                                formik?.errors.descriptions && formik.touched.descriptions
+                                                    ? formik.errors.descriptions[idx]?.name &&
+                                                      formik.touched.descriptions[idx]?.name
+                                                    : false
+                                            }
+                                            helperText={
+                                                formik?.errors.descriptions
+                                                    ? string?.[formik.errors.descriptions[idx]?.name]
+                                                    : ''
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid xs={12}>
+                                        <TextField
+                                            InputLabelProps={{ shrink: true }}
+                                            value={description}
+                                            onChange={e => {
+                                                setProduct({
+                                                    ...data,
+                                                    descriptions: data.descriptions?.map(el => {
+                                                        if (el.language === language) {
+                                                            return {
+                                                                ...el,
+                                                                description: e.target.value,
+                                                            };
+                                                        }
+                                                        return { ...el };
+                                                    }),
+                                                });
+                                            }}
+                                            size="small"
+                                            label={string?.description}
+                                            fullWidth
+                                            multiline
+                                            minRows={1}
+                                            error={
+                                                formik?.errors.descriptions && formik.touched.descriptions
+                                                    ? formik.errors.descriptions[idx]?.description &&
+                                                      formik.touched.descriptions[idx]?.description
+                                                    : false
+                                            }
+                                            helperText={
+                                                formik?.errors.descriptions
+                                                    ? string?.[formik.errors.descriptions[idx]?.description]
+                                                    : ''
+                                            }
+                                        />
+                                    </Grid>
+                                </Grid>
+                            ))}
+                    </RadioGroup>
+                </FormControl>
             </Box>
         </>
     );
