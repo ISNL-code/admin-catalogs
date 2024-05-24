@@ -31,6 +31,7 @@ const INIT_PRODUCT_DATA = {
         length: '',
     },
     descriptions: [],
+    available: true,
 };
 
 const ProductCreate = () => {
@@ -144,12 +145,14 @@ const ProductCreate = () => {
                 <Route
                     path={'/'}
                     element={
-                        <ProductGeneralForm
-                            data={product}
-                            formik={formik}
-                            brandsList={brandsList}
-                            setProduct={setProduct}
-                        />
+                        <>
+                            <ProductGeneralForm
+                                data={product}
+                                formik={formik}
+                                brandsList={brandsList}
+                                setProduct={setProduct}
+                            />
+                        </>
                     }
                 />
             </Routes>

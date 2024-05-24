@@ -7,8 +7,11 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { ACCESS_TOKEN_KEY } from 'constants/constants';
 import Loader from 'components/atoms/Loader/Loader';
 import ModalWindow from 'components/molecules/ModalWindow/ModalWindow';
+import { useNavigate } from 'react-router-dom';
+import { useGoogleApi } from 'api/useGoogleApi';
 
 export default function Login({ string, setAuth, auth }) {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [validate, setValidate] = useState(false);
@@ -38,6 +41,8 @@ export default function Login({ string, setAuth, auth }) {
                                     setError(true);
                                 });
                         }}
+                        secondaryAction={() => navigate('/privacy-policy')}
+                        secondaryTitle="Privacy Policy"
                         withClose={false}
                     >
                         {error && (

@@ -113,8 +113,8 @@ const StoreInformation = ({
                                 }
                                 label={string?.store_country + '*'}
                             >
-                                {COUNTRIES.map(el => (
-                                    <MenuItem key={el.id} value={el.code}>
+                                {COUNTRIES.map((el, i) => (
+                                    <MenuItem key={i} value={el.code}>
                                         {el.name}
                                     </MenuItem>
                                 ))}
@@ -210,8 +210,8 @@ const StoreInformation = ({
                                 onChange={e => handleChangeStoreData({ currency: e.target.value })}
                                 label={string?.currency + '*'}
                             >
-                                {CURRENCY.map(el => (
-                                    <MenuItem key={el.id} value={el.code}>
+                                {CURRENCY.map((el, idx) => (
+                                    <MenuItem key={idx} value={el.code}>
                                         {el.name}
                                     </MenuItem>
                                 ))}
@@ -227,8 +227,8 @@ const StoreInformation = ({
                                 onChange={e => handleChangeStoreData({ defaultLanguage: e.target.value })}
                                 label={string?.default_language + '*'}
                             >
-                                {LANGUAGES.map(el => (
-                                    <MenuItem key={el?.id} value={el?.code}>
+                                {LANGUAGES.map((el, idx) => (
+                                    <MenuItem key={idx} value={el?.code}>
                                         {el?.name}
                                     </MenuItem>
                                 ))}
@@ -241,10 +241,10 @@ const StoreInformation = ({
                         </Typography>
                     </Grid>
                     <Grid xs={12} sx={{ p: 1, py: 1.25 }}>
-                        {LANGUAGES.map(el => (
+                        {LANGUAGES.map((el, i) => (
                             <FormControlLabel
                                 disabled
-                                key={el.id}
+                                key={i}
                                 control={
                                     <Checkbox
                                         checked={!!data?.supportedLanguages.some(lang => lang === el.code)}

@@ -19,7 +19,12 @@ const ColorsManage = () => {
     const [valuesList, setValuesList] = useState<any>([]);
     const [initColor, setInitColor] = useState(null);
 
-    const { data: valuesListRes } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500 });
+    const { data: valuesListRes } = useOptionsApi().useGetValuesList({
+        storeCode,
+        page: 0,
+        countPerPage: 500,
+        lang: storeData?.defaultLanguage,
+    });
     const { data: valueItemRes, isFetching } = useOptionsApi().useGetValueById({ storeCode, valueId: colorId });
     const { mutateAsync: updateValue } = useOptionsApi().useUpdateValue();
 

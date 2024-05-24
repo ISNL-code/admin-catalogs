@@ -34,7 +34,6 @@ const ProductGeneral = ({
     brandsList: BrandsInterface[];
     setProduct: any;
 }) => {
-    const { translateText } = useTranslate();
     const navigate = useNavigate();
     const { storeCode } = useParams();
     const { sx } = useDevice();
@@ -182,18 +181,22 @@ const ProductGeneral = ({
                                     <Grid xs={12} mb={-1} sx={{ display: 'flex', alignItems: 'center' }}>
                                         <FormControlLabel value={language} control={<Radio size="small" />} label="" />
                                         <Typography variant="h3">{language?.toUpperCase()}</Typography>
-
-                                        <Button
+                                        {/* тут будет  логика добавления текста */}
+                                        {/* <Button
                                             variant="outlined"
                                             disabled={language === rootLanguage}
                                             sx={{ ml: 'auto' }}
                                             onClick={() => {
-                                                const text = translateText('Hello', 'ru');
-                                                console.log(text);
+                                                const handleTranslate = async () => {
+                                                    const translatedText = await translateText('Hello', 'ru');
+                                                    console.log(translatedText);
+                                                };
+                                                handleTranslate();
                                             }}
                                         >
                                             Translate
-                                        </Button>
+                                        </Button> */}
+                                        {/* тут будет  логика добавления текста */}
                                     </Grid>
                                     <Grid xs={12}>
                                         <TextField

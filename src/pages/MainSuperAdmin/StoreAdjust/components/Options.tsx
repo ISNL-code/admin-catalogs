@@ -27,8 +27,9 @@ import {
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
-import { PRODUCT_TYPES } from 'dataBase/PRODUCT_TYPES';
+
 import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
+import { PRODUCT_TYPES } from 'dataBase/PRODUCT_TYPES';
 
 interface OptionsPageInterface {
     data: EditDataStore;
@@ -100,6 +101,7 @@ const Options = ({
                                         {string?.replace}
                                         <Box sx={{ visibility: 'hidden', width: 0, height: 0 }}>
                                             <EmptyImageInput
+                                                imageQuota={1}
                                                 width={1}
                                                 height={1}
                                                 title=""
@@ -132,6 +134,7 @@ const Options = ({
                             </>
                         ) : (
                             <EmptyImageInput
+                                imageQuota={1}
                                 width={1}
                                 height={1}
                                 title=""
@@ -176,7 +179,7 @@ const Options = ({
                                     <Box>
                                         {string?.replace}
                                         <Box sx={{ visibility: 'hidden', width: 0, height: 0 }}>
-                                            <EmptyImageInput width={4} height={3} title="" />
+                                            <EmptyImageInput width={4} height={3} title="" imageQuota={1} />
                                         </Box>
                                     </Box>
                                 </Button>
@@ -199,7 +202,7 @@ const Options = ({
                                 </Box>
                             </>
                         ) : (
-                            <EmptyImageInput width={1} height={1} title="" />
+                            <EmptyImageInput width={1} height={1} title="" imageQuota={1} />
                         )}
                     </Box>
                 </Grid>

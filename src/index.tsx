@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import App from 'App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import AuthInterceptor from 'api/AuthInterceptor';
 import './index.css';
+import AuthInterceptor from 'api/AuthInterceptor';
+import App from './App';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -14,6 +14,7 @@ const queryClient = new QueryClient({
 });
 
 AuthInterceptor();
+console.log(process.env.REACT_APP_API_URL);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>

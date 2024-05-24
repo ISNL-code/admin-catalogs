@@ -20,11 +20,9 @@
         "resolveJsonModule": true,
         "noFallthroughCasesInSwitch": true,
         "isolatedModules": true,
-        "noEmit": true
-
-        // "paths": {} / May be used in future
+        "noEmit": false
     },
-    "exclude": [],
+    "exclude": ["node_modules"],
     "include": [
         "**/*.ts",
         "**/*.tsx",
@@ -33,13 +31,13 @@
         "src/pages/Gallery/gallery_page/GalleryPage.tsx",
         "src/pages/Gallery/model_details_page/ModelDetails.jsx",
         "src/components/Inputs/MultiSelect.jsx",
-        "src/pages/Admin/add_item_page/AddItemPage.jsxPage.jsx",
+        "src/pages/Admin/add_item_page/AddItemPage.jsx",
         "src/components/ListCards/GalleryCard.jsx",
         "src/components/CategoryFilter/CategoryFilter.jsx",
         "src/api/useUserApi.ts",
         "src/components/Login/LoginForm.jsx",
         "src/api/useProductsApi.ts",
-        "src/pages/Admin/orders_list/components/components/AddProduct.jsx",
+        "src/pages/Admin/orders_list/components/AddProduct.jsx",
         "src/api/useProductCategoriesApi.ts",
         "src/components/GalleryFilterBox/Search.js",
         "src/layouts/Main.js",
@@ -59,9 +57,10 @@
         "src/components/ToolsNavButtons/LanguageButton.jsx",
         "src/api/AuthInterceptor.js",
         "src/pages/ProductDetails/ModelSwiper.tsx",
-        "src/pages/ProductDetails/ModelSwiper.tsx",
         "src/assets/svg/phone_call.js",
-, "src/components/organisms/Lists/DND/ImageCards.js"        "src/components/organisms/Lists/ImageCards.js"
-, "src/helpers/Validations/createUserFormValidations.ts"    ],
+        "src/components/organisms/Lists/DND/ImageCards.js",
+        "src/components/organisms/Lists/ImageCards.js",
+        "src/helpers/Validations/createUserFormValidations.ts"
+    ],
     "compileOnSave": false
 }

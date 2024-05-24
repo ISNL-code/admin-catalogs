@@ -1,4 +1,5 @@
 export const ACCESS_TOKEN_KEY = 'sn_admin-token';
+export const GOOGLE_AUTH_KEY = 'sn_google-auth-token';
 export const WEB_URL = 'https://salses-nest-admin.netlify.app';
 export const BASE_URL = 'https://kremen-belts.com/api';
 export const COUNTRIES = [

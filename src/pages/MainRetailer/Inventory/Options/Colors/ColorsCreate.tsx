@@ -27,7 +27,12 @@ const ColorsCreate = () => {
     const [optionId, setOptionId] = useState(null);
     const [valuesList, setValuesList] = useState<any>([]);
 
-    const { data: valuesListRes } = useOptionsApi().useGetValuesList({ storeCode, page: 0, countPerPage: 500 });
+    const { data: valuesListRes } = useOptionsApi().useGetValuesList({
+        storeCode,
+        page: 0,
+        countPerPage: 500,
+        lang: storeData?.defaultLanguage,
+    });
 
     const { data: OptionsRes } = useOptionsApi().useGetOptionsList({ storeCode });
     const { mutateAsync: createValue, isLoading: loadCreateValue } = useOptionsApi().useCreateValue();
