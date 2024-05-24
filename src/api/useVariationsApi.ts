@@ -99,7 +99,7 @@ export const useVariationsApi = () => {
             formData.append('file', file);
 
             return post({
-                url: `${productId}?store=${storeCode}`,
+                url: `v1/private/product/${productId}/image?store=${storeCode}&sizes=true`,
                 body: formData,
             });
         });
