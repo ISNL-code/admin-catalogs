@@ -27,6 +27,7 @@ import { useFormik } from 'formik';
 import modelFormValidations from 'helpers/Validations/modelFormValidations';
 import { useProductsApi } from 'api/useProductsApi';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
+import LoaderProgress from 'components/atoms/Loader/LoaderProgress';
 
 const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
     const { productId, storeCode } = useParams();
@@ -147,7 +148,8 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                     }}
                 />
             )}
-            {(loadDelete || loadDeleteVar || loadUpdate || loadMediaFile) && <Loader />}
+            {(loadDelete || loadDeleteVar || loadUpdate) && <Loader />}
+
             <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
                 <Grid p={1} xs={sx ? 12 : 6} sx={{ display: 'flex', gap: 1 }}>
                     <Button type="submit" variant="contained">

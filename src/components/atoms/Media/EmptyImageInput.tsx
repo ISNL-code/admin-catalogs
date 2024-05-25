@@ -41,38 +41,40 @@ const EmptyImageInput = ({
         const handleResize = () => updateDimensions();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [width, height]); // eslint-disable-line
+    }, [width, height]);
 
-    const handleDrop = useCallback(
-        async (acceptedFiles: File[]) => {
-            if (acceptedFiles.length > imageQuota) {
-                toast.error(`${string?.max_images} ${imageQuota}`);
-                return;
-            }
-            const validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'];
-            const invalidFiles = acceptedFiles.filter(file => !validTypes.includes(file.type));
-            if (invalidFiles.length > 0) {
-                toast.error(string?.wrong_file_format);
-                return;
-            }
+    const handleDrop = async (acceptedFiles: File[]) => {
+        if (acceptedFiles.length > imageQuota) {
+            toast.error(`${string?.max_images} ${imageQuota}`);
+            return;
+        }
 
-            setLoading(true);
+        const validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+        if (!acceptedFiles.every(file => validTypes.includes(file.type))) {
+            toast.error(string?.wrong_file_format);
+            return;
+        }
+
+        for (const file of acceptedFiles) {
             try {
-                const conversions = acceptedFiles.map(file =>
-                    imageCompression(new File([file], file.name, { type: 'image/webp' }), { maxSizeMB: 0.075 })
-                );
-                const compressedFiles = await Promise.all(conversions);
-                compressedFiles.forEach(file => addAction(file));
+                setLoading(true);
+                const compressedFile = await imageCompression(file, {
+                    maxSizeMB: 0.1,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                });
+                const webpBlob = await convertToWebP(new File([compressedFile], file.name, { type: file.type }));
+
+                addAction(webpBlob);
             } catch (error) {
                 console.error(error);
-            } finally {
-                setLoading(false);
+                toast.error('Error processing image.');
             }
-        },
-        [addAction, imageQuota, string]
-    );
+        }
+        setLoading(false);
+    };
 
-    const convertToWebP = async (file: File): Promise<Blob> => {
+    const convertToWebP = async (file: File): Promise<File> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = function (event) {
@@ -99,7 +101,10 @@ const EmptyImageInput = ({
                                 reject(new Error('Failed to convert canvas to Blob'));
                                 return;
                             }
-                            resolve(blob);
+                            const webpFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.webp', {
+                                type: 'image/webp',
+                            });
+                            resolve(webpFile);
                         },
                         'image/webp',
                         0.9
