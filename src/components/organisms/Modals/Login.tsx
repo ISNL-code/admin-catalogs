@@ -8,7 +8,6 @@ import { ACCESS_TOKEN_KEY } from 'constants/constants';
 import Loader from 'components/atoms/Loader/Loader';
 import ModalWindow from 'components/molecules/ModalWindow/ModalWindow';
 import { useNavigate } from 'react-router-dom';
-import { useGoogleApi } from 'api/useGoogleApi';
 
 export default function Login({ string, setAuth, auth }) {
     const navigate = useNavigate();

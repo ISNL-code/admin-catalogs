@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import {
     Box,
@@ -115,6 +115,12 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
         formik.setValues(variant);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [variant]);
+
+    const variationGroupId = useMemo(() => {
+        return variationGroups?.find(group => group?.productVariants?.find(({ id }) => id === variant?.id))?.id;
+    }, [variationGroups, variant?.id]);
+
+    if (!variationGroupId) return <></>;
 
     return (
         <form
@@ -301,11 +307,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
             <ImageCards
                 data={variant?.images}
                 setImageOrder={setImageOrder}
-                variationGroupId={
-                    variationGroups?.find(el => {
-                        return el?.productVariants?.find(({ id }) => id === variant?.id);
-                    })?.id
-                }
+                variationGroupId={variationGroupId}
                 deleteFile={deleteMediaFile}
                 updateVariants={updateVariants}
                 addMedia={addMedia}

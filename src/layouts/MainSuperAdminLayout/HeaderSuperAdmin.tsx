@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import MainHeaderLogo from 'components/atoms/Logo/MainHeaderLogo';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HeaderNavButton from 'components/atoms/Buttons/HeaderNavButton';
-import { useNavigate } from 'react-router-dom';
+
 interface HeaderInterface {
     headerHeight: number;
     appXPadding: number;
@@ -12,7 +12,6 @@ interface HeaderInterface {
 }
 
 const Header = ({ headerHeight, appXPadding, string, setOpenModalType, openModalType }: HeaderInterface) => {
-    const navigate = useNavigate();
     return (
         <Box
             px={appXPadding}

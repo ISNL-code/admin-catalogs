@@ -1,11 +1,11 @@
 import { Box, Button, Typography } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import imageCompression from 'browser-image-compression';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { useOutletContext } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
-import Loader from '../Loader/Loader';
+import LoaderProgress from '../Loader/LoaderProgress';
 
 interface ImageInterface {
     width: number;
@@ -43,34 +43,87 @@ const EmptyImageInput = ({
         return () => window.removeEventListener('resize', handleResize);
     }, [width, height]); // eslint-disable-line
 
-    const handleDrop = async (acceptedFiles: File[]) => {
-        if (acceptedFiles.length > imageQuota) {
-            toast.error(`${string?.max_images} ${imageQuota}`);
-            return;
-        }
+    const handleDrop = useCallback(
+        async (acceptedFiles: File[]) => {
+            if (acceptedFiles.length > imageQuota) {
+                toast.error(`${string?.max_images} ${imageQuota}`);
+                return;
+            }
+            const validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+            const invalidFiles = acceptedFiles.filter(file => !validTypes.includes(file.type));
+            if (invalidFiles.length > 0) {
+                toast.error(string?.wrong_file_format);
+                return;
+            }
 
-        const validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp', 'image/avif'];
-        if (!acceptedFiles.every(file => validTypes.includes(file.type))) {
-            toast.error(string?.wrong_file_format);
-            return;
-        }
-
-        for (const file of acceptedFiles) {
+            setLoading(true);
             try {
-                setLoading(true);
-                const compressedFile = await imageCompression(file, { maxSizeMB: 0.075 });
-                addAction(compressedFile);
+                const conversions = acceptedFiles.map(file =>
+                    imageCompression(new File([file], file.name, { type: 'image/webp' }), { maxSizeMB: 0.075 })
+                );
+                const compressedFiles = await Promise.all(conversions);
+                compressedFiles.forEach(file => addAction(file));
             } catch (error) {
                 console.error(error);
             } finally {
                 setLoading(false);
             }
-        }
+        },
+        [addAction, imageQuota, string]
+    );
+
+    const convertToWebP = async (file: File): Promise<Blob> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                if (!event.target || !event.target.result) {
+                    reject(new Error('Failed to load image data'));
+                    return;
+                }
+                const img = new Image();
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) {
+                        reject(new Error('Failed to get canvas context'));
+                        return;
+                    }
+
+                    ctx.drawImage(img, 0, 0);
+                    canvas.toBlob(
+                        blob => {
+                            if (!blob) {
+                                reject(new Error('Failed to convert canvas to Blob'));
+                                return;
+                            }
+                            resolve(blob);
+                        },
+                        'image/webp',
+                        0.9
+                    );
+                };
+
+                img.onerror = () => {
+                    reject(new Error('Image load error'));
+                    img.src = ''; // Clear src to release memory
+                };
+                img.src = event.target.result.toString();
+            };
+
+            reader.onerror = () => {
+                reject(new Error('FileReader error'));
+                reader.abort(); // Clean up FileReader
+            };
+            reader.readAsDataURL(file);
+        });
     };
 
     return (
         <>
-            {loading && <Loader />}
+            {loading && <LoaderProgress />}
             <Dropzone noClick onDrop={handleDrop}>
                 {({ getRootProps, getInputProps }) => (
                     <Button variant="text" component="label" sx={{ width: '100%', height: '100%' }}>
