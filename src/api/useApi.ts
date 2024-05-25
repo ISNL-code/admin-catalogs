@@ -8,7 +8,7 @@ const useApi = () => {
         return response;
     };
 
-    const post = async ({ url, body = {} }) => {
+    const post = async ({ url, body = {}, headers = {} }) => {
         const response = await axios.post(url, body);
         return response;
     };

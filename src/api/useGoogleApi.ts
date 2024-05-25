@@ -1,32 +1,58 @@
 import { useMutation } from '@tanstack/react-query';
 import useApi from './useApi';
+import { GOOGLE_AUTH_KEY } from 'constants/constants';
+import axios from 'axios';
 
 export const useGoogleApi = () => {
     const { post } = useApi();
 
-    const useGoogleAuth = () =>
-        useMutation(() => {
-            const redirectToGoogleAuth = () => {
-                const redirectUri = process.env.REACT_APP_GOOGLE_AUTH_REDIRECT || '';
-                const authUrl = new URL('https://accounts.google.com/o/oauth2/auth');
-                authUrl.search = new URLSearchParams({
-                    client_id: process.env.REACT_APP_CLIENT_ID || '',
-                    redirect_uri: redirectUri,
-                    scope: 'https://www.googleapis.com/auth/cloud-translation',
-                    response_type: 'code',
-                }).toString();
-                window.location.href = authUrl.toString();
-            };
+    const googleApi = axios.create({
+        baseURL: 'https://translation.googleapis.com',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem(GOOGLE_AUTH_KEY)}`,
+        },
+    });
 
-            const params = new URLSearchParams();
-            params.append('client_id', process.env.REACT_APP_CLIENT_ID || '');
-            params.append('client_secret', process.env.REACT_APP_CLIENT_SECRET || '');
-            params.append('redirect_uri', process.env.REACT_APP_GOOGLE_AUTH_REDIRECT || '');
-            params.append('grant_type', 'authorization_code');
-            params.append('code', authorizationCode);
+    // TO DO refresh token потому что он очень часто заканичвается
 
-            return post({ url: 'https://oauth2.googleapis.com/token', body: { ...params } });
+    // googleApi.interceptors.response.use(response => response, async error => {
+    //     const originalRequest = error.config;
+    //     if (error.response.status === 401 && !originalRequest._retry) {
+    //         originalRequest._retry = true;
+    //         const newToken = await refreshGoogleToken();  // Implement this function based on your app's logic
+    //         localStorage.setItem(GOOGLE_AUTH_KEY, newToken);
+    //         originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+    //         return googleApi(originalRequest);
+    //     }
+    //     return Promise.reject(error);
+    // });
+
+    const useGoogleAuth = () => {
+        return useMutation((authorizationCode: string) =>
+            post({
+                url: 'https://oauth2.googleapis.com/token',
+                body: {
+                    client_id: process.env.REACT_APP_CLIENT_ID,
+                    client_secret: process.env.REACT_APP_CLIENT_SECRET,
+                    redirect_uri: process.env.REACT_APP_GOOGLE_AUTH_REDIRECT,
+                    grant_type: 'authorization_code',
+                    code: authorizationCode,
+                },
+            })
+        );
+    };
+
+    const useTranslateText = () => {
+        return useMutation(({ text, lang }: { text; lang }) => {
+            return googleApi.post('/language/translate/v2', {
+                q: text,
+                target: lang,
+            });
         });
+    };
 
-    return { useGoogleAuth };
+    return {
+        useGoogleAuth,
+        useTranslateText,
+    };
 };

@@ -20,8 +20,12 @@ import Loader from 'components/atoms/Loader/Loader';
 import { useGoogleApi } from 'api/useGoogleApi';
 
 const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
+    const TranslatedMode = false;
     const google_token = localStorage.getItem(GOOGLE_AUTH_KEY);
-    const [googleIsAuth, setGoogleIsAuth] = useState<boolean>(Boolean(google_token) || false);
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+
+    const [googleIsAuth, setGoogleIsAuth] = useState<boolean | null>(null);
     const { mutateAsync: googleAuth, isLoading: loadGoogleAuth } = useGoogleApi().useGoogleAuth();
 
     const initializePermissions = permissions => {
@@ -30,15 +34,35 @@ const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
     };
 
     useEffect(() => {
-        if (!googleIsAuth)
-            googleAuth().then(res => {
-                const google_token = res.data.access_token;
-                localStorage?.setItem(GOOGLE_AUTH_KEY, google_token);
-            });
-        if (googleIsAuth) alert('GooGle AUTH Success');
-    }, [googleIsAuth]);
+        if (!TranslatedMode) return;
+        if (google_token) return setGoogleIsAuth(true);
 
-    if (!userProfile || loadGoogleAuth) return <Loader />;
+        const redirectToGoogleAuth = () => {
+            const redirectUri = process.env.REACT_APP_GOOGLE_AUTH_REDIRECT as string;
+            const authUrl = new URL('https://accounts.google.com/o/oauth2/auth');
+            authUrl.search = new URLSearchParams({
+                client_id: process.env.REACT_APP_CLIENT_ID as string,
+                redirect_uri: redirectUri,
+                scope: 'https://www.googleapis.com/auth/cloud-translation',
+                response_type: 'code',
+            }).toString();
+            window.location.href = authUrl.toString();
+        };
+
+        if (code) {
+            googleAuth(code)
+                .then(res => {
+                    const token = res?.data?.access_token;
+                    localStorage.setItem(GOOGLE_AUTH_KEY, token);
+                    setGoogleIsAuth(true); // Update the authentication state
+                })
+                .catch(error => {
+                    console.error('Authentication failed:', error);
+                });
+        } else redirectToGoogleAuth();
+    }, [googleIsAuth, code]); // eslint-disable-line
+
+    if (!userProfile || (TranslatedMode && (loadGoogleAuth || !googleIsAuth))) return <Loader />;
 
     return (
         <Routes>
@@ -51,6 +75,7 @@ const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
                             setAuth={setAuth}
                             currentLanguage={currentLanguage}
                             userProfile={userProfile}
+                            TranslatedMode={TranslatedMode}
                         />
                     }
                 >
@@ -70,6 +95,7 @@ const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
                             setAuth={setAuth}
                             currentLanguage={currentLanguage}
                             userProfile={userProfile}
+                            TranslatedMode={TranslatedMode}
                         />
                     }
                 >

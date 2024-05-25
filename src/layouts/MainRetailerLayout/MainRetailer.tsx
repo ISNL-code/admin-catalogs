@@ -16,9 +16,17 @@ interface MainLayoutInterface {
     setAuth: string;
     currentLanguage: { code: string; string: {} };
     userProfile: UserProfileInterface;
+    TranslatedMode;
 }
 
-export default function MainRetailer({ lang, auth, setAuth, currentLanguage, userProfile }: MainLayoutInterface) {
+export default function MainRetailer({
+    lang,
+    auth,
+    setAuth,
+    currentLanguage,
+    userProfile,
+    TranslatedMode,
+}: MainLayoutInterface) {
     const navigate = useNavigate();
     const { storeCode } = useParams();
     const location = useLocation();
@@ -82,6 +90,7 @@ export default function MainRetailer({ lang, auth, setAuth, currentLanguage, use
                         openModalType: openModalType,
                         userProfile: userProfile,
                         storeData,
+                        TranslatedMode,
                     }}
                 />
             </Box>

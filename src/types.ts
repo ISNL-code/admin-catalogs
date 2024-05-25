@@ -44,6 +44,7 @@ export interface MainContextInterface {
     openModalType: string | null;
     userProfile: UserProfileInterface;
     storeData: StoreInterface;
+    TranslatedMode: boolean;
 }
 
 export interface RetailerContextInterface {
@@ -60,6 +61,7 @@ export interface RetailerContextInterface {
     openModalType: string | null;
     userProfile: UserProfileInterface;
     storeData: StoreInterface;
+    TranslatedMode: boolean;
 }
 
 export interface CreateDataStore {

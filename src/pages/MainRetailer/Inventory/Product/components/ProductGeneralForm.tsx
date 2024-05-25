@@ -20,8 +20,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { BrandsInterface, MainContextInterface, ManageProductInterface, RetailerContextInterface } from 'types';
 import AddIcon from '@mui/icons-material/Add';
 import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
-import { useState } from 'react';
-import useTranslate from 'hooks/useTranslate';
+import { useEffect, useState } from 'react';
+import { useGoogleApi } from 'api/useGoogleApi';
 
 const ProductGeneral = ({
     data,
@@ -35,10 +35,67 @@ const ProductGeneral = ({
     setProduct: any;
 }) => {
     const navigate = useNavigate();
+    const { mutateAsync: translateText } = useGoogleApi()?.useTranslateText();
     const { storeCode } = useParams();
     const { sx } = useDevice();
-    const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
-    const [rootLanguage, setRootLanguage] = useState(data?.descriptions[0]?.language);
+    const { string, storeData, TranslatedMode }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const [rootLanguage, setRootLanguage] = useState<string | null>(null);
+    const [rootName, setRootName] = useState<string | null>(null);
+    const [rootDescription, setRootDescription] = useState<string | null>(null);
+
+    // set root language for future translation
+    useEffect(() => {
+        if (!data?.descriptions) return;
+        setRootLanguage(data?.descriptions[0]?.language);
+        setRootName(data?.descriptions[0]?.name);
+        setRootDescription(data?.descriptions[0]?.description);
+    }, [data?.descriptions]);
+
+    const langGetOriginalCode = [
+        { code: 'en', id: 1, name: 'English', original: 'en' },
+        { code: 'fr', id: 2, name: 'French', original: 'fr' },
+        { code: 'es', id: 3, name: 'Spain', original: 'es' },
+        { code: 'ua', id: 4, name: 'Ukrainian', original: 'uk' },
+        { code: 'ru', id: 5, name: 'Russian', original: 'ru' },
+        { code: 'pl', id: 6, name: 'Polish', original: 'pl' },
+        { code: 'cz', id: 7, name: 'Czech', original: 'cs' },
+        { code: 'kz', id: 8, name: 'Kazakh', original: 'kk' },
+        { code: 'it', id: 9, name: 'Italian', original: 'it' },
+        { code: 'tk', id: 10, name: 'Turkish', original: 'tk' },
+        { code: 'de', id: 11, name: 'Deutsche', original: 'de' },
+        { code: 'fi', id: 11, name: 'Fin', original: 'fi' },
+    ];
+
+    const handleTranslate = async () => {
+        if (!data?.descriptions) return;
+        const translations = await Promise.all(
+            data.descriptions.map(async item => {
+                if (item?.language === rootLanguage) return item;
+
+                const getOriginCode =
+                    langGetOriginalCode.find(el => el?.code === item?.language)?.original || item?.language;
+
+                const nameTranslation = await translateText({ text: rootName, lang: getOriginCode });
+                const descriptionTranslation = await translateText({ text: rootDescription, lang: getOriginCode });
+
+                return {
+                    ...item,
+                    name: nameTranslation.data.data.translations[0].translatedText,
+                    description: descriptionTranslation.data.data.translations[0].translatedText,
+                    friendlyUrl: nameTranslation.data.data.translations[0].translatedText,
+                    keyWords: nameTranslation.data.data.translations[0].translatedText,
+                    highlights: nameTranslation.data.data.translations[0].translatedText,
+                    metaDescription: nameTranslation.data.data.translations[0].translatedText,
+                    title: nameTranslation.data.data.translations[0].translatedText,
+                };
+            })
+        );
+
+        setProduct({
+            ...data,
+            descriptions: translations,
+        });
+    };
 
     return (
         <>
@@ -132,6 +189,19 @@ const ProductGeneral = ({
                         />
                     </Grid>
                 </Grid>
+                {TranslatedMode && (
+                    <Grid xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button
+                            variant="outlined"
+                            sx={{ ml: 'auto' }}
+                            onClick={() => {
+                                handleTranslate();
+                            }}
+                        >
+                            Translate
+                        </Button>
+                    </Grid>
+                )}
                 <FormControl>
                     <RadioGroup
                         row
@@ -139,7 +209,15 @@ const ProductGeneral = ({
                         name="lang-group"
                         value={rootLanguage}
                         onChange={e => {
-                            setRootLanguage(e.target.value);
+                            const selectedName = data?.descriptions?.find(
+                                description => description.language === e.target.value
+                            )?.name;
+                            const selectedDescription = data?.descriptions?.find(
+                                description => description.language === e.target.value
+                            )?.description;
+                            setRootLanguage(e.target.value || '');
+                            setRootName(selectedName || '');
+                            setRootDescription(selectedDescription || '');
                         }}
                     >
                         {data?.descriptions &&
@@ -178,25 +256,17 @@ const ProductGeneral = ({
                                                 : '#ccc',
                                     }}
                                 >
-                                    <Grid xs={12} mb={-1} sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <FormControlLabel value={language} control={<Radio size="small" />} label="" />
+                                    <Grid
+                                        xs={12}
+                                        mb={-1}
+                                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                                    >
                                         <Typography variant="h3">{language?.toUpperCase()}</Typography>
-                                        {/* тут будет  логика добавления текста */}
-                                        {/* <Button
-                                            variant="outlined"
-                                            disabled={language === rootLanguage}
-                                            sx={{ ml: 'auto' }}
-                                            onClick={() => {
-                                                const handleTranslate = async () => {
-                                                    const translatedText = await translateText('Hello', 'ru');
-                                                    console.log(translatedText);
-                                                };
-                                                handleTranslate();
-                                            }}
-                                        >
-                                            Translate
-                                        </Button> */}
-                                        {/* тут будет  логика добавления текста */}
+                                        <FormControlLabel
+                                            value={language}
+                                            control={<Radio size="small" />}
+                                            label="ROOT"
+                                        />
                                     </Grid>
                                     <Grid xs={12}>
                                         <TextField

@@ -44,7 +44,6 @@ const Order = ({ orderData, userFormData, productsData, updateOrderHistory, upda
                                 console.log(err);
                                 toast.error(err.message);
                             });
-                        console.log(comment);
                     }}
                 />
             )}

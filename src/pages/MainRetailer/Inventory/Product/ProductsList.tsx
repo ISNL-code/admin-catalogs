@@ -26,7 +26,7 @@ const ProductsList = ({ handleSetTitle, handleSetActionButtons }: InventoryProdu
     const [totalPages, setTotalPages] = useState(0);
     const [sku, setSku] = useState('');
     const { string, storeData }: RetailerContextInterface = useOutletContext();
-    const countPerPage = 50;
+    const countPerPage = 100;
 
     const { mutateAsync: deleteProduct } = useProductsApi().useDeleteProduct();
     const { mutateAsync: switchProduct } = useProductsApi().useSwitchProduct();

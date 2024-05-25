@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import useApi from './useApi';
 
 export const useProductsApi = () => {
-    const { get, remove, patch, post } = useApi();
+    const { get, remove, patch, put, post } = useApi();
 
     const useGetProductsList = ({ storeCode, page, countPerPage, lang }): any => {
         return useQuery(
@@ -38,16 +38,29 @@ export const useProductsApi = () => {
             });
         });
 
+    // тут не меняет общую цену нормально но обновляет дескрипшены
     const useUpdateProduct = () =>
         useMutation(({ storeCode, data }: any) =>
-            patch({
-                url: `v1/private/product/${data.id}?store=${storeCode}`,
+            put({
+                url: `v2/private/product/${data.id}?store=${storeCode}`,
                 body: {
                     ...data,
                     quantity: 1000000,
                 },
             })
         );
+
+    // тут меняет общую цену нормально но не обновляет дескрипшены
+    // const useUpdateProduct = () =>
+    //     useMutation(({ storeCode, data }: any) =>
+    //         patch({
+    //             url: `v1/private/product/${data.id}?store=${storeCode}`,
+    //             body: {
+    //                 ...data,
+    //                 quantity: 1000000,
+    //             },
+    //         })
+    //     );
 
     const useDeleteProduct = () =>
         useMutation(({ storeCode, id }: any) =>

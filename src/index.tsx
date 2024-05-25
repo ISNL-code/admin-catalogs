@@ -14,7 +14,6 @@ const queryClient = new QueryClient({
 });
 
 AuthInterceptor();
-console.log(process.env.REACT_APP_API_URL);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>

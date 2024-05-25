@@ -39,6 +39,7 @@ export const STORES_DATA = [
             },
         ],
         mainStoreSettings: {
+            withTranslator: false,
             skuSearch: true,
             colors: true,
             prices: true,
@@ -125,6 +126,7 @@ export const STORES_DATA = [
             },
         ],
         mainStoreSettings: {
+            withTranslator: false,
             skuSearch: true,
             colors: true,
             prices: true,
@@ -211,6 +213,7 @@ export const STORES_DATA = [
             // },
         ],
         mainStoreSettings: {
+            withTranslator: false,
             skuSearch: true,
             colors: true,
             prices: true,
@@ -297,6 +300,7 @@ export const STORES_DATA = [
             },
         ],
         mainStoreSettings: {
+            withTranslator: false,
             skuSearch: true,
             colors: true,
             prices: true,
@@ -394,6 +398,7 @@ export const STORES_DATA = [
             },
         ],
         mainStoreSettings: {
+            withTranslator: false,
             skuSearch: true,
             colors: true,
             prices: true,
@@ -481,6 +486,7 @@ export const STORES_DATA = [
             },
         ],
         mainStoreSettings: {
+            withTranslator: false,
             skuSearch: true,
             colors: true,
             prices: true,
@@ -558,6 +564,7 @@ export const STORES_DATA = [
             },
         ],
         mainStoreSettings: {
+            withTranslator: false,
             skuSearch: true,
             colors: true,
             prices: true,

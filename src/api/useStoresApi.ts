@@ -56,7 +56,6 @@ export const useStoresApi = () => {
 
     const useUpdateStoreData = () =>
         useMutation((data: { code: string }) => {
-            console.log(data);
             return put({
                 url: `v1/private/store/${data?.code}`,
                 body: { ...data },

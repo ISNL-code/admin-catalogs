@@ -16,9 +16,17 @@ interface MainLayoutInterface {
     setAuth: string;
     currentLanguage: { code: string; string: {} };
     userProfile: UserProfileInterface;
+    TranslatedMode;
 }
 
-export default function MainSuperAdmin({ lang, auth, setAuth, currentLanguage, userProfile }: MainLayoutInterface) {
+export default function MainSuperAdmin({
+    lang,
+    auth,
+    setAuth,
+    currentLanguage,
+    userProfile,
+    TranslatedMode,
+}: MainLayoutInterface) {
     const [openModalType, setOpenModalType] = useState<string | null>(null);
     const { storeCode } = useParams();
     const { sx, l } = useDevice();
@@ -75,6 +83,7 @@ export default function MainSuperAdmin({ lang, auth, setAuth, currentLanguage, u
                         openModalType: openModalType,
                         userProfile: userProfile,
                         storeData,
+                        TranslatedMode,
                     }}
                 />
             </Box>

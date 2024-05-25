@@ -8,7 +8,7 @@ import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
 import { Fragment, useState } from 'react';
 import toast from 'react-hot-toast';
-import { ProductInterface } from 'types';
+import { ProductInterface, RetailerContextInterface } from 'types';
 import { Colors } from 'colors';
 
 interface ProductsCardsInterface {
@@ -27,7 +27,7 @@ const ProductsCards = ({
     setProductsList,
 }: ProductsCardsInterface) => {
     const { storeCode } = useParams();
-    const { string }: any = useOutletContext();
+    const { string }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
@@ -201,6 +201,8 @@ const ProductsCards = ({
                                         size="small"
                                         onClick={() => {
                                             navigate(`/store-inventory/${storeCode}/products/${item.id}/main`);
+                                            // const url = `/store-inventory/${storeCode}/products/${item.id}/main`;
+                                            // window.open(url, '_blank');
                                         }}
                                     >
                                         <ModeEditIcon fontSize="small" />
