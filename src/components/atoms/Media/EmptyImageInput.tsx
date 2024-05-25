@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import imageCompression from 'browser-image-compression';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useOutletContext } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
@@ -41,7 +41,7 @@ const EmptyImageInput = ({
         const handleResize = () => updateDimensions();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [width, height]);
+    }, [width, height]); // eslint-disable-line
 
     const handleDrop = async (acceptedFiles: File[]) => {
         if (acceptedFiles.length > imageQuota) {

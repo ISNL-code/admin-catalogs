@@ -27,7 +27,6 @@ import { useFormik } from 'formik';
 import modelFormValidations from 'helpers/Validations/modelFormValidations';
 import { useProductsApi } from 'api/useProductsApi';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
-import LoaderProgress from 'components/atoms/Loader/LoaderProgress';
 
 const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
     const { productId, storeCode } = useParams();
@@ -45,7 +44,7 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
 
     const { mutateAsync: setImageOrder } = useVariationsApi().useSetImageOrder();
     const { mutateAsync: deleteMediaFile, isLoading: loadDelete } = useVariationsApi().useDeleteVariantMedia();
-    const { mutateAsync: addMedia, isLoading: loadMediaFile } = useVariationsApi().useAddVariantMedia();
+    const { mutateAsync: addMedia } = useVariationsApi().useAddVariantMedia();
     const { mutateAsync: deleteVariant, isLoading: loadDeleteVar } = useVariationsApi().useDeleteProductVariant();
     const { mutateAsync: updateVariant, isLoading: loadUpdate } = useVariationsApi().useUpdateProductVariant();
 
