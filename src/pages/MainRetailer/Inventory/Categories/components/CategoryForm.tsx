@@ -19,7 +19,7 @@ const CategoryForm = ({ data, selectedCategory, formik, setSelectedCategory, set
         setRootLanguage(data?.descriptions[0]?.language);
         setRootName(data?.descriptions[0]?.name);
         setRootDescription(data?.descriptions[0]?.description);
-    }, [data?.descriptions]);
+    }, [data?.descriptions]); // eslint-disable-line
 
     return (
         <Grid container xs={12}>

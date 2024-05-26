@@ -32,7 +32,7 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
         setRootLanguage(data?.descriptions[0]?.language);
         setRootName(data?.descriptions[0]?.name);
         setRootDescription(data?.descriptions[0]?.description);
-    }, [data?.descriptions]);
+    }, [data?.descriptions]); // eslint-disable-line
 
     useEffect(() => {
         if (!data) return;
