@@ -19,6 +19,10 @@ import { useVariationsApi } from 'api/useVariationsApi';
 import { useFormik } from 'formik';
 import modelFormValidations from 'helpers/Validations/modelFormValidations';
 import toast from 'react-hot-toast';
+import Image from 'components/atoms/Media/Image';
+import { Box } from '@mui/material';
+import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
+import Grid from '@mui/material/Unstable_Grid2';
 
 const INIT_MODEL_VALUE = {
     available: true,
@@ -46,6 +50,9 @@ const ProductModelsManage = () => {
     const [colorsList, setColorsList] = useState([]);
     const [productVariants, setProductVariants] = useState<ProductVariantInterface[] | any>(null);
     const [newModelData, setNewModelData] = useState<ModelInterface | any>(INIT_MODEL_VALUE);
+
+    const { mutateAsync: addTableSizeImage } = useVariationsApi().useAddTableSizeImageMedia(); // eslint-disable-line
+    const { mutateAsync: deleteTableSizeImage } = useVariationsApi().useDeleteTableSizeMedia(); // eslint-disable-line
 
     const { data: productDataRes, isFetching: loadProducts } = useProductsApi().useGetProductById({
         storeCode,
@@ -217,7 +224,48 @@ const ProductModelsManage = () => {
                     formik={formik}
                 />
             </form>
-
+            {storeData?.mainStoreSettings?.sizes && (
+                <Grid xs={12} container>
+                    <Box>
+                        Таблица размеров
+                        <Image
+                            height={1}
+                            width={1}
+                            imgUrl={product?.images[0]?.imageUrl}
+                            isDrag
+                            isRemovable
+                            deleteAction={() =>
+                                deleteTableSizeImage({
+                                    productId: productId || '',
+                                    storeCode: storeCode || '',
+                                    imageId: '1',
+                                })
+                                    .then(_res => {})
+                                    .catch(err => {
+                                        console.log(err);
+                                        toast.error(err.message);
+                                    })
+                            }
+                        />
+                    </Box>
+                    <Box>
+                        <EmptyImageInput
+                            width={1}
+                            height={1}
+                            title=""
+                            addAction={val => {
+                                if (productId && storeCode)
+                                    addTableSizeImage({ productId, storeCode, mediaFile: val }).catch(err => {
+                                        console.log(err);
+                                        toast.error(err.message);
+                                    });
+                            }}
+                            imageQuota={1}
+                            fileName="Table Size"
+                        />
+                    </Box>
+                </Grid>
+            )}
             {productVariants?.map((variant, idx) => (
                 <ModelsList
                     key={idx}

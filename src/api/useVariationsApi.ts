@@ -94,7 +94,15 @@ export const useVariationsApi = () => {
 
     const useAddTableSizeImageMedia = () =>
         useMutation(({ productId, mediaFile, storeCode }: { productId: string; mediaFile: any; storeCode: string }) => {
-            const file = new File([mediaFile], mediaFile.name.replaceAll(' ', ''));
+            const file = new File(
+                [mediaFile],
+                mediaFile.name
+                    .replaceAll(' ', '')
+                    .replaceAll('(', '-')
+                    .replaceAll(':', '-')
+                    .replaceAll(')', '-')
+                    .replaceAll('+', '-')
+            );
             const formData = new FormData();
             formData.append('file', file);
 
@@ -107,7 +115,7 @@ export const useVariationsApi = () => {
     const useDeleteTableSizeMedia = () =>
         useMutation(({ productId, imageId, storeCode }: { productId: string; imageId: string; storeCode: string }) =>
             remove({
-                url: `${productId}/${imageId}?store=${storeCode}`,
+                url: `v1/private/product/image/${imageId}?store=${storeCode}`,
             })
         );
 

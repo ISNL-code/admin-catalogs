@@ -22,6 +22,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
 import { useEffect, useState } from 'react';
 import { useGoogleApi } from 'api/useGoogleApi';
+import { handleTranslate } from 'helpers/handleTranslate';
 
 const ProductGeneral = ({
     data,
@@ -35,10 +36,10 @@ const ProductGeneral = ({
     setProduct: any;
 }) => {
     const navigate = useNavigate();
-    const { mutateAsync: translateText } = useGoogleApi()?.useTranslateText();
     const { storeCode } = useParams();
     const { sx } = useDevice();
     const { string, storeData, TranslatedMode }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { mutateAsync: translateText } = useGoogleApi()?.useTranslateText();
     const [rootLanguage, setRootLanguage] = useState<string | null>(null);
     const [rootName, setRootName] = useState<string | null>(null);
     const [rootDescription, setRootDescription] = useState<string | null>(null);
@@ -50,52 +51,6 @@ const ProductGeneral = ({
         setRootName(data?.descriptions[0]?.name);
         setRootDescription(data?.descriptions[0]?.description);
     }, [data?.descriptions]);
-
-    const langGetOriginalCode = [
-        { code: 'en', id: 1, name: 'English', original: 'en' },
-        { code: 'fr', id: 2, name: 'French', original: 'fr' },
-        { code: 'es', id: 3, name: 'Spain', original: 'es' },
-        { code: 'ua', id: 4, name: 'Ukrainian', original: 'uk' },
-        { code: 'ru', id: 5, name: 'Russian', original: 'ru' },
-        { code: 'pl', id: 6, name: 'Polish', original: 'pl' },
-        { code: 'cz', id: 7, name: 'Czech', original: 'cs' },
-        { code: 'kz', id: 8, name: 'Kazakh', original: 'kk' },
-        { code: 'it', id: 9, name: 'Italian', original: 'it' },
-        { code: 'tk', id: 10, name: 'Turkish', original: 'tk' },
-        { code: 'de', id: 11, name: 'Deutsche', original: 'de' },
-        { code: 'fi', id: 11, name: 'Fin', original: 'fi' },
-    ];
-
-    const handleTranslate = async () => {
-        if (!data?.descriptions) return;
-        const translations = await Promise.all(
-            data.descriptions.map(async item => {
-                if (item?.language === rootLanguage) return item;
-
-                const getOriginCode =
-                    langGetOriginalCode.find(el => el?.code === item?.language)?.original || item?.language;
-
-                const nameTranslation = await translateText({ text: rootName, lang: getOriginCode });
-                const descriptionTranslation = await translateText({ text: rootDescription, lang: getOriginCode });
-
-                return {
-                    ...item,
-                    name: nameTranslation.data.data.translations[0].translatedText,
-                    description: descriptionTranslation.data.data.translations[0].translatedText,
-                    friendlyUrl: nameTranslation.data.data.translations[0].translatedText,
-                    keyWords: nameTranslation.data.data.translations[0].translatedText,
-                    highlights: nameTranslation.data.data.translations[0].translatedText,
-                    metaDescription: nameTranslation.data.data.translations[0].translatedText,
-                    title: nameTranslation.data.data.translations[0].translatedText,
-                };
-            })
-        );
-
-        setProduct({
-            ...data,
-            descriptions: translations,
-        });
-    };
 
     return (
         <>
@@ -195,7 +150,14 @@ const ProductGeneral = ({
                             variant="outlined"
                             sx={{ ml: 'auto' }}
                             onClick={() => {
-                                handleTranslate();
+                                handleTranslate({
+                                    data,
+                                    rootLanguage,
+                                    translateText,
+                                    rootName,
+                                    rootDescription,
+                                    setAction: setProduct,
+                                });
                             }}
                         >
                             Translate

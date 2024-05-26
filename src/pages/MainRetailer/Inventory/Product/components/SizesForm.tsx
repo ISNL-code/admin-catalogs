@@ -5,8 +5,6 @@ import { OptionsValueInterface, ProductAttrOptionsInterface, RetailerContextInte
 import SizesIndicatorButton from 'components/atoms/SizesIndicatorButton/SizesIndicatorButton';
 import toast from 'react-hot-toast';
 import AddIcon from '@mui/icons-material/Add';
-import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
-import { useVariationsApi } from 'api/useVariationsApi';
 
 interface SizeFormInterface {
     optionsData: OptionsValueInterface[];
@@ -26,8 +24,6 @@ const SizesForm = ({
     const navigate = useNavigate();
     const { productId, storeCode } = useParams();
     const { string, storeData }: RetailerContextInterface = useOutletContext();
-    const { mutateAsync: addTableSizeImage, isLoading: loadMediaFile } = useVariationsApi().useAddTableSizeImageMedia(); // eslint-disable-line
-    const { mutateAsync: deleteTableSizeImage, isLoading: loadDelete } = useVariationsApi().useDeleteTableSizeMedia(); // eslint-disable-line
 
     return (
         <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
@@ -95,26 +91,6 @@ const SizesForm = ({
                     })}
                 </Box>
             </Grid>
-            {storeData?.mainStoreSettings?.sizes && (
-                <Grid xs={12} container>
-                    <Box>
-                        <EmptyImageInput
-                            width={1}
-                            height={1}
-                            title=""
-                            addAction={val => {
-                                if (productId && storeCode)
-                                    addTableSizeImage({ productId, storeCode, mediaFile: val }).catch(err => {
-                                        console.log(err);
-                                        toast.error(err.message);
-                                    });
-                            }}
-                            imageQuota={1}
-                            fileName="Table Size"
-                        />
-                    </Box>
-                </Grid>
-            )}
         </Grid>
     );
 };

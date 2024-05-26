@@ -1,10 +1,25 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useGoogleApi } from 'api/useGoogleApi';
+import { handleTranslate } from 'helpers/handleTranslate';
+import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { RetailerContextInterface } from 'types';
 
 const CategoryForm = ({ data, selectedCategory, formik, setSelectedCategory, setMode, handleSetInitValues }) => {
-    const { string }: RetailerContextInterface = useOutletContext();
+    const { string, TranslatedMode }: RetailerContextInterface = useOutletContext();
+    const { mutateAsync: translateText } = useGoogleApi()?.useTranslateText(); // eslint-disable-line
+    const [rootLanguage, setRootLanguage] = useState<string | null>(null); // eslint-disable-line
+    const [rootName, setRootName] = useState<string | null>(null); // eslint-disable-line
+    const [rootDescription, setRootDescription] = useState<string | null>(null); // eslint-disable-line
+
+    useEffect(() => {
+        if (!TranslatedMode) return;
+        if (!data?.descriptions) return;
+        setRootLanguage(data?.descriptions[0]?.language);
+        setRootName(data?.descriptions[0]?.name);
+        setRootDescription(data?.descriptions[0]?.description);
+    }, [data?.descriptions]);
 
     return (
         <Grid container xs={12}>
@@ -71,6 +86,26 @@ const CategoryForm = ({ data, selectedCategory, formik, setSelectedCategory, set
                     fullWidth
                 />
             </Grid>
+            {TranslatedMode && (
+                <Grid xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                        variant="outlined"
+                        sx={{ ml: 'auto' }}
+                        onClick={() => {
+                            handleTranslate({
+                                data,
+                                rootLanguage,
+                                translateText,
+                                rootName,
+                                rootDescription,
+                                setAction: setSelectedCategory,
+                            });
+                        }}
+                    >
+                        Translate
+                    </Button>
+                </Grid>
+            )}
             {data?.descriptions &&
                 data?.descriptions?.map(({ language, name }, idx) => (
                     <Grid

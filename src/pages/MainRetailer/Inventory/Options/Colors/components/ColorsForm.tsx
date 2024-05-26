@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { HexColorPicker } from 'react-colorful';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useDevice } from 'hooks/useDevice';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import ColorIndicatorButton from 'components/atoms/ColorIndicatorButton/ColorIndicatorButton';
 import { RetailerContextInterface } from 'types';
+import { handleTranslate } from 'helpers/handleTranslate';
+import { useGoogleApi } from 'api/useGoogleApi';
 
 interface ValuesFormInterface {
     handleSetTitle;
@@ -17,8 +19,20 @@ interface ValuesFormInterface {
 
 const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData, formik }: ValuesFormInterface) => {
     const navigate = useNavigate();
-    const { string }: RetailerContextInterface = useOutletContext();
+    const { string, TranslatedMode }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
+    const { mutateAsync: translateText } = useGoogleApi()?.useTranslateText();
+    const [rootLanguage, setRootLanguage] = useState<string | null>(null);
+    const [rootName, setRootName] = useState<string | null>(null);
+    const [rootDescription, setRootDescription] = useState<string | null>(null); // eslint-disable-line
+
+    useEffect(() => {
+        if (!TranslatedMode) return;
+        if (!data?.descriptions) return;
+        setRootLanguage(data?.descriptions[0]?.language);
+        setRootName(data?.descriptions[0]?.name);
+        setRootDescription(data?.descriptions[0]?.description);
+    }, [data?.descriptions]);
 
     useEffect(() => {
         if (!data) return;
@@ -107,7 +121,28 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
                     </Box>
                 </Box>
             </Grid>
+
             <Grid xs={sx ? 12 : 6} p={1} sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                {TranslatedMode && (
+                    <Grid xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button
+                            variant="outlined"
+                            sx={{ ml: 'auto' }}
+                            onClick={() => {
+                                handleTranslate({
+                                    data,
+                                    rootLanguage,
+                                    translateText,
+                                    rootName,
+                                    rootDescription: null,
+                                    setAction: setValueData,
+                                });
+                            }}
+                        >
+                            Translate
+                        </Button>
+                    </Grid>
+                )}
                 {data?.descriptions &&
                     data?.descriptions?.map(({ language, name }, idx) => (
                         <Grid

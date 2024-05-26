@@ -33,6 +33,7 @@ const INIT_PRODUCT_DATA = {
         length: '',
     },
     descriptions: [],
+    image: null,
 };
 
 const ProductGeneralManage = () => {
@@ -107,6 +108,7 @@ const ProductGeneralManage = () => {
                     };
             }),
             available: product.inventory.available,
+            image: product?.image,
         }); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productDataRes, storeData, loadProducts]);
 

@@ -159,7 +159,15 @@ const CategoriesListManage = ({ handleSetTitle, handleSetActionButtons }: Invent
                     code: category.code,
                     sortOrder: category.sortOrder,
                     selectedLanguage: '',
-                    descriptions: category.descriptions,
+                    descriptions: storeData?.supportedLanguages.map(({ code }) => {
+                        if (category.descriptions.find(el => el.language === code)) {
+                            return { ...category.descriptions.find(el => el.language === code) };
+                        } else
+                            return {
+                                language: code,
+                                name: '',
+                            };
+                    }),
                 });
 
                 setMode('edit');

@@ -1,7 +1,9 @@
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { useGoogleApi } from 'api/useGoogleApi';
 import PromoTags from 'components/atoms/PromoTags/PromoTags';
-import { useEffect } from 'react';
+import { handleTranslate } from 'helpers/handleTranslate';
+import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { RetailerContextInterface } from 'types';
 
@@ -15,7 +17,21 @@ interface ValuesFormInterface {
 
 const PromoForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData, formik }: ValuesFormInterface) => {
     const { promoId } = useParams();
-    const { string, storeData }: RetailerContextInterface = useOutletContext();
+    const { string, storeData, TranslatedMode }: RetailerContextInterface = useOutletContext();
+    const [rootLanguage, setRootLanguage] = useState<string | null>(null);
+    const [rootName, setRootName] = useState<string | null>(null);
+    const [rootDescription, setRootDescription] = useState<string | null>(null);
+
+    const { mutateAsync: translateText } = useGoogleApi()?.useTranslateText();
+
+    // set root language for future translation
+    useEffect(() => {
+        if (!TranslatedMode) return;
+        if (!data?.descriptions) return;
+        setRootLanguage(data?.descriptions[0]?.language);
+        setRootName(data?.descriptions[0]?.name);
+        setRootDescription(data?.descriptions[0]?.description);
+    }, [data?.descriptions]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -64,7 +80,26 @@ const PromoForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData,
                     />
                 </Grid>
             </Grid>
-
+            {TranslatedMode && (
+                <Grid xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                        variant="outlined"
+                        sx={{ ml: 'auto' }}
+                        onClick={() => {
+                            handleTranslate({
+                                data,
+                                rootLanguage,
+                                translateText,
+                                rootName,
+                                rootDescription,
+                                setAction: setValueData,
+                            });
+                        }}
+                    >
+                        Translate
+                    </Button>
+                </Grid>
+            )}
             {data?.descriptions?.map(({ language, name, code }, idx) => (
                 <Grid
                     container

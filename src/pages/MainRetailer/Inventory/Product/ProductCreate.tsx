@@ -32,6 +32,7 @@ const INIT_PRODUCT_DATA = {
     },
     descriptions: [],
     available: true,
+    image: null,
 };
 
 const ProductCreate = () => {
