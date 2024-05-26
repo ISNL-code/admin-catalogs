@@ -238,7 +238,7 @@ const ProductModelsManage = () => {
                                 deleteTableSizeImage({
                                     productId: productId || '',
                                     storeCode: storeCode || '',
-                                    imageId: '1',
+                                    imageId: product?.image?.id,
                                 })
                                     .then(_res => {})
                                     .catch(err => {

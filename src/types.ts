@@ -449,7 +449,7 @@ export interface ManageProductInterface {
             title: null;
         }[];
     };
-    image: { imageUrl: string } | null;
+    image: { imageUrl: string; id: string | number } | null;
     display: boolean;
     canBePurchased: boolean;
     timeBound: boolean;
