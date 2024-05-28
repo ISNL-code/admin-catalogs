@@ -220,6 +220,8 @@ const CreateStore = () => {
                             size="small"
                             label={string?.store_email}
                             fullWidth
+                            error={!!(formik.errors.email && formik.touched.email)}
+                            helperText={string?.[formik.errors.email as any]}
                         />
                     </Grid>
                     <Grid xs={sx ? 12 : 6} sx={{ p: 1, py: 1.25 }}>
