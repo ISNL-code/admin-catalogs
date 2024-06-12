@@ -227,7 +227,6 @@ const ProductModelsManage = () => {
             {storeData?.mainStoreSettings?.sizes && (
                 <Grid xs={12} container>
                     <Box>
-                        Таблица размеров
                         <Image
                             height={1}
                             width={1}

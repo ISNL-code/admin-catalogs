@@ -53,7 +53,7 @@ export default function LoaderProgress() {
                 flexDirection: 'column',
             }}
         >
-            <CircularProgressWithLabel value={progress} />;
+            <CircularProgressWithLabel value={progress} />
         </Box>
     );
 }

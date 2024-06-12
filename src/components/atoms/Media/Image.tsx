@@ -1,4 +1,4 @@
-import { Box, IconButton, CircularProgress } from '@mui/material';
+import { Box, IconButton, CircularProgress, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useRef, useState, memo, useCallback } from 'react';
 import { debounce } from 'lodash';
@@ -44,7 +44,7 @@ const Image: React.FC<ImageProps> = memo(
         }, [imgUrl]); // eslint-disable-line
 
         const stableDeleteAction = useCallback(deleteAction, []); // eslint-disable-line
-
+        const isWebp = imgUrl?.endsWith('.webp');
         return (
             <Box
                 ref={ref}
@@ -85,6 +85,20 @@ const Image: React.FC<ImageProps> = memo(
                             </IconButton>
                         )}
 
+                        {isWebp && (
+                            <Typography
+                                sx={{
+                                    position: 'absolute',
+                                    top: 4,
+                                    left: 4,
+                                    fontSize: 10,
+                                    backgroundColor: 'white',
+                                    px: 0.2,
+                                }}
+                            >
+                                webp
+                            </Typography>
+                        )}
                         <img src={imgUrl} style={{ width: '100%', height: 'auto' }} alt="displayed" />
                     </>
                 )}
