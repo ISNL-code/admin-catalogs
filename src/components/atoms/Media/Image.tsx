@@ -12,14 +12,23 @@ interface ImageProps {
     isDrag?: boolean;
     isRemovable?: boolean;
     deleteAction?: () => void;
+    showImageFormat?: boolean;
 }
 
 const Image: React.FC<ImageProps> = memo(
-    ({ width, height, imgUrl, maxWidth = '100%', isDrag = false, isRemovable = false, deleteAction = () => {} }) => {
+    ({
+        width,
+        height,
+        imgUrl,
+        maxWidth = '100%',
+        isDrag = false,
+        isRemovable = false,
+        deleteAction = () => {},
+        showImageFormat = false,
+    }) => {
         const [imgHeight, setImgHeight] = useState<number>(0);
-        const [isImageLoaded, setIsImageLoaded] = useState<boolean>(false); // State to track image loading
         const ref = useRef<HTMLDivElement>(null);
-        const imageLoader = useRef<HTMLImageElement>(document.createElement('img'));
+        const [imgLoaded, setImgLoaded] = useState(false);
 
         const updateImageSize = useCallback(() => {
             if (ref.current) {
@@ -36,81 +45,85 @@ const Image: React.FC<ImageProps> = memo(
             return () => window.removeEventListener('resize', debouncedResize);
         }, [updateImageSize]);
 
-        useEffect(() => {
-            const image = imageLoader.current;
-            image.src = imgUrl;
-            image.onload = () => setIsImageLoaded(true);
-            image.onerror = () => setIsImageLoaded(true); // Handle error case
-        }, [imgUrl]); // eslint-disable-line
-
         const stableDeleteAction = useCallback(deleteAction, []); // eslint-disable-line
+
         const isWebp = imgUrl?.endsWith('.webp');
+
         return (
             <Box
                 ref={ref}
                 sx={{
                     width: '100%',
-                    height: imgHeight,
+                    maxWidth: '300px',
+                    height: imgHeight || '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     overflow: 'hidden',
                     cursor: isDrag ? 'grab' : undefined,
-                    maxWidth,
                     position: 'relative',
-                    backgroundColor: isImageLoaded ? undefined : 'transparent',
                 }}
             >
-                {isImageLoaded && ( // Render image only when loaded
-                    <>
-                        {isRemovable && (
-                            <IconButton
-                                sx={{
-                                    position: 'absolute',
-                                    top: 4,
-                                    right: 4,
-                                    background: Colors?.WHITE,
-                                    border: '2px solid',
-                                    borderColor: Colors?.GRAY,
-                                    '&:hover': { background: Colors?.GRAY_300 },
-                                    width: 26,
-                                    height: 26,
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}
-                                onClick={stableDeleteAction}
-                            >
-                                <CloseIcon sx={{ fontSize: 18 }} />
-                            </IconButton>
-                        )}
-
-                        {isWebp && (
-                            <Typography
-                                sx={{
-                                    position: 'absolute',
-                                    top: 4,
-                                    left: 4,
-                                    fontSize: 10,
-                                    backgroundColor: 'white',
-                                    px: 0.2,
-                                }}
-                            >
-                                webp
-                            </Typography>
-                        )}
-                        <img src={imgUrl} style={{ width: '100%', height: 'auto' }} alt="displayed" />
-                    </>
-                )}
-
-                {!isImageLoaded && ( // Render loading indicator while image is loading
-                    <CircularProgress
+                {isRemovable && (
+                    <IconButton
                         sx={{
                             position: 'absolute',
-                            color: Colors?.GRAY,
+                            top: 4,
+                            right: 4,
+                            background: Colors?.WHITE,
+                            border: '2px solid',
+                            borderColor: Colors?.GRAY,
+                            '&:hover': { background: Colors?.GRAY_300 },
+                            width: 26,
+                            height: 26,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            zIndex: 1000,
+                        }}
+                        onClick={stableDeleteAction}
+                    >
+                        <CloseIcon sx={{ fontSize: 18 }} />
+                    </IconButton>
+                )}
+
+                {isWebp && showImageFormat && (
+                    <Typography
+                        sx={{
+                            position: 'absolute',
+                            top: 4,
+                            left: 4,
+                            fontSize: 10,
+                            backgroundColor: 'white',
+                            px: 0.2,
+                            zIndex: 1000,
+                        }}
+                    >
+                        webp
+                    </Typography>
+                )}
+                <div style={{ height: '100%', position: 'relative', width: '100%' }}>
+                    <img
+                        src={imgUrl}
+                        style={{
+                            width: '100%',
+                            opacity: imgLoaded ? 1 : 0,
+                        }}
+                        alt="Loading..."
+                        onLoad={event => {
+                            setImgLoaded(!event?.bubbles);
                         }}
                     />
-                )}
+                    <div style={{ left: '50%', top: '50%', transform: 'translate(-50%,-50%)', position: 'absolute' }}>
+                        <CircularProgress
+                            sx={{
+                                color: Colors?.GRAY,
+                                opacity: imgLoaded ? 0 : 1,
+                            }}
+                            thickness={1}
+                        />
+                    </div>
+                </div>
             </Box>
         );
     }

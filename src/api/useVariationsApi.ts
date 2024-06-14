@@ -91,7 +91,6 @@ export const useVariationsApi = () => {
                 url: `v2/private/product/productVariantGroup/${variationGroupId}/image/${imageId}?store=${storeCode}`,
             })
         );
-
     const useAddTableSizeImageMedia = () =>
         useMutation(({ productId, mediaFile, storeCode }: { productId: string; mediaFile: any; storeCode: string }) => {
             const file = new File(
@@ -105,6 +104,7 @@ export const useVariationsApi = () => {
             );
             const formData = new FormData();
             formData.append('file', file);
+            formData.append('defaultImage', 'true');
 
             return post({
                 url: `v1/private/product/${productId}/image?store=${storeCode}&sizes=true`,
@@ -112,8 +112,29 @@ export const useVariationsApi = () => {
             });
         });
 
+    const useUpdateTableSizeImageMedia = () =>
+        useMutation(
+            ({
+                imageId,
+                storeCode,
+                isDefault,
+                productId,
+            }: {
+                imageId: string;
+                storeCode: string;
+                isDefault: boolean;
+                productId: string;
+            }) =>
+                patch({
+                    url: `v1/private/product/${productId}/image/${imageId}?store=${storeCode}`,
+                    body: {
+                        defaultImage: isDefault,
+                    },
+                })
+        );
+
     const useDeleteTableSizeMedia = () =>
-        useMutation(({ productId, imageId, storeCode }: { productId: string; imageId: string; storeCode: string }) =>
+        useMutation(({ imageId, storeCode }: { imageId: string; storeCode: string }) =>
             remove({
                 url: `v1/private/product/image/${imageId}?store=${storeCode}`,
             })
@@ -149,5 +170,6 @@ export const useVariationsApi = () => {
         useUpdateProductVariant,
         useDeleteTableSizeMedia,
         useAddTableSizeImageMedia,
+        useUpdateTableSizeImageMedia,
     };
 };

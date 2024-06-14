@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 import modelFormValidations from 'helpers/Validations/modelFormValidations';
 import toast from 'react-hot-toast';
 import Image from 'components/atoms/Media/Image';
-import { Box } from '@mui/material';
+import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -52,9 +52,15 @@ const ProductModelsManage = () => {
     const [newModelData, setNewModelData] = useState<ModelInterface | any>(INIT_MODEL_VALUE);
 
     const { mutateAsync: addTableSizeImage } = useVariationsApi().useAddTableSizeImageMedia(); // eslint-disable-line
+    const { mutateAsync: updateTableSizeImage } = useVariationsApi().useUpdateTableSizeImageMedia(); // eslint-disable-line
+
     const { mutateAsync: deleteTableSizeImage } = useVariationsApi().useDeleteTableSizeMedia(); // eslint-disable-line
 
-    const { data: productDataRes, isFetching: loadProducts } = useProductsApi().useGetProductById({
+    const {
+        data: productDataRes,
+        isFetching: loadProducts,
+        refetch: updateProduct,
+    } = useProductsApi().useGetProductById({
         storeCode,
         productId,
     });
@@ -225,28 +231,78 @@ const ProductModelsManage = () => {
                 />
             </form>
             {storeData?.mainStoreSettings?.sizes && (
-                <Grid xs={12} container>
-                    <Box>
-                        <Image
-                            height={1}
-                            width={1}
-                            imgUrl={product?.images[0]?.imageUrl}
-                            isDrag
-                            isRemovable
-                            deleteAction={() =>
-                                deleteTableSizeImage({
-                                    productId: productId || '',
-                                    storeCode: storeCode || '',
-                                    imageId: product?.image?.id,
-                                })
-                                    .then(_res => {})
-                                    .catch(err => {
-                                        console.log(err);
-                                        toast.error(err.message);
-                                    })
-                            }
-                        />
-                    </Box>
+                <Grid mt={1} xs={12} container sx={{ gap: 1 }}>
+                    {product?.images &&
+                        product?.images?.map(el => {
+                            return (
+                                <Box
+                                    key={el.id}
+                                    sx={{ border: '1px solid #ccc', maxHeight: '200px', position: 'relative' }}
+                                >
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={el?.defaultImage}
+                                                onChange={e => {
+                                                    if (e.target.checked) {
+                                                        updateTableSizeImage({
+                                                            storeCode: storeCode || '',
+                                                            imageId: el?.id,
+                                                            isDefault: true,
+                                                            productId: productId || '',
+                                                        })
+                                                            .then(_res => {
+                                                                updateProduct();
+                                                            })
+                                                            .catch(err => {
+                                                                console.log(err);
+                                                                toast.error(err.message);
+                                                            });
+                                                    } else {
+                                                        updateTableSizeImage({
+                                                            storeCode: storeCode || '',
+                                                            imageId: el?.id,
+                                                            isDefault: false,
+                                                            productId: productId || '',
+                                                        })
+                                                            .then(_res => {
+                                                                updateProduct();
+                                                            })
+                                                            .catch(err => {
+                                                                console.log(err);
+                                                                toast.error(err.message);
+                                                            });
+                                                    }
+                                                }}
+                                            />
+                                        }
+                                        sx={{ position: 'absolute', top: 0, left: 5, zIndex: 1000 }}
+                                        label={''}
+                                    />
+                                    {el?.imageUrl && (
+                                        <Image
+                                            height={1}
+                                            width={10}
+                                            imgUrl={el?.imageUrl}
+                                            isRemovable={true}
+                                            deleteAction={() =>
+                                                deleteTableSizeImage({
+                                                    storeCode: storeCode || '',
+                                                    imageId: el?.id,
+                                                })
+                                                    .then(_res => {
+                                                        updateProduct();
+                                                    })
+                                                    .catch(err => {
+                                                        console.log(err);
+                                                        toast.error(err.message);
+                                                    })
+                                            }
+                                        />
+                                    )}
+                                </Box>
+                            );
+                        })}
                     <Box>
                         <EmptyImageInput
                             width={1}
@@ -254,10 +310,14 @@ const ProductModelsManage = () => {
                             title=""
                             addAction={val => {
                                 if (productId && storeCode)
-                                    addTableSizeImage({ productId, storeCode, mediaFile: val }).catch(err => {
-                                        console.log(err);
-                                        toast.error(err.message);
-                                    });
+                                    addTableSizeImage({ productId, storeCode, mediaFile: val })
+                                        .then(_res => {
+                                            updateProduct();
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                            toast.error(err.message);
+                                        });
                             }}
                             imageQuota={1}
                             fileName="Table Size"
