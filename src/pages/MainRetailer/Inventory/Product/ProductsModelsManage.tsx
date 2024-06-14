@@ -322,6 +322,7 @@ const ProductModelsManage = () => {
                             imageQuota={1}
                             fileName="Table Size"
                             isWebp={false}
+                            maxSize={0.3}
                         />
                     </Box>
                 </Grid>

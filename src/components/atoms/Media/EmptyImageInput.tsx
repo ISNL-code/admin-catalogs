@@ -16,6 +16,7 @@ interface ImageInterface {
     imageQuota: number;
     fileName?: string;
     isWebp?: boolean;
+    maxSize?: number;
 }
 
 const EmptyImageInput = ({
@@ -27,6 +28,7 @@ const EmptyImageInput = ({
     imageQuota,
     fileName,
     isWebp = true,
+    maxSize = 0.1,
 }: ImageInterface) => {
     const { string }: any = useOutletContext();
     const [imgHeight, setImgHeight] = useState<number>(0);
@@ -61,7 +63,7 @@ const EmptyImageInput = ({
             try {
                 setLoading(true);
                 const compressedFile = await imageCompression(file, {
-                    maxSizeMB: 0.1,
+                    maxSizeMB: maxSize,
                     maxWidthOrHeight: 1920,
                     useWebWorker: true,
                 });
@@ -109,7 +111,7 @@ const EmptyImageInput = ({
                             resolve(webpFile);
                         },
                         'image/webp',
-                        0.9
+                        1
                     );
                 };
 
