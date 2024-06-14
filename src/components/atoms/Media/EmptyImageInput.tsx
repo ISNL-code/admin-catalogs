@@ -15,6 +15,7 @@ interface ImageInterface {
     addAction?: (file: Blob) => void;
     imageQuota: number;
     fileName?: string;
+    isWebp?: boolean;
 }
 
 const EmptyImageInput = ({
@@ -25,6 +26,7 @@ const EmptyImageInput = ({
     addAction = () => {},
     imageQuota,
     fileName,
+    isWebp = true,
 }: ImageInterface) => {
     const { string }: any = useOutletContext();
     const [imgHeight, setImgHeight] = useState<number>(0);
@@ -65,7 +67,7 @@ const EmptyImageInput = ({
                 });
                 const webpBlob = await convertToWebP(new File([compressedFile], file.name, { type: file.type }));
 
-                addAction(webpBlob);
+                addAction(isWebp ? webpBlob : compressedFile);
             } catch (error) {
                 console.error(error);
                 toast.error('Error processing image.');
