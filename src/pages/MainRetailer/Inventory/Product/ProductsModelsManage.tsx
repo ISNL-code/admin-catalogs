@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 import modelFormValidations from 'helpers/Validations/modelFormValidations';
 import toast from 'react-hot-toast';
 import Image from 'components/atoms/Media/Image';
-import { Box, Checkbox, FormControlLabel } from '@mui/material';
+import { Box } from '@mui/material';
 import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -237,52 +237,12 @@ const ProductModelsManage = () => {
                             return (
                                 <Box
                                     key={el.id}
-                                    sx={{ border: '1px solid #ccc', maxHeight: '200px', position: 'relative' }}
+                                    sx={{ border: '1px solid #ccc', maxHeight: 'auto', position: 'relative' }}
                                 >
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={el?.defaultImage}
-                                                onChange={e => {
-                                                    if (e.target.checked) {
-                                                        updateTableSizeImage({
-                                                            storeCode: storeCode || '',
-                                                            imageId: el?.id,
-                                                            isDefault: true,
-                                                            productId: productId || '',
-                                                        })
-                                                            .then(_res => {
-                                                                updateProduct();
-                                                            })
-                                                            .catch(err => {
-                                                                console.log(err);
-                                                                toast.error(err.message);
-                                                            });
-                                                    } else {
-                                                        updateTableSizeImage({
-                                                            storeCode: storeCode || '',
-                                                            imageId: el?.id,
-                                                            isDefault: false,
-                                                            productId: productId || '',
-                                                        })
-                                                            .then(_res => {
-                                                                updateProduct();
-                                                            })
-                                                            .catch(err => {
-                                                                console.log(err);
-                                                                toast.error(err.message);
-                                                            });
-                                                    }
-                                                }}
-                                            />
-                                        }
-                                        sx={{ position: 'absolute', top: 0, left: 5, zIndex: 1000 }}
-                                        label={''}
-                                    />
                                     {el?.imageUrl && (
                                         <Image
                                             height={1}
-                                            width={10}
+                                            width={1}
                                             imgUrl={el?.imageUrl}
                                             isRemovable={true}
                                             deleteAction={() =>
@@ -298,33 +258,36 @@ const ProductModelsManage = () => {
                                                         toast.error(err.message);
                                                     })
                                             }
+                                            maxWidth="500px"
                                         />
                                     )}
                                 </Box>
                             );
                         })}
-                    <Box>
-                        <EmptyImageInput
-                            width={1}
-                            height={1}
-                            title=""
-                            addAction={val => {
-                                if (productId && storeCode)
-                                    addTableSizeImage({ productId, storeCode, mediaFile: val })
-                                        .then(_res => {
-                                            updateProduct();
-                                        })
-                                        .catch(err => {
-                                            console.log(err);
-                                            toast.error(err.message);
-                                        });
-                            }}
-                            imageQuota={1}
-                            fileName="Table Size"
-                            isWebp={false}
-                            maxSize={0.5}
-                        />
-                    </Box>
+                    {!product?.images?.find(el => el?.imageSizeTable) && (
+                        <Box>
+                            <EmptyImageInput
+                                width={1}
+                                height={1}
+                                title=""
+                                addAction={val => {
+                                    if (productId && storeCode)
+                                        addTableSizeImage({ productId, storeCode, mediaFile: val })
+                                            .then(_res => {
+                                                updateProduct();
+                                            })
+                                            .catch(err => {
+                                                console.log(err);
+                                                toast.error(err.message);
+                                            });
+                                }}
+                                imageQuota={1}
+                                fileName="Table Size"
+                                isWebp={false}
+                                maxSize={0.5}
+                            />
+                        </Box>
+                    )}
                 </Grid>
             )}
             {productVariants?.map((variant, idx) => (

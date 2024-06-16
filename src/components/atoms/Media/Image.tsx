@@ -20,7 +20,7 @@ const Image: React.FC<ImageProps> = memo(
         width,
         height,
         imgUrl,
-        maxWidth = '100%',
+        maxWidth = '300px',
         isDrag = false,
         isRemovable = false,
         deleteAction = () => {},
@@ -54,7 +54,7 @@ const Image: React.FC<ImageProps> = memo(
                 ref={ref}
                 sx={{
                     width: '100%',
-                    maxWidth: '300px',
+                    maxWidth: maxWidth,
                     height: imgHeight || '100%',
                     display: 'flex',
                     alignItems: 'center',

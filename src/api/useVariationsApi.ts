@@ -93,15 +93,7 @@ export const useVariationsApi = () => {
         );
     const useAddTableSizeImageMedia = () =>
         useMutation(({ productId, mediaFile, storeCode }: { productId: string; mediaFile: any; storeCode: string }) => {
-            const file = new File(
-                [mediaFile],
-                mediaFile.name
-                    .replaceAll(' ', '')
-                    .replaceAll('(', '-')
-                    .replaceAll(':', '-')
-                    .replaceAll(')', '-')
-                    .replaceAll('+', '-')
-            );
+            const file = new File([mediaFile], mediaFile.name);
             const formData = new FormData();
             formData.append('file', file);
             formData.append('defaultImage', 'true');
@@ -117,20 +109,24 @@ export const useVariationsApi = () => {
             ({
                 imageId,
                 storeCode,
-                isDefault,
+                mediaFile,
                 productId,
             }: {
                 imageId: string;
                 storeCode: string;
-                isDefault: boolean;
+                mediaFile: any;
                 productId: string;
-            }) =>
-                patch({
+            }) => {
+                const file = new File([mediaFile], mediaFile.name);
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('defaultImage', 'true');
+
+                return patch({
                     url: `v1/private/product/${productId}/image/${imageId}?store=${storeCode}`,
-                    body: {
-                        defaultImage: isDefault,
-                    },
-                })
+                    body: formData,
+                });
+            }
         );
 
     const useDeleteTableSizeMedia = () =>

@@ -47,7 +47,7 @@ const OptionsInformation = ({
     handleSetTitle,
     handleSetActionButtons,
 }: OptionsPageInterface) => {
-    const { sx, s } = useDevice();
+    const { sx } = useDevice();
     const { string }: any = useOutletContext();
 
     useEffect(() => {
@@ -122,12 +122,7 @@ const OptionsInformation = ({
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Image
-                                        width={1}
-                                        height={1}
-                                        imgUrl={data?.logo?.path as any}
-                                        maxWidth={s ? '75%' : '40%'}
-                                    />
+                                    <Image width={1} height={1} imgUrl={data?.logo?.path as any} />
                                 </Box>
                             </>
                         ) : (
@@ -192,12 +187,7 @@ const OptionsInformation = ({
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Image
-                                        width={1}
-                                        height={1}
-                                        imgUrl={data?.mainImage as any}
-                                        maxWidth={s ? '75%' : '40%'}
-                                    />
+                                    <Image width={1} height={1} imgUrl={data?.mainImage as any} />
                                 </Box>
                             </>
                         ) : (

@@ -50,7 +50,7 @@ const Options = ({
     handleSetActionButtons,
     handleChangeStoreData,
 }: OptionsPageInterface) => {
-    const { sx, s } = useDevice();
+    const { sx } = useDevice();
     const { string }: any = useOutletContext();
 
     useEffect(() => {
@@ -124,12 +124,7 @@ const Options = ({
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Image
-                                        width={1}
-                                        height={1}
-                                        imgUrl={data?.logo?.path as any}
-                                        maxWidth={s ? '75%' : '40%'}
-                                    />
+                                    <Image width={1} height={1} imgUrl={data?.logo?.path as any} />
                                 </Box>
                             </>
                         ) : (
@@ -193,12 +188,7 @@ const Options = ({
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <Image
-                                        width={1}
-                                        height={1}
-                                        imgUrl={data?.mainImage as any}
-                                        maxWidth={s ? '75%' : '40%'}
-                                    />
+                                    <Image width={1} height={1} imgUrl={data?.mainImage as any} />
                                 </Box>
                             </>
                         ) : (
