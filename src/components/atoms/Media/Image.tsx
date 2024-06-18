@@ -97,7 +97,7 @@ const Image: React.FC<ImageProps> = memo(
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            zIndex: 1000,
+                            zIndex: 1,
                         }}
                         onClick={stableDeleteAction}
                     >

@@ -60,14 +60,19 @@ const EmptyImageInput = ({
         }
 
         for (const file of acceptedFiles) {
+            const lowQualityFile = file?.size < 500000;
+
             try {
                 setLoading(true);
                 const compressedFile = await imageCompression(file, {
-                    maxSizeMB: maxSize,
+                    maxSizeMB: lowQualityFile ? 1 : maxSize,
                     maxWidthOrHeight: 1920,
                     useWebWorker: true,
                 });
-                const webpBlob = await convertToWebP(new File([compressedFile], file.name, { type: file.type }));
+                const webpBlob = await convertToWebP(
+                    new File([compressedFile], file.name, { type: file.type }),
+                    lowQualityFile
+                );
 
                 addAction(isWebp ? webpBlob : compressedFile);
             } catch (error) {
@@ -78,7 +83,7 @@ const EmptyImageInput = ({
         setLoading(false);
     };
 
-    const convertToWebP = async (file: File): Promise<File> => {
+    const convertToWebP = async (file: File, lowQualityFile: boolean): Promise<File> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = function (event) {
@@ -111,7 +116,7 @@ const EmptyImageInput = ({
                             resolve(webpFile);
                         },
                         'image/webp',
-                        0.9
+                        lowQualityFile ? 1 : 0.9
                     );
                 };
 
