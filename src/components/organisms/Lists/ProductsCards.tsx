@@ -200,9 +200,9 @@ const ProductsCards = ({
                                         sx={{ border: '1px solid #ccc' }}
                                         size="small"
                                         onClick={() => {
-                                            navigate(`/store-inventory/${storeCode}/products/${item.id}/main`);
-                                            // const url = `/store-inventory/${storeCode}/products/${item.id}/main`;
-                                            // window.open(url, '_blank');
+                                            sx && navigate(`/store-inventory/${storeCode}/products/${item.id}/main`);
+                                            const url = `/store-inventory/${storeCode}/products/${item.id}/main`;
+                                            !sx && window.open(url, '_blank');
                                         }}
                                     >
                                         <ModeEditIcon fontSize="small" />
