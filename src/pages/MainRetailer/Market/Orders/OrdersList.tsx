@@ -20,7 +20,7 @@ const OrdersList = () => {
     const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const { string }: any = useOutletContext();
-    const countPerPage = 25;
+    const countPerPage = 100;
 
     const {
         data: ordersDataRes,
