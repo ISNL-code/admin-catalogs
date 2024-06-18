@@ -8,20 +8,20 @@
             "type": "image/x-icon"
         },
         {
-            "src": "sn_logo_mask.png",
-            "type": "image/png",
+            "src": "sn_logo_mask.jpg",
+            "type": "image/jpg",
             "sizes": "192x192",
             "purpose": "maskable"
         },
         {
             "src": "sn_logo.jpg",
-            "type": "image/png",
+            "type": "image/jpg",
             "sizes": "192x192",
             "purpose": "any"
         },
         {
             "src": "sn_logo.jpg",
-            "type": "image/png",
+            "type": "image/jpg",
             "sizes": "512x512"
         }
     ],
@@ -29,5 +29,5 @@
     "start_url": ".",
     "display": "standalone",
     "theme_color": "#000000",
-    "background_color": "#ffffff"
+    "background_color": "#000000"
 }

@@ -1,4 +1,6 @@
 export const getCurrencySymbol = currency => {
     if (currency === 'USD') return '$';
-    return currency;
+    if (currency === 'EUR') return '€';
+    if (currency === 'UAH') return '₴';
+    return null;
 };

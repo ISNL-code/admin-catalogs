@@ -3,6 +3,7 @@ import { useDevice } from 'hooks/useDevice';
 import { Typography } from '@mui/material';
 
 import { useOutletContext } from 'react-router-dom';
+import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
 
 interface OrdersCardsInterface {
     data;
@@ -10,11 +11,11 @@ interface OrdersCardsInterface {
 }
 
 const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
-    const { string }: any = useOutletContext();
+    const { string, storeData }: any = useOutletContext();
     const { s } = useDevice();
 
     if (!data) return <></>;
-
+    console.log(storeData);
     return (
         <>
             {!s && (
@@ -59,7 +60,9 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
             <Grid container xs={12}>
                 {productsData?.map(item => {
                     const sku = item.product.variants.find(({ id }) => id === item.variant)?.sku;
-                    const size = item.attributes.find(item => item.attributeName === 'Size')?.attributeValue;
+                    const size = item.attributes.find(
+                        item => item.attributeName?.toLowerCase() === 'SIZE'.toLowerCase()
+                    )?.attributeValue;
                     const price = item?.price;
                     const totalQuantity = item.orderedQuantity;
                     const totalPrice = item.subTotal;
@@ -172,7 +175,10 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
                             </Typography>
                         )}
 
-                        <Typography variant="h5">${data?.totalPrice}</Typography>
+                        <Typography variant="h5">
+                            {getCurrencySymbol(storeData?.currency) || storeData?.currency}
+                            {data?.totalPrice}
+                        </Typography>
                     </Grid>
                 </Grid>
             </Grid>
