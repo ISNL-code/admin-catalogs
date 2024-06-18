@@ -48,10 +48,6 @@ const Image: React.FC<ImageProps> = memo(
             return () => window.removeEventListener('resize', debouncedResize);
         }, [updateImageSize]);
 
-        const stableDeleteAction = useCallback(deleteAction, []); // eslint-disable-line
-
-        const isWebp = imgUrl?.endsWith('.webp');
-
         useEffect(() => {
             const fetchImageSize = async () => {
                 try {
@@ -66,6 +62,10 @@ const Image: React.FC<ImageProps> = memo(
 
             fetchImageSize();
         }, [imgUrl]);
+
+        const stableDeleteAction = useCallback(deleteAction, []); // eslint-disable-line
+
+        const isWebp = imgUrl?.endsWith('.webp');
 
         return (
             <Box
@@ -111,13 +111,13 @@ const Image: React.FC<ImageProps> = memo(
                             position: 'absolute',
                             bottom: 4,
                             left: 4,
-                            fontSize: 9,
+                            fontSize: 10,
                             backgroundColor: 'white',
                             px: 0.2,
                             zIndex: 1000,
                         }}
                     >
-                        {imageSize.toFixed(2)} MB
+                        {imageSize?.toFixed(2)} MB
                     </Typography>
                 )}
                 {isWebp && showImageFormat && (

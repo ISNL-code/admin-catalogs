@@ -52,7 +52,6 @@ const ProductModelsManage = () => {
     const [newModelData, setNewModelData] = useState<ModelInterface | any>(INIT_MODEL_VALUE);
 
     const { mutateAsync: addTableSizeImage } = useVariationsApi().useAddTableSizeImageMedia(); // eslint-disable-line
-    const { mutateAsync: updateTableSizeImage } = useVariationsApi().useUpdateTableSizeImageMedia(); // eslint-disable-line
 
     const { mutateAsync: deleteTableSizeImage } = useVariationsApi().useDeleteTableSizeMedia(); // eslint-disable-line
 
@@ -259,6 +258,7 @@ const ProductModelsManage = () => {
                                                     })
                                             }
                                             maxWidth="500px"
+                                            imageSizeShown
                                         />
                                     )}
                                 </Box>

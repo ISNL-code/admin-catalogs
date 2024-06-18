@@ -111,7 +111,7 @@ const EmptyImageInput = ({
                             resolve(webpFile);
                         },
                         'image/webp',
-                        1
+                        0.9
                     );
                 };
 

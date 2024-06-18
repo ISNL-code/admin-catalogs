@@ -275,6 +275,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                                     toast.error(err.message);
                                                 });
                                         }}
+                                        isWebp
                                     />
                                 </Box>
                             );
