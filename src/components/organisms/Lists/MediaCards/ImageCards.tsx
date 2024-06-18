@@ -276,6 +276,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                                 });
                                         }}
                                         isWebp
+                                        alreadyLoadedImagesQuantity={images.length || 0}
                                     />
                                 </Box>
                             );

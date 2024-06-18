@@ -17,6 +17,7 @@ interface ImageInterface {
     fileName?: string;
     isWebp?: boolean;
     maxSize?: number;
+    alreadyLoadedImagesQuantity?: number;
 }
 
 const EmptyImageInput = ({
@@ -29,6 +30,7 @@ const EmptyImageInput = ({
     fileName,
     isWebp = true,
     maxSize = 0.1,
+    alreadyLoadedImagesQuantity = 0,
 }: ImageInterface) => {
     const { string }: any = useOutletContext();
     const [imgHeight, setImgHeight] = useState<number>(0);
@@ -48,7 +50,7 @@ const EmptyImageInput = ({
     }, [width, height]); // eslint-disable-line
 
     const handleDrop = async (acceptedFiles: File[]) => {
-        if (acceptedFiles.length > imageQuota) {
+        if (acceptedFiles.length > imageQuota - alreadyLoadedImagesQuantity) {
             toast.error(`${string?.max_images} ${imageQuota}`);
             return;
         }
