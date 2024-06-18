@@ -13,6 +13,7 @@ interface ImageProps {
     isRemovable?: boolean;
     deleteAction?: () => void;
     showImageFormat?: boolean;
+    imageSizeShown?: boolean;
 }
 
 const Image: React.FC<ImageProps> = memo(
@@ -25,10 +26,12 @@ const Image: React.FC<ImageProps> = memo(
         isRemovable = false,
         deleteAction = () => {},
         showImageFormat = false,
+        imageSizeShown,
     }) => {
         const [imgHeight, setImgHeight] = useState<number>(0);
         const ref = useRef<HTMLDivElement>(null);
         const [imgLoaded, setImgLoaded] = useState(false);
+        const [imageSize, setImageSize] = useState(0);
 
         const updateImageSize = useCallback(() => {
             if (ref.current) {
@@ -48,6 +51,21 @@ const Image: React.FC<ImageProps> = memo(
         const stableDeleteAction = useCallback(deleteAction, []); // eslint-disable-line
 
         const isWebp = imgUrl?.endsWith('.webp');
+
+        useEffect(() => {
+            const fetchImageSize = async () => {
+                try {
+                    const response = await fetch(imgUrl);
+                    const blob = await response.blob();
+                    const sizeInMB = blob.size / (1024 * 1024);
+                    setImageSize(sizeInMB);
+                } catch (error) {
+                    console.error('Error fetching image size:', error);
+                }
+            };
+
+            fetchImageSize();
+        }, [imgUrl]);
 
         return (
             <Box
@@ -87,6 +105,21 @@ const Image: React.FC<ImageProps> = memo(
                     </IconButton>
                 )}
 
+                {imageSizeShown && (
+                    <Typography
+                        sx={{
+                            position: 'absolute',
+                            bottom: 4,
+                            left: 4,
+                            fontSize: 9,
+                            backgroundColor: 'white',
+                            px: 0.2,
+                            zIndex: 1000,
+                        }}
+                    >
+                        {imageSize.toFixed(2)} MB
+                    </Typography>
+                )}
                 {isWebp && showImageFormat && (
                     <Typography
                         sx={{

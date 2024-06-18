@@ -226,6 +226,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
                                                                     })
                                                             }
                                                             showImageFormat
+                                                            imageSizeShown
                                                         />
                                                     </Box>
                                                 )}
