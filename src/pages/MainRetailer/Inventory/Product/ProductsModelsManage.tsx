@@ -284,7 +284,6 @@ const ProductModelsManage = () => {
                                 imageQuota={1}
                                 fileName="Table Size"
                                 isWebp={false}
-                                maxSize={0.5}
                             />
                         </Box>
                     )}

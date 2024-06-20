@@ -16,13 +16,13 @@ export default function Login({ string, setAuth, auth }) {
     const [validate, setValidate] = useState(false);
     const [error, setError] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const { mutateAsync: loginAdmin, isLoading: loadRegisterData } = useUserApi().useLogin();
+    const { mutateAsync: loginAdmin, isLoading } = useUserApi().useLogin();
 
     return (
         <>
             {!auth && (
                 <>
-                    <>{loadRegisterData && <Loader />}</>
+                    <>{isLoading && <Loader />}</>
                     <ModalWindow
                         title={string?.welcome_to_Sales_Nest_to_get_started_login}
                         actionTitle={string?.login}

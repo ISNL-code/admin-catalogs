@@ -29,7 +29,6 @@ const EmptyImageInput = ({
     imageQuota,
     fileName,
     isWebp = true,
-    maxSize = 0.1,
     alreadyLoadedImagesQuantity = 0,
 }: ImageInterface) => {
     const { string }: any = useOutletContext();
@@ -66,11 +65,13 @@ const EmptyImageInput = ({
 
             try {
                 setLoading(true);
+
                 const compressedFile = await imageCompression(file, {
-                    maxSizeMB: lowQualityFile ? 1 : maxSize,
+                    maxSizeMB: lowQualityFile ? 0.75 : 0.1,
                     maxWidthOrHeight: 1920,
                     useWebWorker: true,
                 });
+
                 const webpBlob = await convertToWebP(
                     new File([compressedFile], file.name, { type: file.type }),
                     lowQualityFile
@@ -115,9 +116,13 @@ const EmptyImageInput = ({
                             const webpFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.webp', {
                                 type: 'image/webp',
                             });
-                            resolve(webpFile);
+
+                            const image = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.png', {
+                                type: 'image/png',
+                            });
+                            resolve(isWebp ? webpFile : image);
                         },
-                        'image/webp',
+                        isWebp ? 'image/webp' : 'image/png',
                         lowQualityFile ? 1 : 0.9
                     );
                 };
