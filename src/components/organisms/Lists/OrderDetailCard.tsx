@@ -15,7 +15,7 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
     const { s } = useDevice();
 
     if (!data) return <></>;
-    console.log(storeData);
+
     return (
         <>
             {!s && (
@@ -59,8 +59,8 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
             )}
             <Grid container xs={12}>
                 {productsData?.map(item => {
-                    const sku = item.product.variants.find(({ id }) => id === item.variant)?.sku;
-                    const size = item.attributes.find(
+                    const sku = item.product?.variants.find(({ id }) => id === item.variant)?.sku;
+                    const size = item.attributes?.find(
                         item => item.attributeName?.toLowerCase() === 'SIZE'.toLowerCase()
                     )?.attributeValue;
                     const price = item?.price;
@@ -83,7 +83,7 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
                                         {string?.vendor_code}:
                                     </Typography>
                                 )}
-                                <Typography variant="h5">{sku}</Typography>
+                                <Typography variant="h5">{sku || 'n/a'}</Typography>
                             </Grid>
                             <Grid xs={s ? 12 : 2.4} sx={{ p: 1, display: 'flex', gap: s ? 0.5 : 2, flexWrap: 'wrap' }}>
                                 {s && (
