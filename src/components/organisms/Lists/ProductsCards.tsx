@@ -27,7 +27,7 @@ const ProductsCards = ({
     setProductsList,
 }: ProductsCardsInterface) => {
     const { storeCode } = useParams();
-    const { string }: RetailerContextInterface = useOutletContext();
+    const { string, storeData }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
@@ -78,7 +78,12 @@ const ProductsCards = ({
                             {string?.name}
                         </Typography>
                     </Grid>
-                    <Grid xs={6} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                    <Grid xs={1.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
+                        <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                            {string?.price}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={4.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                             {string?.vendor_code}
                         </Typography>
@@ -120,7 +125,20 @@ const ProductsCards = ({
                                 )}
                                 <Typography variant="h5">{item.description?.name}</Typography>
                             </Grid>
-                            <Grid xs={sx ? 12 : 6} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                            <Grid
+                                xs={sx ? 12 : 1.5}
+                                sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}
+                            >
+                                {sx && (
+                                    <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                                        {string?.price}:
+                                    </Typography>
+                                )}
+                                <Typography variant="h5">
+                                    {item?.price} {storeData?.currency}
+                                </Typography>
+                            </Grid>
+                            <Grid xs={sx ? 12 : 4.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
                                 {sx && (
                                     <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                                         {string?.vendor_code}:
