@@ -63,7 +63,7 @@ const BrandForm = ({
                             name="code"
                             onChange={e => {
                                 if (brandId) return;
-                                setBrand({ ...data, code: e.target.value?.trim() });
+                                setBrand({ ...data, code: e.target.value });
                             }}
                             size="small"
                             label={string?.code}

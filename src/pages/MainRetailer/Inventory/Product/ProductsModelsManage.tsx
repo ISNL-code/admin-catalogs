@@ -23,6 +23,7 @@ import Image from 'components/atoms/Media/Image';
 import { Box } from '@mui/material';
 import EmptyImageInput from 'components/atoms/Media/EmptyImageInput';
 import Grid from '@mui/material/Unstable_Grid2';
+import OriginalPriceForm from './components/OriginalPriceForm';
 
 const INIT_MODEL_VALUE = {
     available: true,
@@ -42,15 +43,33 @@ const INIT_MODEL_VALUE = {
     variationCode: '',
 };
 
+const INIT_ORIGINAL_PRICE_VALUE = {
+    available: false,
+    sku: '',
+    code: '',
+    defaultSelection: false,
+    dateAvailable: '',
+    sortOrder: -10,
+    variation: null,
+    productVariantGroup: '',
+    inventory: {
+        price: {
+            price: '',
+        },
+        quantity: 100009099,
+    },
+    variationCode: '',
+};
+
 const ProductModelsManage = () => {
     const navigate = useNavigate();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { storeCode, productId } = useParams();
     const [product, setProduct] = useState<ManageProductInterface | any>(null);
-    const [colorsList, setColorsList] = useState([]);
+    const [colorsList, setColorsList] = useState<any>([]);
     const [productVariants, setProductVariants] = useState<ProductVariantInterface[] | any>(null);
     const [newModelData, setNewModelData] = useState<ModelInterface | any>(INIT_MODEL_VALUE);
-
+    const [newOriginalPrice, setNewOriginalPrice] = useState<ModelInterface | any>(INIT_ORIGINAL_PRICE_VALUE);
     const { mutateAsync: addTableSizeImage } = useVariationsApi().useAddTableSizeImageMedia(); // eslint-disable-line
 
     const { mutateAsync: deleteTableSizeImage } = useVariationsApi().useDeleteTableSizeMedia(); // eslint-disable-line
@@ -86,53 +105,119 @@ const ProductModelsManage = () => {
     const { mutateAsync: createModel } = useProductsApi().useCreateModelByProductID();
     const { mutateAsync: createVariationGroup } = useVariationsApi().useCreateVariationGroup();
 
-    const formik = useFormik({
-        initialValues: newModelData,
-        validationSchema: modelFormValidations,
+    const originalPriceFormik = useFormik({
+        initialValues: newOriginalPrice,
+        validationSchema: null,
         onSubmit: (values, { resetForm }) => {
-            checkUnique()
-                .then(res => {
-                    if ((res as any).data.data.exists) {
-                        toast.error(string?.model_with_this_vendor_code_is_registered);
-                        return;
-                    }
-                    return res;
+            const checkDiscounts = originPrice => {
+                const prices = productVariants.map(el => parseFloat(el.inventory?.price?.price));
+                const originPriceFloat = parseFloat(originPrice);
+
+                const isPriceValid = prices.every(discountPrice => originPriceFloat >= discountPrice);
+
+                return isPriceValid;
+            };
+
+            if (!checkDiscounts(values.inventory.price.price.replaceAll(',', ''))) {
+                toast.error(string?.must_be_higher_than_discount_prices);
+            } else
+                createModel({
+                    productId,
+                    data: {
+                        ...values,
+                        price: values.inventory.price.price.replaceAll(',', ''),
+                        discounted: true,
+                        variation: colorsList[0]?.id,
+                        sku: 'ORIGINAL_PRICE',
+                    },
+                    storeCode,
                 })
-                .then(res => {
-                    if (res) {
-                        createModel({
-                            productId,
-                            data: {
-                                ...values,
-                                price: values.inventory.price.price.replaceAll(',', ''),
-                                discounted: true,
-                            },
-                            storeCode,
-                        })
-                            .then(res => {
-                                createVariationGroup({ variantId: res.data.id, storeCode })
-                                    .then(() => {
-                                        toast.success(string?.created);
-                                        updateVariants();
-                                        setNewModelData(INIT_MODEL_VALUE);
-                                        resetForm();
-                                    })
-                                    .catch(err => {
-                                        console.log(err);
-                                        toast.error(err.message);
-                                    });
+                    .then(res => {
+                        createVariationGroup({ variantId: res.data.id, storeCode })
+                            .then(() => {
+                                toast.success(string?.created);
+                                updateVariants();
+
+                                resetForm();
                             })
                             .catch(err => {
                                 console.log(err);
                                 toast.error(err.message);
                             });
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    toast.error(err.message);
-                })
-                .finally();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        toast.error(err.message);
+                    });
+        },
+    });
+
+    useEffect(() => {
+        originalPriceFormik.setValues(newOriginalPrice);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [newOriginalPrice]);
+
+    const formik = useFormik({
+        initialValues: newModelData,
+        validationSchema: modelFormValidations,
+        onSubmit: (values, { resetForm }) => {
+            const checkDiscounts = discountPrice => {
+                if (!originPrice) return true;
+
+                const price = parseFloat(discountPrice);
+                const originPriceFloat = parseFloat(originPrice.inventory?.price?.price);
+
+                const isPriceValid = price <= originPriceFloat;
+
+                return isPriceValid;
+            };
+
+            if (!checkDiscounts(values.inventory.price.price.replaceAll(',', ''))) {
+                toast.error(string?.must_be_higher_than_discount_prices);
+            } else
+                checkUnique()
+                    .then(res => {
+                        if ((res as any).data.data.exists) {
+                            toast.error(string?.model_with_this_vendor_code_is_registered);
+                            return;
+                        }
+                        return res;
+                    })
+                    .then(res => {
+                        if (res) {
+                            createModel({
+                                productId,
+                                data: {
+                                    ...values,
+                                    price: values.inventory.price.price.replaceAll(',', ''),
+                                    discounted: true,
+                                },
+                                storeCode,
+                            })
+                                .then(res => {
+                                    createVariationGroup({ variantId: res.data.id, storeCode })
+                                        .then(() => {
+                                            toast.success(string?.created);
+                                            updateVariants();
+                                            setNewModelData(INIT_MODEL_VALUE);
+                                            resetForm();
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                            toast.error(err.message);
+                                        });
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    toast.error(err.message);
+                                });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        toast.error(err.message);
+                    })
+                    .finally();
         },
     });
 
@@ -167,6 +252,14 @@ const ProductModelsManage = () => {
         setColorsList(colorsListRes.data.items);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [colorsListRes]);
+
+    const originPrice = productVariants?.find(el => {
+        return el.sku === 'ORIGINAL_PRICE';
+    });
+
+    useEffect(() => {
+        if (originPrice) setNewOriginalPrice(originPrice);
+    }, [productVariants]); //eslint-disable-line
 
     return (
         <>
@@ -213,6 +306,23 @@ const ProductModelsManage = () => {
                     },
                 ]}
             />
+            <form
+                onSubmit={e => {
+                    e.preventDefault();
+                    if (originPrice) return;
+                    originalPriceFormik.handleSubmit();
+                }}
+            >
+                <OriginalPriceForm
+                    data={newOriginalPrice}
+                    setNewOriginalPrice={setNewOriginalPrice}
+                    formik={originalPriceFormik}
+                    updateVariants={updateVariants}
+                    discountedVariants={productVariants?.filter(el => {
+                        return el.sku !== 'ORIGINAL_PRICE';
+                    })}
+                />
+            </form>
             <form
                 onSubmit={e => {
                     e.preventDefault();
@@ -289,15 +399,20 @@ const ProductModelsManage = () => {
                     )}
                 </Grid>
             )}
-            {productVariants?.map((variant, idx) => (
-                <ModelsList
-                    key={idx}
-                    variant={variant}
-                    setVariant={setProductVariants}
-                    colorsOptions={colorsList}
-                    updateVariants={updateVariants}
-                />
-            ))}
+            {productVariants
+                ?.filter(el => {
+                    return el.sku !== 'ORIGINAL_PRICE';
+                })
+                ?.map((variant, idx) => (
+                    <ModelsList
+                        key={idx}
+                        variant={variant}
+                        setVariant={setProductVariants}
+                        colorsOptions={colorsList}
+                        updateVariants={updateVariants}
+                        originPrice={newOriginalPrice}
+                    />
+                ))}
         </>
     );
 };

@@ -219,6 +219,9 @@ export const useGetLanguage = ({ lang }) => {
                 max_60_symbols: 'Maximum 60 characters',
                 max_images: 'Max images',
                 add_or_drop_images: 'Add or Drop Images',
+                original_price: 'Original price',
+                product_with_discount: 'Product with discount',
+                must_be_higher_than_discount_prices: 'Original price must be higher than discount price',
             },
         },
         {
@@ -437,6 +440,9 @@ export const useGetLanguage = ({ lang }) => {
                 max_60_symbols: 'Максимально 60 символiв',
                 max_images: 'Максимально зображень',
                 add_or_drop_images: 'Додай або перетягни зображення',
+                original_price: 'Оригiнальна цiна',
+                product_with_discount: 'Товар зi знижкою',
+                must_be_higher_than_discount_prices: 'Оригiнальна цiна повинна бути вище за знижку',
             },
         },
     ];

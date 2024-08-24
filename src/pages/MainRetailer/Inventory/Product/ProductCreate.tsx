@@ -58,7 +58,7 @@ const ProductCreate = () => {
             createProduct({ data: { ...values, sku: Date.now().toString() }, storeCode })
                 .then(res => {
                     toast.success(string?.created);
-                    navigate(`/store-inventory/${storeCode}/products/${res.data.id}/main`);
+                    navigate(`/store-inventory/${storeCode}/products/${res.data.id}/models`);
                 })
                 .catch(err => {
                     console.log(err);

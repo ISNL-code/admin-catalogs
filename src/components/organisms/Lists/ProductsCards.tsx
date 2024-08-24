@@ -147,7 +147,7 @@ const ProductsCards = ({
                                 <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                                     {item.variants?.map((el, idx) => {
                                         const availableQuantity = el?.inventory[0]?.quantity;
-
+                                        if (el.sku === 'ORIGINAL_PRICE') return null;
                                         return (
                                             <Fragment key={el.id}>
                                                 <Typography

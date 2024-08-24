@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const langCheck = /^[a-zA-Z]+$/;
+const langCheck = /^[a-zA-Z\s-]+$/;
 
 const brandFormValidations = yup.object().shape({
     descriptions: yup.array().of(

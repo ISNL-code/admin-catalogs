@@ -18,7 +18,7 @@ import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
 import ColorIndicatorButton from 'components/atoms/ColorIndicatorButton/ColorIndicatorButton';
 import { useDevice } from 'hooks/useDevice';
 import { useOutletContext, useParams } from 'react-router-dom';
-import { MainContextInterface, RetailerContextInterface } from 'types';
+import { MainContextInterface, ModelInterface, RetailerContextInterface } from 'types';
 import ImageCards from 'components/organisms/Lists/MediaCards/ImageCards';
 import { useVariationsApi } from 'api/useVariationsApi';
 import Loader from 'components/atoms/Loader/Loader';
@@ -28,7 +28,19 @@ import modelFormValidations from 'helpers/Validations/modelFormValidations';
 import { useProductsApi } from 'api/useProductsApi';
 import DeleteModal from 'components/organisms/Modals/DeleteModal';
 
-const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
+const ModelsList = ({
+    variant,
+    colorsOptions,
+    updateVariants,
+    setVariant,
+    originPrice,
+}: {
+    variant;
+    colorsOptions;
+    updateVariants;
+    setVariant;
+    originPrice: ModelInterface;
+}) => {
     const { productId, storeCode } = useParams();
     const { sx } = useDevice();
     const { string, storeData }: MainContextInterface | RetailerContextInterface = useOutletContext();
@@ -53,6 +65,15 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
         storeCode,
     });
 
+    const checkDiscounts = () => {
+        const price = parseFloat(variant.inventory?.price?.price);
+        const originPriceFloat = parseFloat(originPrice.inventory?.price?.price);
+
+        const isPriceValid = price <= originPriceFloat;
+
+        return isPriceValid;
+    };
+
     useEffect(() => {
         if (!variationGroupRes) return;
         setVariationGroups(variationGroupRes.data.items);
@@ -74,28 +95,33 @@ const ModelsList = ({ variant, colorsOptions, updateVariants, setVariant }) => {
                 })
                 .then(res => {
                     if (res) {
-                        updateVariant({
-                            productId,
-                            storeCode,
-                            data: {
-                                id: values.id,
-                                available: values.available,
-                                sku: values.sku,
-                                defaultSelection: values.defaultSelection,
-                                sortOrder: values.sortOrder,
-                                variation: values.variation,
-                                inventory: {
-                                    price: { price: values.inventory.price.price.replaceAll(',', '') },
-                                    quantity: 100000,
+                        if (checkDiscounts()) {
+                            updateVariant({
+                                productId,
+                                storeCode,
+                                data: {
+                                    id: values.id,
+                                    available: values.available,
+                                    sku: values.sku,
+                                    defaultSelection: values.defaultSelection,
+                                    sortOrder: values.sortOrder,
+                                    variation: values.variation,
+                                    inventory: {
+                                        price: { price: values.inventory.price.price.replaceAll(',', '') },
+                                        quantity: 100000,
+                                    },
                                 },
-                            },
-                        })
-                            .then(_res => toast.success(string?.updated))
-                            .then(_ => updateVariants())
-                            .catch(err => {
-                                console.log(err);
-                                toast.error(err.message);
-                            });
+                            })
+                                .then(_res => toast.success(string?.updated))
+                                .then(_ => updateVariants())
+                                .catch(err => {
+                                    console.log(err);
+                                    toast.error(err.message);
+                                });
+                        } else {
+                            toast.error(string?.must_be_higher_than_discount_prices);
+                            updateVariants();
+                        }
                     }
                 })
                 .catch(err => {

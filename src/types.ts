@@ -690,6 +690,7 @@ export interface OptionsVariationInterface {
 }
 
 export interface ModelInterface {
+    id: string;
     available: boolean;
     sku: string;
     code: string;
