@@ -66,6 +66,7 @@ const ModelsList = ({
     });
 
     const checkDiscounts = () => {
+        if (!originPrice.inventory?.price?.price) return true;
         const price = parseFloat(variant.inventory?.price?.price);
         const originPriceFloat = parseFloat(originPrice.inventory?.price?.price);
 

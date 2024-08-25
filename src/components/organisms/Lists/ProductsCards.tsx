@@ -27,7 +27,7 @@ const ProductsCards = ({
     setProductsList,
 }: ProductsCardsInterface) => {
     const { storeCode } = useParams();
-    const { string, storeData }: RetailerContextInterface = useOutletContext();
+    const { string }: RetailerContextInterface = useOutletContext();
     const { sx } = useDevice();
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState(false);
@@ -78,14 +78,14 @@ const ProductsCards = ({
                             {string?.name}
                         </Typography>
                     </Grid>
-                    <Grid xs={1.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
-                        <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.price}
-                        </Typography>
-                    </Grid>
                     <Grid xs={4.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                             {string?.vendor_code}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={1.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
+                        <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                            {string?.promo}
                         </Typography>
                     </Grid>
                     <Grid xs={2} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}></Grid>
@@ -125,19 +125,6 @@ const ProductsCards = ({
                                 )}
                                 <Typography variant="h5">{item.description?.name}</Typography>
                             </Grid>
-                            <Grid
-                                xs={sx ? 12 : 1.5}
-                                sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}
-                            >
-                                {sx && (
-                                    <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                        {string?.price}:
-                                    </Typography>
-                                )}
-                                <Typography variant="h5">
-                                    {item?.price} {storeData?.currency}
-                                </Typography>
-                            </Grid>
                             <Grid xs={sx ? 12 : 4.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
                                 {sx && (
                                     <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
@@ -147,7 +134,7 @@ const ProductsCards = ({
                                 <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                                     {item.variants?.map((el, idx) => {
                                         const availableQuantity = el?.inventory[0]?.quantity;
-                                        if (el.sku === 'ORIGINAL_PRICE') return null;
+                                        if (el.sku === '0-ORIGINAL_PRICE') return null;
                                         return (
                                             <Fragment key={el.id}>
                                                 <Typography
@@ -167,6 +154,23 @@ const ProductsCards = ({
                                         );
                                     })}
                                 </Box>
+                            </Grid>
+                            <Grid
+                                xs={sx ? 12 : 1.5}
+                                sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}
+                            >
+                                {sx && (
+                                    <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                                        {string?.promo}:
+                                    </Typography>
+                                )}
+                                <Typography variant="h5" sx={{ color: 'red', fontWeight: 700 }}>
+                                    {item?.variants?.some(el => el.sku === '0-ORIGINAL_PRICE') ? (
+                                        'SALE'
+                                    ) : (
+                                        <span style={{ color: 'black' }}>-</span>
+                                    )}
+                                </Typography>
                             </Grid>
                             <Grid xs={sx ? 12 : 2} sx={{ ml: 'auto', p: 1, borderTop: sx ? '1px solid #ccc' : '' }}>
                                 <Box

@@ -46,6 +46,7 @@ const OriginalPriceForm = ({
     const { mutateAsync: updateVariant } = useVariationsApi().useUpdateProductVariant();
 
     const checkDiscounts = () => {
+        if (!data?.inventory?.price?.price) return true;
         const prices = discountedVariants.map(el => parseFloat(el.inventory?.price?.price));
         const originPriceFloat = parseFloat(data?.inventory?.price?.price?.replaceAll(',', ''));
 

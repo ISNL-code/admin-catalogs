@@ -42,7 +42,7 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
                     </Grid>
                     <Grid xs={2.4} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                            {string?.price}
+                            {string?.price} | {string?.original_price}:
                         </Typography>
                     </Grid>
                     <Grid xs={2.4} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
@@ -66,6 +66,7 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
                     const price = item?.price;
                     const totalQuantity = item.orderedQuantity;
                     const totalPrice = item.subTotal;
+                    const originalPrice = item?.product?.finalPrice;
 
                     return (
                         <Grid
@@ -96,10 +97,13 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
                             <Grid xs={s ? 12 : 2.4} sx={{ p: 1, display: 'flex', gap: s ? 0.5 : 2, flexWrap: 'wrap' }}>
                                 {s && (
                                     <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                        {string?.price}:
+                                        {string?.price} | {string?.original_price}:
                                     </Typography>
                                 )}
-                                <Typography variant="h5">{price}</Typography>
+                                <Typography variant="h5">
+                                    {price} |{' '}
+                                    <span style={{ color: 'gray', fontSize: 12 }}>{originalPrice || '-'}</span>
+                                </Typography>
                             </Grid>
                             <Grid xs={s ? 12 : 2.4} sx={{ p: 1, display: 'flex', gap: s ? 0.5 : 2, flexWrap: 'wrap' }}>
                                 {s && (
@@ -112,10 +116,12 @@ const OrderDetailCard = ({ data, productsData }: OrdersCardsInterface) => {
                             <Grid xs={s ? 12 : 2.4} sx={{ p: 1, display: 'flex', gap: s ? 0.5 : 2, flexWrap: 'wrap' }}>
                                 {s && (
                                     <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
-                                        {string?.final_price}:
+                                        {string?.final_price}
                                     </Typography>
                                 )}
-                                <Typography variant="h5">{totalPrice}</Typography>
+                                <Typography variant="h5">
+                                    <span style={{ color: 'red' }}>{totalPrice}</span>
+                                </Typography>
                             </Grid>
                         </Grid>
                     );

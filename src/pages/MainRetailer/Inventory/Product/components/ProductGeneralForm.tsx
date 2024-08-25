@@ -4,7 +4,6 @@ import {
     FormControl,
     FormControlLabel,
     FormHelperText,
-    InputAdornment,
     InputLabel,
     MenuItem,
     OutlinedInput,
@@ -19,7 +18,6 @@ import { useDevice } from 'hooks/useDevice';
 import Grid from '@mui/material/Unstable_Grid2';
 import { BrandsInterface, MainContextInterface, ManageProductInterface, RetailerContextInterface } from 'types';
 import AddIcon from '@mui/icons-material/Add';
-import { getCurrencySymbol } from 'helpers/getCurrencySymbol';
 import { useEffect, useState } from 'react';
 import { useGoogleApi } from 'api/useGoogleApi';
 import { handleTranslate } from 'helpers/handleTranslate';
@@ -38,7 +36,7 @@ const ProductGeneral = ({
     const navigate = useNavigate();
     const { storeCode } = useParams();
     const { sx } = useDevice();
-    const { string, storeData, TranslatedMode }: MainContextInterface | RetailerContextInterface = useOutletContext();
+    const { string, TranslatedMode }: MainContextInterface | RetailerContextInterface = useOutletContext();
     const { mutateAsync: translateText } = useGoogleApi()?.useTranslateText();
     const [rootLanguage, setRootLanguage] = useState<string | null>(null);
     const [rootName, setRootName] = useState<string | null>(null);
@@ -105,7 +103,7 @@ const ProductGeneral = ({
                             <AddIcon />
                         </Button>
                     </Grid>
-
+                    {/* 
                     <Grid xs={sx ? 6 : 4} p={1}>
                         <TextField
                             InputLabelProps={{ shrink: true }}
@@ -127,7 +125,7 @@ const ProductGeneral = ({
                                 ),
                             }}
                         />
-                    </Grid>
+                    </Grid> */}
                     <Grid xs={sx ? 6 : 4} p={1}>
                         <TextField
                             InputLabelProps={{ shrink: true }}

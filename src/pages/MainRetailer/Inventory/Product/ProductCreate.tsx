@@ -21,7 +21,7 @@ const INIT_PRODUCT_DATA = {
     display: false,
     canBePurchased: false,
     timeBound: false,
-    price: '',
+    price: '0',
     quantity: 100000,
     sortOrder: '',
     productSpecifications: {
@@ -113,7 +113,7 @@ const ProductCreate = () => {
                         {
                             name: 'cancel',
                             action: () => {
-                                navigate(-1);
+                                navigate(`/store-inventory/${storeCode}/products`);
                             },
                         },
                         {

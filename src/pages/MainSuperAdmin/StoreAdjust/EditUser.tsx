@@ -113,7 +113,7 @@ const EditUser = () => {
                         {
                             name: 'cancel',
                             action: () => {
-                                navigate(-1);
+                                navigate(`/store-inventory/${storeCode}/products`);
                                 handleChangeUserData(null);
                             },
                         },

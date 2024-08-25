@@ -110,6 +110,7 @@ const ProductModelsManage = () => {
         validationSchema: null,
         onSubmit: (values, { resetForm }) => {
             const checkDiscounts = originPrice => {
+                if (!originPrice) return true;
                 const prices = productVariants.map(el => parseFloat(el.inventory?.price?.price));
                 const originPriceFloat = parseFloat(originPrice);
 
@@ -128,7 +129,7 @@ const ProductModelsManage = () => {
                         price: values.inventory.price.price.replaceAll(',', ''),
                         discounted: true,
                         variation: colorsList[0]?.id,
-                        sku: 'ORIGINAL_PRICE',
+                        sku: '0-ORIGINAL_PRICE',
                     },
                     storeCode,
                 })
@@ -254,7 +255,7 @@ const ProductModelsManage = () => {
     }, [colorsListRes]);
 
     const originPrice = productVariants?.find(el => {
-        return el.sku === 'ORIGINAL_PRICE';
+        return el.sku === '0-ORIGINAL_PRICE';
     });
 
     useEffect(() => {
@@ -319,7 +320,7 @@ const ProductModelsManage = () => {
                     formik={originalPriceFormik}
                     updateVariants={updateVariants}
                     discountedVariants={productVariants?.filter(el => {
-                        return el.sku !== 'ORIGINAL_PRICE';
+                        return el.sku !== '0-ORIGINAL_PRICE';
                     })}
                 />
             </form>
@@ -401,7 +402,7 @@ const ProductModelsManage = () => {
             )}
             {productVariants
                 ?.filter(el => {
-                    return el.sku !== 'ORIGINAL_PRICE';
+                    return el.sku !== '0-ORIGINAL_PRICE';
                 })
                 ?.map((variant, idx) => (
                     <ModelsList
