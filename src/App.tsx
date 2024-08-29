@@ -20,7 +20,7 @@ import Loader from 'components/atoms/Loader/Loader';
 import { useGoogleApi } from 'api/useGoogleApi';
 
 const MainRouter = ({ lang, auth, setAuth, currentLanguage, userProfile }) => {
-    const TranslatedMode = false;
+    const TranslatedMode = true;
     const google_token = localStorage.getItem(GOOGLE_AUTH_KEY);
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');

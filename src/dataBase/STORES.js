@@ -508,7 +508,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: true,
         },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 20, photos: 10, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 20, photos: 20, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {

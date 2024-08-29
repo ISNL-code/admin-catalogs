@@ -78,9 +78,14 @@ const ProductsCards = ({
                             {string?.name}
                         </Typography>
                     </Grid>
-                    <Grid xs={4.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                    <Grid xs={3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
                         <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                             {string?.vendor_code}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={1} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                        <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                            {string?.order}
                         </Typography>
                     </Grid>
                     <Grid xs={1.5} sx={{ p: 1, display: 'flex', flexWrap: 'wrap' }}>
@@ -125,7 +130,7 @@ const ProductsCards = ({
                                 )}
                                 <Typography variant="h5">{item.description?.name}</Typography>
                             </Grid>
-                            <Grid xs={sx ? 12 : 4.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
+                            <Grid xs={sx ? 12 : 3.5} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2 }}>
                                 {sx && (
                                     <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
                                         {string?.vendor_code}:
@@ -154,6 +159,16 @@ const ProductsCards = ({
                                         );
                                     })}
                                 </Box>
+                            </Grid>
+                            <Grid xs={sx ? 12 : 1} sx={{ p: 1, display: 'flex', gap: sx ? 0.5 : 2, flexWrap: 'wrap' }}>
+                                {sx && (
+                                    <Typography variant="h5" sx={{ color: '#7c7c7c' }}>
+                                        {string?.promo}:
+                                    </Typography>
+                                )}
+                                <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                                    {item?.sortOrder}
+                                </Typography>
                             </Grid>
                             <Grid
                                 xs={sx ? 12 : 1.5}
