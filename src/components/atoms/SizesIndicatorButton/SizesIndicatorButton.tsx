@@ -5,6 +5,7 @@ const SizesIndicatorButton = ({ size, action = () => {}, label, disabled = false
         <Box
             px={0.5}
             sx={{
+                whiteSpace: 'nowrap',
                 width: 'fit-content',
                 minWidth: size,
                 height: size,
