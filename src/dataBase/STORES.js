@@ -353,7 +353,7 @@ export const STORES_DATA = [
         appStoreUrl: '',
         playMarketUrl: '',
         webUrl: 'https://arctic-story-furs.netlify.app',
-        mainImage: require('./images/ASF.jpeg'),
+        mainImage: require('./images/bags.jpeg'),
         productImagesOptions: { width: 6, height: 9, cropX: 0, cropY: 15 },
         descriptions: [
             {
