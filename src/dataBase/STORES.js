@@ -768,10 +768,10 @@ export const STORES_DATA = [
             {
                 firstName: 'Manager',
                 lastName: '',
-                emailAddress: 'dmytro.orgish88@gmail.com',
+                emailAddress: 'salesnest.info@gmail.com',
                 options: { manager: true },
                 contacts: {
-                    emailAddress: 'dmytro.orgish88@gmail.com',
+                    emailAddress: 'salesnest.info@gmail.com',
                     phone: '+380668652127',
                     viber: '+380668652127',
                     whatsapp: '+380668652127',
