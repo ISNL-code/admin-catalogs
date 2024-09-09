@@ -97,28 +97,6 @@ const ColorsForm = ({ handleSetTitle, handleSetActionButtons, data, setValueData
                             helperText={string?.[formik.errors.code]}
                         />
                     </Box>
-
-                    <Box mt={sx ? 1 : 2} sx={{ width: sx ? '100%' : 'auto' }}>
-                        <a
-                            href="https://html5css.ru/colors/1-kody-cvetov-html.php"
-                            target="_blank"
-                            rel="noreferrer"
-                            style={{
-                                height: '40px',
-                                padding: '6px 16px',
-                                textDecoration: 'none',
-                                borderRadius: 4,
-                                backgroundColor: '#1976d2',
-                                boxShadow:
-                                    '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Typography sx={{ color: 'white' }}>{string?.examples}</Typography>
-                        </a>
-                    </Box>
                 </Box>
             </Grid>
 
