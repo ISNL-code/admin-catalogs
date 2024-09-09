@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const codeCheck = /^[a-zA-Z0-9]+$/;
+const codeCheck = /^[a-zA-Z0-9-]+$/;
 
 const sizeFormValidations = yup.object().shape({
     descriptions: yup.array().of(
