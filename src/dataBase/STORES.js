@@ -508,7 +508,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: true,
         },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 20, photos: 20, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 10, photos: 10, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {
@@ -586,7 +586,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: false,
         },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 10, photos: 15, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 10, photos: 10, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {
@@ -612,6 +612,9 @@ export const STORES_DATA = [
             },
         ],
     },
+
+    // COCKTAIL FABRIC STORES
+
     {
         code: 'albertobini_retailer', //alberto bini retailer mine
         appStoreUrl: '',
@@ -700,7 +703,6 @@ export const STORES_DATA = [
             },
         ],
     },
-    // COCKTAIL FABRIC STORES
 
     {
         code: 'burda_style', //alberto bini retailer mine
