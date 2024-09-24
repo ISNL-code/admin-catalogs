@@ -1027,10 +1027,10 @@ export const STORES_DATA = [
         ],
     },
     {
-        code: 'igle_store',
+        code: 'you_best',
         appStoreUrl: '',
         playMarketUrl: '',
-        webUrl: 'https://igle.com',
+        webUrl: 'https://you-best.com',
         mainImage: require('./images/alb.jpeg'),
         productImagesOptions: { width: 6, height: 8, cropX: 0, cropY: 20 },
         descriptions: [
