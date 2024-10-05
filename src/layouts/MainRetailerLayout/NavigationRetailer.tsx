@@ -20,6 +20,8 @@ const NavigationHeader = ({
     string,
     userProfile,
 }: NavHeaderInterface) => {
+    const isMarketShown = userProfile?.emailAddress !== 'poor@admin.com';
+
     return (
         <Box
             px={appXPadding}
@@ -51,12 +53,14 @@ const NavigationHeader = ({
                 parent={`/store-inventory/${userProfile.merchant}`}
             />
 
-            <NavigationButton
-                icon={props => <MonetizationOnIcon {...props} />}
-                path={`/store-market/${userProfile.merchant}/orders`}
-                title={string?.market}
-                parent={`/store-market/${userProfile.merchant}`}
-            />
+            {isMarketShown && (
+                <NavigationButton
+                    icon={props => <MonetizationOnIcon {...props} />}
+                    path={`/store-market/${userProfile.merchant}/orders`}
+                    title={string?.market}
+                    parent={`/store-market/${userProfile.merchant}`}
+                />
+            )}
         </Box>
     );
 };
