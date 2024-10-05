@@ -61,7 +61,7 @@ const EmptyImageInput = ({
         }
 
         for (const file of acceptedFiles) {
-            const lowQualityFile = file?.size < 500000;
+            const lowQualityFile = file?.size < 100000;
 
             try {
                 setLoading(true);
