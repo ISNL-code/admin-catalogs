@@ -1143,7 +1143,7 @@ export const STORES_DATA = [
         ],
     },
     {
-        code: 'H&M',
+        code: 'hm',
         appStoreUrl: '',
         playMarketUrl: '',
         webUrl: '',
