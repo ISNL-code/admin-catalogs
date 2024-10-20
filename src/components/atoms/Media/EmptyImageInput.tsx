@@ -67,7 +67,7 @@ const EmptyImageInput = ({
                 setLoading(true);
 
                 const compressedFile = await imageCompression(file, {
-                    maxSizeMB: lowQualityFile ? 0.75 : 0.1,
+                    maxSizeMB: 0.75,
                     maxWidthOrHeight: 1920,
                     useWebWorker: true,
                 });
@@ -123,7 +123,7 @@ const EmptyImageInput = ({
                             resolve(isWebp ? webpFile : image);
                         },
                         isWebp ? 'image/webp' : 'image/png',
-                        lowQualityFile ? 1 : 0.9
+                        0.96
                     );
                 };
 

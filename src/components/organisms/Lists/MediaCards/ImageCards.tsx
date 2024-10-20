@@ -80,7 +80,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
             sx={{
                 display: 'flex',
                 overflow: 'auto',
-                border: '1px solid #ccc',
+
                 borderTop: 'none',
                 minWidth: '100%',
                 gap: 0.5,

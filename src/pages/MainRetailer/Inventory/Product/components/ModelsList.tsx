@@ -175,8 +175,17 @@ const ModelsList = ({
                 />
             )}
             {(loadDelete || loadDeleteVar || loadUpdate) && <Loader />}
-
-            <Grid mt={1} container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
+            <Box mt={1} sx={{ border: '1px solid #ccc', p: 1 }}>
+                <ImageCards
+                    data={variant?.images}
+                    setImageOrder={setImageOrder}
+                    variationGroupId={variationGroupId}
+                    deleteFile={deleteMediaFile}
+                    updateVariants={updateVariants}
+                    addMedia={addMedia}
+                />
+            </Box>
+            <Grid container xs={12} sx={{ border: '1px solid #ccc', p: 1 }}>
                 <Grid p={1} xs={sx ? 12 : 6} sx={{ display: 'flex', gap: 1 }}>
                     <Button type="submit" variant="contained">
                         {string?.update}
@@ -331,15 +340,6 @@ const ModelsList = ({
 
                 <Divider />
             </Grid>
-
-            <ImageCards
-                data={variant?.images}
-                setImageOrder={setImageOrder}
-                variationGroupId={variationGroupId}
-                deleteFile={deleteMediaFile}
-                updateVariants={updateVariants}
-                addMedia={addMedia}
-            />
         </form>
     );
 };
