@@ -66,9 +66,12 @@ const ModelsList = ({
     });
 
     const checkDiscounts = () => {
-        if (!originPrice.inventory?.price?.price) return true;
-        const price = parseFloat(variant.inventory?.price?.price);
-        const originPriceFloat = parseFloat(originPrice.inventory?.price?.price);
+        console.log(originPrice.inventory?.price?.price.replaceAll(',', '').replaceAll('.', ''));
+        if (!originPrice.inventory?.price?.price.replaceAll(',', '').replaceAll('.', '')) return true;
+        const price = parseFloat(variant.inventory?.price?.price.replaceAll(',', '').replaceAll('.', ''));
+        const originPriceFloat = parseFloat(
+            originPrice.inventory?.price?.price.replaceAll(',', '').replaceAll('.', '')
+        );
 
         const isPriceValid = price <= originPriceFloat;
 

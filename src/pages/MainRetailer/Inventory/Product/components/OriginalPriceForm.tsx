@@ -50,7 +50,7 @@ const OriginalPriceForm = ({
         const prices = discountedVariants.map(el => parseFloat(el.inventory?.price?.price));
         const originPriceFloat = parseFloat(data?.inventory?.price?.price?.replaceAll(',', ''));
 
-        const isPriceValid = prices.every(discountPrice => originPriceFloat >= discountPrice);
+        const isPriceValid = prices.every(discountPrice => originPriceFloat > discountPrice);
 
         return isPriceValid;
     };

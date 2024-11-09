@@ -119,14 +119,14 @@ const ProductModelsManage = () => {
                 return isPriceValid;
             };
 
-            if (!checkDiscounts(values.inventory.price.price.replaceAll(',', ''))) {
+            if (!checkDiscounts(values.inventory.price.price.replaceAll(',', '').replaceAll('.', ''))) {
                 toast.error(string?.must_be_higher_than_discount_prices);
             } else
                 createModel({
                     productId,
                     data: {
                         ...values,
-                        price: values.inventory.price.price.replaceAll(',', ''),
+                        price: values.inventory.price.price.replaceAll(',', '').replaceAll('.', ''),
                         discounted: true,
                         variation: colorsList[0]?.id,
                         sku: '0-ORIGINAL_PRICE',
@@ -138,7 +138,9 @@ const ProductModelsManage = () => {
                             .then(() => {
                                 toast.success(string?.created);
                                 updateVariants();
-
+                                setNewOriginalPrice(
+                                    values.inventory.price.price.replaceAll(',', '').replaceAll('.', '')
+                                );
                                 resetForm();
                             })
                             .catch(err => {
@@ -173,7 +175,7 @@ const ProductModelsManage = () => {
                 return isPriceValid;
             };
 
-            if (!checkDiscounts(values.inventory.price.price.replaceAll(',', ''))) {
+            if (!checkDiscounts(values.inventory.price.price.replaceAll(',', '').replaceAll('.', ''))) {
                 toast.error(string?.must_be_higher_than_discount_prices);
             } else
                 checkUnique()
@@ -190,7 +192,7 @@ const ProductModelsManage = () => {
                                 productId,
                                 data: {
                                     ...values,
-                                    price: values.inventory.price.price.replaceAll(',', ''),
+                                    price: values.inventory.price.price.replaceAll(',', '').replaceAll('.', ''),
                                     discounted: true,
                                 },
                                 storeCode,
@@ -200,6 +202,9 @@ const ProductModelsManage = () => {
                                         .then(() => {
                                             toast.success(string?.created);
                                             updateVariants();
+                                            setNewOriginalPrice(
+                                                values.inventory.price.price.replaceAll(',', '').replaceAll('.', '')
+                                            );
                                             setNewModelData(INIT_MODEL_VALUE);
                                             resetForm();
                                         })
