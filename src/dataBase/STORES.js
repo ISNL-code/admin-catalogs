@@ -312,7 +312,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: false,
         },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 5, photos: 5, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 20, photos: 20, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {
@@ -488,7 +488,7 @@ export const STORES_DATA = [
             playMarket: false,
             analytics: true,
         },
-        dataBaseStoreSettings: { users: 5, products: 200, productModels: 10, photos: 10, videos: 1 },
+        dataBaseStoreSettings: { users: 5, products: 200, productModels: 20, photos: 20, videos: 1 },
         securityStoreSettings: { private: false, securityKey: null },
         storeProductTypes: [
             {
