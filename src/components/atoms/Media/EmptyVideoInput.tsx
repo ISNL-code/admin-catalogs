@@ -130,6 +130,8 @@ const EmptyVideoInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
                                 <QueuePlayNextIcon sx={{ my: 0.5 }} fontSize="large" />
                                 <Typography>Max Size:</Typography>
                                 <Typography sx={{ textTransform: 'lowercase', fontSize: 12 }}>10MB</Typography>
+                                <Typography>Formats:</Typography>
+                                <Typography sx={{ fontSize: 12, textTransform: 'lowercase' }}>.mp4</Typography>
                             </Box>
                         </Box>
                     </Button>
