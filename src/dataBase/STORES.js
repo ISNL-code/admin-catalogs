@@ -304,7 +304,7 @@ export const STORES_DATA = [
             cart: true,
             favorites: true,
             promo: true,
-            video: false,
+            video: true,
             tableSizes: true,
             callback: true,
             platformAvailable: true,
