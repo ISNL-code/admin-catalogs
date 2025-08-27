@@ -32,7 +32,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
     const imageHeight = storeData?.productImagesOptions.height;
 
     useEffect(() => {
-        const imageData = data.filter(el => !el.imageName.includes('mp4'));
+        const imageData = data.filter(el => !el.imageName.toLowerCase().includes('.mp4'));
         setImages(imageData);
         if (imageData.length > imageQuota) {
             setImageSlots([]);
@@ -44,7 +44,7 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
             setImageSlots(slotsArray);
         }
 
-        const videoData = data.filter(el => el.imageName.includes('mp4'));
+        const videoData = data.filter(el => el.imageName.toLowerCase().includes('.mp4'));
         setVideo(videoData);
         if (videoData.length > videoQuota) {
             setVideoSlots([]);
@@ -76,215 +76,230 @@ const ImageCards = ({ data, setImageOrder, variationGroupId, deleteFile, updateV
     };
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                overflow: 'auto',
+        <>
+            {' '}
+            <Box
+                sx={{
+                    display: 'flex',
+                    overflow: 'auto',
 
-                borderTop: 'none',
-                minWidth: '100%',
-                gap: 0.5,
-                p: 0.5,
-            }}
-        >
-            {!!video.length && (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 0.5,
-                    }}
-                >
-                    {video.map(image => {
-                        if (image) {
-                            return (
-                                <Box
-                                    key={image?.id}
-                                    style={{
-                                        minWidth: '200px',
-                                        width: '200px',
-                                        borderRadius: 4,
-                                        overflow: 'hidden',
-                                        border: '1px solid #ccc',
-                                    }}
-                                >
-                                    <Video
-                                        height={imageHeight}
-                                        width={imageWidth}
-                                        imgUrl={image?.imageUrl}
-                                        isRemovable
-                                        deleteAction={() =>
-                                            deleteFile({ variationGroupId, imageId: image?.id, storeCode })
-                                                .then(_res => {
-                                                    updateVariants();
-                                                })
-                                                .catch(err => {
-                                                    console.log(err);
-                                                    toast.error(err.message);
-                                                })
-                                        }
-                                    />
-                                </Box>
-                            );
-                        } else return null;
-                    })}
-                </Box>
-            )}
-            {!!videoSlots.length && (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 0.5,
-                    }}
-                >
-                    {videoSlots.map(slot => {
-                        if (slot) {
-                            return (
-                                <Box
-                                    key={slot}
-                                    style={{
-                                        minWidth: '200px',
-                                        width: '200px',
-                                        borderRadius: 4,
-                                        overflow: 'hidden',
-                                        border: '1px solid #ccc',
-                                    }}
-                                >
-                                    <EmptyVideoInput
-                                        height={imageHeight}
-                                        width={imageWidth}
-                                        title={`${string?.video} ${slot}`}
-                                        addAction={val => {
-                                            addMedia({ variationGroupId, mediaFile: val, storeCode })
-                                                .then(() => {
-                                                    updateVariants();
-                                                })
-                                                .catch(err => {
-                                                    console.log(err);
-                                                    toast.error(err.message);
-                                                });
+                    borderTop: 'none',
+                    minWidth: '100%',
+                    gap: 0.5,
+                    p: 0.5,
+                }}
+            >
+                {!!video.length && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 0.5,
+                        }}
+                    >
+                        {video.map(image => {
+                            if (image) {
+                                return (
+                                    <Box
+                                        key={image?.id}
+                                        style={{
+                                            minWidth: '200px',
+                                            width: '200px',
+                                            borderRadius: 4,
+                                            overflow: 'hidden',
+                                            border: '1px solid #ccc',
                                         }}
-                                    />
-                                </Box>
-                            );
-                        } else return null;
-                    })}
-                </Box>
-            )}
-            {!!images.length && (
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <StrictModeDroppable droppableId="droppableId" direction={'horizontal'}>
-                        {provided => (
-                            <Box
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                sx={{
-                                    display: 'flex',
-                                    minWidth: `${images.length * 200 + 3 * images.length}px`,
-                                    gap: 0.5,
-                                }}
-                            >
-                                {images.map((image, index) => {
-                                    if (image) {
-                                        return (
-                                            <Draggable
-                                                key={image?.id?.toString()}
-                                                draggableId={image?.id?.toString()}
-                                                index={index}
-                                            >
-                                                {provided => (
-                                                    <Box
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        style={{
-                                                            ...provided.draggableProps.style,
-                                                            minWidth: '200px',
-                                                            width: '200px',
-                                                            borderRadius: 4,
-                                                            overflow: 'hidden',
-                                                            border: '1px solid #ccc',
-                                                        }}
-                                                    >
-                                                        <Image
-                                                            height={imageHeight}
-                                                            width={imageWidth}
-                                                            imgUrl={image?.imageUrl}
-                                                            isDrag
-                                                            isRemovable
-                                                            deleteAction={() =>
-                                                                deleteFile({
-                                                                    variationGroupId,
-                                                                    imageId: image?.id,
-                                                                    storeCode,
-                                                                })
-                                                                    .then(_res => {
-                                                                        updateVariants();
-                                                                    })
-                                                                    .catch(err => {
-                                                                        console.log(err);
-                                                                        toast.error(err.message);
-                                                                    })
-                                                            }
-                                                            showImageFormat
-                                                            imageSizeShown
-                                                        />
-                                                    </Box>
-                                                )}
-                                            </Draggable>
-                                        );
-                                    } else return null;
-                                })}
-                            </Box>
-                        )}
-                    </StrictModeDroppable>
-                </DragDropContext>
-            )}
+                                    >
+                                        <Video
+                                            height={imageHeight}
+                                            width={imageWidth}
+                                            imgUrl={image?.imageUrl}
+                                            isRemovable
+                                            deleteAction={() =>
+                                                deleteFile({ variationGroupId, imageId: image?.id, storeCode })
+                                                    .then(_res => {
+                                                        updateVariants();
+                                                    })
+                                                    .catch(err => {
+                                                        console.log(err);
+                                                        toast.error(err.message);
+                                                    })
+                                            }
+                                        />
+                                    </Box>
+                                );
+                            } else return null;
+                        })}
+                    </Box>
+                )}
+                {!!videoSlots.length && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 0.5,
+                        }}
+                    >
+                        {videoSlots.map(slot => {
+                            if (slot) {
+                                return (
+                                    <Box
+                                        key={slot}
+                                        style={{
+                                            minWidth: '200px',
+                                            width: '200px',
+                                            borderRadius: 4,
+                                            overflow: 'hidden',
+                                            border: '1px solid #ccc',
+                                        }}
+                                    >
+                                        <EmptyVideoInput
+                                            height={imageHeight}
+                                            width={imageWidth}
+                                            title={`${string?.video} ${slot}`}
+                                            addAction={val => {
+                                                addMedia({ variationGroupId, mediaFile: val, storeCode })
+                                                    .then(() => {
+                                                        updateVariants();
+                                                    })
+                                                    .catch(err => {
+                                                        console.log(err);
+                                                        toast.error(err.message);
+                                                    });
+                                            }}
+                                        />
+                                    </Box>
+                                );
+                            } else return null;
+                        })}
+                    </Box>
+                )}
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    overflow: 'auto',
 
-            {!!imageSlots.length && (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 0.5,
-                    }}
-                >
-                    {imageSlots.map(slot => {
-                        if (slot) {
-                            return (
+                    borderTop: 'none',
+                    minWidth: '100%',
+                    gap: 0.5,
+                    p: 0.5,
+                }}
+            >
+                {!!images.length && (
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <StrictModeDroppable droppableId="droppableId" direction={'horizontal'}>
+                            {provided => (
                                 <Box
-                                    key={slot}
-                                    style={{
-                                        minWidth: '200px',
-                                        width: '200px',
-                                        borderRadius: 4,
-                                        overflow: 'hidden',
-                                        border: '1px solid #ccc',
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    sx={{
+                                        display: 'flex',
+                                        minWidth: `${images.length * 200 + 3 * images.length}px`,
+                                        gap: 0.5,
                                     }}
                                 >
-                                    <EmptyImageInput
-                                        imageQuota={imageQuota}
-                                        height={imageHeight}
-                                        width={imageWidth}
-                                        title={`${string?.image} ${slot}`}
-                                        addAction={val => {
-                                            addMedia({ variationGroupId, mediaFile: val, storeCode })
-                                                .then(() => {
-                                                    updateVariants();
-                                                })
-                                                .catch(err => {
-                                                    console.log(err);
-                                                    toast.error(err.message);
-                                                });
-                                        }}
-                                        isWebp
-                                        alreadyLoadedImagesQuantity={images.length || 0}
-                                    />
+                                    {images.map((image, index) => {
+                                        if (image) {
+                                            return (
+                                                <Draggable
+                                                    key={image?.id?.toString()}
+                                                    draggableId={image?.id?.toString()}
+                                                    index={index}
+                                                >
+                                                    {provided => (
+                                                        <Box
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            style={{
+                                                                ...provided.draggableProps.style,
+                                                                minWidth: '200px',
+                                                                width: '200px',
+                                                                borderRadius: 4,
+                                                                overflow: 'hidden',
+                                                                border: '1px solid #ccc',
+                                                            }}
+                                                        >
+                                                            <Image
+                                                                height={imageHeight}
+                                                                width={imageWidth}
+                                                                imgUrl={image?.imageUrl}
+                                                                isDrag
+                                                                isRemovable
+                                                                deleteAction={() =>
+                                                                    deleteFile({
+                                                                        variationGroupId,
+                                                                        imageId: image?.id,
+                                                                        storeCode,
+                                                                    })
+                                                                        .then(_res => {
+                                                                            updateVariants();
+                                                                        })
+                                                                        .catch(err => {
+                                                                            console.log(err);
+                                                                            toast.error(err.message);
+                                                                        })
+                                                                }
+                                                                showImageFormat
+                                                                imageSizeShown
+                                                            />
+                                                        </Box>
+                                                    )}
+                                                </Draggable>
+                                            );
+                                        } else return null;
+                                    })}
                                 </Box>
-                            );
-                        } else return null;
-                    })}
-                </Box>
-            )}
-        </Box>
+                            )}
+                        </StrictModeDroppable>
+                    </DragDropContext>
+                )}
+
+                {!!imageSlots.length && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 0.5,
+                        }}
+                    >
+                        {imageSlots.map(slot => {
+                            if (slot) {
+                                return (
+                                    <Box
+                                        key={slot}
+                                        style={{
+                                            minWidth: '200px',
+                                            width: '200px',
+                                            borderRadius: 4,
+                                            overflow: 'hidden',
+                                            border: '1px solid #ccc',
+                                        }}
+                                    >
+                                        <EmptyImageInput
+                                            imageQuota={imageQuota}
+                                            height={imageHeight}
+                                            width={imageWidth}
+                                            title={`${string?.image} ${slot}`}
+                                            addAction={val => {
+                                                addMedia({ variationGroupId, mediaFile: val, storeCode })
+                                                    .then(() => {
+                                                        updateVariants();
+                                                    })
+                                                    .catch(err => {
+                                                        console.log(err);
+                                                        toast.error(err.message);
+                                                    });
+                                            }}
+                                            isWebp
+                                            alreadyLoadedImagesQuantity={images.length || 0}
+                                        />
+                                    </Box>
+                                );
+                            } else return null;
+                        })}
+                    </Box>
+                )}
+            </Box>
+        </>
     );
 };
 

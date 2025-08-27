@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useOutletContext } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
+import LoaderProgress from '../Loader/LoaderProgress';
 
 interface VideoInterface {
     width: number;
@@ -36,7 +37,9 @@ const EmptyVideoInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
         window.addEventListener('resize', (event: UIEvent) => {
             const w = event.target as Window;
             setScreenWidth(w.innerWidth);
-        }); // eslint-disable-next-line react-hooks/exhaustive-deps
+        });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         window.innerWidth,
 
@@ -62,69 +65,77 @@ const EmptyVideoInput = ({ width = 1, height = 1, title, maxWidth = '100%', addA
     }, [screenWidth, loading, xxs, xs, s, sm, sx, slx, m, mx, ls, l]);
 
     return (
-        <Dropzone
-            noClick
-            onDrop={(acceptedFiles: any) => {
-                if (['video/mp4'].includes(acceptedFiles[0].type)) {
-                    if (acceptedFiles[0]?.size > 9979703) return toast.error(string?.file_more_then_ten_mbd);
-                    addAction(acceptedFiles[0]);
-                } else {
-                    toast.error(string?.wrong_file_format);
-                }
-            }}
-        >
-            {({ getRootProps, getInputProps }) => (
-                <Button variant="text" component="label" sx={{ width: '100%', height: '100%' }}>
-                    <Box
-                        {...getRootProps()}
-                        ref={ref}
-                        sx={{
-                            width: '100%',
-                            height: imgHeight,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            overflow: 'hidden',
-                            cursor: 'pointer',
-                            maxWidth: maxWidth,
-                            backgroundColor: '#ffffff',
-                        }}
-                    >
-                        <input
-                            {...getInputProps()}
-                            hidden
-                            style={{ width: '100%', height: '100%' }}
-                            accept="image/mp4"
-                            multiple
-                            type="file"
-                            onChange={(event: any) => {
-                                if (['video/mp4'].includes(event.target.files[0].type)) {
-                                    if (event?.target?.files[0]?.size > 9979703)
-                                        return toast.error(string?.file_more_then_ten_mbd);
-                                    addAction(event?.target?.files[0]);
-                                } else {
-                                    toast.error(string?.wrong_file_format);
-                                }
-                            }}
-                        />
+        <>
+            {' '}
+            {loading && <LoaderProgress />}
+            <Dropzone
+                noClick
+                onDrop={(acceptedFiles: any) => {
+                    setLoading(true);
+                    if (['video/mp4'].includes(acceptedFiles[0].type)) {
+                        console.log(acceptedFiles[0]?.size);
+                        if (acceptedFiles[0]?.size > 10979703) return toast.error(string?.file_more_then_ten_mbd);
+                        addAction(acceptedFiles[0]);
+                    } else {
+                        toast.error(string?.wrong_file_format);
+                    }
+                }}
+            >
+                {({ getRootProps, getInputProps }) => (
+                    <Button variant="text" component="label" sx={{ width: '100%', height: '100%' }}>
                         <Box
+                            {...getRootProps()}
+                            ref={ref}
                             sx={{
+                                width: '100%',
+                                height: imgHeight,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                flexDirection: 'column',
-                                gap: 0.5,
+                                overflow: 'hidden',
+                                cursor: 'pointer',
+                                maxWidth: maxWidth,
+                                backgroundColor: '#ffffff',
                             }}
                         >
-                            <Typography>{title}</Typography>
-                            <QueuePlayNextIcon sx={{ my: 0.5 }} fontSize="large" />
-                            <Typography>Max Size:</Typography>
-                            <Typography sx={{ textTransform: 'lowercase', fontSize: 12 }}>10MB</Typography>
+                            <input
+                                {...getInputProps()}
+                                hidden
+                                style={{ width: '100%', height: '100%' }}
+                                accept="video/mp4"
+                                multiple
+                                type="file"
+                                onChange={(event: any) => {
+                                    setLoading(true);
+                                    if (['video/mp4'].includes(event.target.files[0].type)) {
+                                        console.log(event?.target?.files[0]?.size);
+                                        if (event?.target?.files[0]?.size > 10979703)
+                                            return toast.error(string?.file_more_then_ten_mbd);
+                                        addAction(event?.target?.files[0]);
+                                    } else {
+                                        toast.error(string?.wrong_file_format);
+                                    }
+                                }}
+                            />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexDirection: 'column',
+                                    gap: 0.5,
+                                }}
+                            >
+                                <Typography>{title}</Typography>
+                                <QueuePlayNextIcon sx={{ my: 0.5 }} fontSize="large" />
+                                <Typography>Max Size:</Typography>
+                                <Typography sx={{ textTransform: 'lowercase', fontSize: 12 }}>10MB</Typography>
+                            </Box>
                         </Box>
-                    </Box>
-                </Button>
-            )}
-        </Dropzone>
+                    </Button>
+                )}
+            </Dropzone>
+        </>
     );
 };
 
