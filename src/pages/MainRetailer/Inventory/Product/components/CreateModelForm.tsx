@@ -64,6 +64,7 @@ const CreateModelForm = ({
                         value={data?.variation || ''}
                         onChange={e => {
                             setNewModelData({ ...data, variation: e.target.value });
+                            console.log(e.target.value);
                         }}
                         label={string?.color}
                         input={
