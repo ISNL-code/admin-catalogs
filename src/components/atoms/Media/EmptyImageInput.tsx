@@ -67,7 +67,7 @@ const EmptyImageInput = ({
                 setLoading(true);
 
                 const compressedFile = await imageCompression(file, {
-                    maxSizeMB: 0.75,
+                    maxSizeMB: 0.5,
                     maxWidthOrHeight: 1920,
                     useWebWorker: true,
                 });
